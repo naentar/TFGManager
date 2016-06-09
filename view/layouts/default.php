@@ -15,24 +15,40 @@
     <?= $view->getFragment("javascript") ?>
   </head>
   <body>    
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Inicio</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">Login</a>
+                    </li>
+                    <li>
+                        <a href="#">Informaci&oacuten</a>
+                    </li>
+					<li>
+					<?php
+							include(__DIR__."/language_select_element.php");
+						?>
+					</li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
     <!-- header -->
-    <header>
-      <h1>Blog</h1>
-      <nav id="menu" style="background-color:grey">
-	<ul>
-	<li><a href="index.php?controller=posts&amp;action=index">Posts</a></li>
-	
-	<?php if (isset($currentuser)): ?>      
-	  <li><?= sprintf(i18n("Hello %s"), $currentuser) ?>
-	  <a 	href="index.php?controller=users&amp;action=logout">(Logout)</a>	
-	  </li>
-	
-	<?php else: ?>
-	  <li><a href="index.php?controller=users&amp;action=login"><?= i18n("Login") ?></a></li>
-	  <?php endif ?>
-	</ul>
-      </nav>
-    </header>
     
     <main>
       <div id="flash">
@@ -42,11 +58,19 @@
       <?= $view->getFragment(ViewManager::DEFAULT_FRAGMENT) ?>    
     </main>
     
-    <footer>
-      <?php
-      include(__DIR__."/language_select_element.php");
-      ?>
-    </footer>
+    <!-- Footer -->
+        <section class="footer" id="footer">
+			<p class="text-center">
+				<a href="#wrapper" class="gototop"><i
+						class="fa fa-angle-double-up fa-2x"></i></a>
+			</p>
+
+			<div class="container">
+				<p>
+					&copy; 2016 Copyright ESEI TFG Manager<br>
+				</p>
+			</div>
+		</section>
     
   </body>
 </html>

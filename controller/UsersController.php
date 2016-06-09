@@ -35,6 +35,11 @@ class UsersController extends BaseController {
     // menu is displayed
     //$this->view->setLayout("welcome");     
   }
+  public function index()
+    {
+        //Creamos la vista
+        $this->view->render("layouts", "welcome");
+    }
 
  /**
    * Action to login

@@ -1,7 +1,7 @@
 <?php
 // file: index.php
 
-define("DEFAULT_CONTROLLER", "tfg");
+define("DEFAULT_CONTROLLER", "users");
 define("DEFAULT_ACTION", "index");
 
 function run() {

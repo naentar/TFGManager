@@ -1,7 +1,6 @@
 <?php
 // file: /core/ViewManager.php
 
-
 class ViewManager {
   
   /**
@@ -257,7 +256,7 @@ class ViewManager {
     // specially the DEFAULT_FRAGMENT (the main content)
     
 	//Crear mis propios layouts
-	//include(__DIR__."/../view/layouts/".$this->layout.".php"); 
+	include(__DIR__."/../view/layouts/".$this->layout.".php"); 
     
     ob_flush();
   }
