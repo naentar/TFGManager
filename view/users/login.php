@@ -3,20 +3,46 @@
  
  require_once(__DIR__."/../../core/ViewManager.php");
  $view = ViewManager::getInstance();
- $view->setVariable("title", "Login");
  $errors = $view->getVariable("errors");
 ?>
 
-<h1><?= i18n("Login") ?></h1>
-<?= isset($errors["general"])?$errors["general"]:"" ?>
+<header class="business-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="tagline">P&aacute;gina web para la gesti&oacute;n de TFG's</h1>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<form action="index.php?controller=users&amp;action=login" method="POST">
-<?= i18n("Username")?>: <input type="text" name="username">
-<?= i18n("Password")?>: <input type="password" name="passwd">
-<input type="submit" value="<?= i18n("Login") ?>">
-</form>
+<div class="container">
+	<hr>
+		
+  <form class="form-horizontal" role="form" method="post" action="index.php?controller=users&amp;action=login" >
+    <div class="form-group">
+      <label class="control-label col-sm-4" for="email">Email:</label>
+      <div class="col-sm-4">
+        <input type="email" class="form-control" id="email" placeholder="Introduce email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4 " for="pwd">Contraseña:</label>
+      <div class="col-sm-4">          
+        <input type="password" class="form-control" id="pwd" placeholder="Introduce contraseña">
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-4 col-sm-10">
+			<input type="submit" class="btn btn-default" value="Login" >
+      </div>
+    </div>
+  </form>
+  
 
-<p><?= i18n("Not user?")?> <a href="index.php?controller=users&amp;action=register"><?= i18n("Register here!")?></a></p>
-<?php $view->moveToFragment("css");?>
-    <link rel="stylesheet" type="text/css" src="css/style2.css">
-<?php $view->moveToDefaultFragment(); ?>
+	
+</div>
+ 
+		
+		
+		
