@@ -60,10 +60,10 @@
 						?>
 					</li>
 					<?php
-						if (!isset($usuario)) echo '<li class="menuItem"><a href="index.php?controller=users&action=login">Login</a></li>';
+						if (!isset($currentuser)) echo '<li class="menuItem"><a href="index.php?controller=users&action=login">Iniciar sesión</a></li>';
 					?>
 					<?php
-					    if(isset($usuario)) echo '<p> Logout </p>';
+					    if(isset($currentuser)) echo '<li class="menuItem"><a href="index.php?controller=users&action=logout">Cerrar sesi&oacute;n</a></li>';
 					?>
                 </ul>
             </div>

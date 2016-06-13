@@ -49,6 +49,16 @@ class CoordinadorMapper {
     } 
   }
   
+   public function checkUser($email)
+    {
+        $stmt = $this->db->prepare("SELECT count(email) FROM coordinador where email=?");
+        $stmt->execute(array($email));
+        if ($stmt->fetchColumn() > 0) {
+            return true;
+        }
+
+    }
+  
   /**
    * Checks if a given pair of username/password exists in the database
    * 

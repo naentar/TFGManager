@@ -5,6 +5,8 @@ require_once(__DIR__."/../core/I18n.php");
 
 require_once(__DIR__."/../model/User.php");
 require_once(__DIR__."/../model/UserMapper.php");
+require_once(__DIR__."/../model/Coordinador.php");
+require_once(__DIR__."/../model/CoordinadorMapper.php");
 
 require_once(__DIR__."/../controller/BaseController.php");
 
@@ -23,12 +25,12 @@ class UsersController extends BaseController {
    * 
    * @var UserMapper
    */  
-  private $userMapper;    
+  private $coordinadorMapper;    
   
   public function __construct() {    
     parent::__construct();
     
-    $this->userMapper = new UserMapper();
+	$this->coordinadorMapper = new CoordinadorMapper();
 
     // Users controller operates in a "welcome" layout
     // different to the "default" layout where the internal
@@ -69,27 +71,24 @@ class UsersController extends BaseController {
    * @return void
    */
   public function login() {
-  
-    if (isset($_POST["username"])){ // reaching via HTTP Post...
-	sleep(5);
-      //process login form    
-      if ($this->userMapper->isValidUser($_POST["username"],$_POST["passwd"])) {
-	
-	$_SESSION["currentuser"]=$_POST["username"];
-	
-	// send user to the restricted area (HTTP 302 code)
-	$this->view->redirect("layouts", "welcome");
-	
-      }else{
-	$errors = array();
-	$errors["general"] = "Username is not valid";
-	$this->view->setVariable("errors", $errors);
-      }
-    }       
-    
+    if (isset($_POST["email"])){ // reaching via HTTP Post...
+      //process login form  
+      $login = $_POST["email"];
+      $pass = $_POST["password"];
+	  if ($this->coordinadorMapper->checkUser($login)){
+		  if ($this->coordinadorMapper->isValidUser($_POST["email"],$_POST["password"])) {
+		  $_SESSION["currentuser"]=$_POST["email"]; 		
+		// send user to the restricted area (HTTP 302 code)
+		$this->view->redirect("users", "index");
+		
+		} 
+       		
+	  }	
+	  
+    }
     // render the view (/view/users/login.php)
-    $this->view->render("users", "login");    
-  }
+    $this->view->render("users", "login");     
+ }
 
  /**
    * Action to register

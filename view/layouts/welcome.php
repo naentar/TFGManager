@@ -27,7 +27,7 @@ $usuario = $view->getVariable("currentusername");
                 <p>La p&aacute;gina esta pensada para facilitar la gesti&oacute;n de las distintas partes de las que consta un curso de TFG.</p>
                 <p>En caso de haber recibido un correo conforme formas parte de este curso con un usuario y contraseña puedes iniciar sesi&oacute;n aqu&iacute;:</p>
                 <p>
-                    <a class="btn btn-default btn-lg" href="#">Login</a>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=login">Iniciar sesi&oacute;n</a>
                 </p>
             </div>
             <div class="col-sm-4">

@@ -19,7 +19,7 @@
 <div class="container">
 	<hr>
 		
-  <form class="form-horizontal" role="form" method="post" action="index.php?controller=coordinador&amp;action=login" >
+  <form class="form-horizontal" role="form" method="post" action="index.php?controller=users&amp;action=login" >
     <div class="form-group">
       <label class="control-label col-sm-4" for="email">Email:</label>
       <div class="col-sm-4">
@@ -34,7 +34,7 @@
     </div>
     <div class="form-group">        
       <div class="col-sm-offset-4 col-sm-10">
-			<input type="submit" class="btn btn-default" value="Login" >
+			<input type="submit" class="btn btn-default" value="Iniciar sesi&oacute;n" >
       </div>
     </div>
   </form>
