@@ -19,17 +19,17 @@
 <div class="container">
 	<hr>
 		
-  <form class="form-horizontal" role="form" method="post" action="index.php?controller=users&amp;action=login" >
+  <form class="form-horizontal" role="form" method="post" action="index.php?controller=coordinador&amp;action=login" >
     <div class="form-group">
       <label class="control-label col-sm-4" for="email">Email:</label>
       <div class="col-sm-4">
-        <input type="email" class="form-control" id="email" placeholder="Introduce email">
+        <input type="email" class="form-control" name="email" placeholder="Introduce email">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-4 " for="pwd">Contraseña:</label>
       <div class="col-sm-4">          
-        <input type="password" class="form-control" id="pwd" placeholder="Introduce contraseña">
+        <input type="password" class="form-control" name="password" placeholder="Introduce contraseña">
       </div>
     </div>
     <div class="form-group">        

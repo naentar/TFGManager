@@ -3,8 +3,8 @@
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../core/I18n.php");
 
-require_once(__DIR__."/../model/User.php");
-require_once(__DIR__."/../model/UserMapper.php");
+require_once(__DIR__."/../model/Coordinador.php");
+require_once(__DIR__."/../model/CoordinadorMapper.php");
 
 require_once(__DIR__."/../controller/BaseController.php");
 
@@ -15,7 +15,7 @@ require_once(__DIR__."/../controller/BaseController.php");
  * 
  * @author lipido <lipido@gmail.com>
  */
-class UsersController extends BaseController {
+class CoordinadorController extends BaseController {
   
   /**
    * Reference to the UserMapper to interact
@@ -23,12 +23,12 @@ class UsersController extends BaseController {
    * 
    * @var UserMapper
    */  
-  private $userMapper;    
+  private $coordinadorMapper;    
   
   public function __construct() {    
     parent::__construct();
     
-    $this->userMapper = new UserMapper();
+    $this->coordinadorMapper = new CoordinadorMapper();
 
     // Users controller operates in a "welcome" layout
     // different to the "default" layout where the internal
@@ -69,16 +69,13 @@ class UsersController extends BaseController {
    * @return void
    */
   public function login() {
-  
-    if (isset($_POST["username"])){ // reaching via HTTP Post...
-	sleep(5);
+    if (isset($_POST["email"])){ // reaching via HTTP Post...
       //process login form    
-      if ($this->userMapper->isValidUser($_POST["username"],$_POST["passwd"])) {
-	
-	$_SESSION["currentuser"]=$_POST["username"];
+      if ($this->coordinadorMapper->isValidUser($_POST["email"],$_POST["password"])) {
+	$_SESSION["currentuser"]=$_POST["email"];
 	
 	// send user to the restricted area (HTTP 302 code)
-	$this->view->redirect("layouts", "welcome");
+	$this->view->redirect("users", "index");
 	
       }else{
 	$errors = array();

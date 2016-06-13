@@ -10,7 +10,7 @@ require_once(__DIR__."/../core/PDOConnection.php");
  * 
  * @author lipido <lipido@gmail.com>
  */
-class UserMapper {
+class CoordinadorMapper {
 
   /**
    * Reference to the PDO connection
@@ -56,9 +56,9 @@ class UserMapper {
    * @param string $passwd the password
    * @return boolean true the username/passwrod exists, false otherwise.
    */
-  public function isValidUser($username, $passwd) {
-    $stmt = $this->db->prepare("SELECT count(username) FROM users where username=? and passwd=?");
-    $stmt->execute(array($username, $passwd));
+  public function isValidUser($email, $password) {
+    $stmt = $this->db->prepare("SELECT count(email) FROM coordinador where email=? and password=?");
+    $stmt->execute(array($email, $password));
     if ($stmt->fetchColumn() > 0) {
       return true;        
     }
