@@ -12,7 +12,7 @@ class Profesor {
   
   
   
-  public function __construct($dni=NULL,$email=NULL, $password=NULL,$nombre=NULL,$areaDeConocimiento=NULL,$departamento=NULL) {
+  public function __construct($email=NULL,$dni=NULL, $password=NULL,$nombre=NULL,$areaDeConocimiento=NULL,$departamento=NULL) {
     $this->email = $email;
     $this->password = $password; 
     $this->nombre = $nombre;	
@@ -29,19 +29,19 @@ class Profesor {
     $this->dni = $dni;
   }
   
-  public function getEmailA() {
+  public function getEmailP() {
     return $this->email;
   }
   
-  public function setEmailA($email) {
+  public function setEmailP($email) {
     $this->email = $email;
   }  
  
-  public function getPasswordA() {
+  public function getPasswordP() {
     return $this->password;
   }  
    
-  public function setPasswordA($password) {
+  public function setPasswordP($password) {
     $this->password = $password;
   }
   

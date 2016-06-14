@@ -67,7 +67,7 @@ class CoordinadorMapper {
    * @return boolean true the username/passwrod exists, false otherwise.
    */
   public function isValidUser($email, $password) {
-    $stmt = $this->db->prepare("SELECT count(email) FROM coordinador where email=? and password=?");
+    $stmt = $this->db->prepare("SELECT count(email) FROM coordinador where email=? and contrasenhaC=?");
     $stmt->execute(array($email, $password));
     if ($stmt->fetchColumn() > 0) {
       return true;        

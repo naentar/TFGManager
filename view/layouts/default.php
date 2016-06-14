@@ -54,6 +54,7 @@
 				    <li>
                         <a href="#">Informaci&oacuten</a>
                     </li>
+					
 					<li>
 					<?php
 							include(__DIR__."/language_select_element.php");

@@ -15,7 +15,7 @@ class Alumno {
   
   
   
-  public function __construct($dni=NULL,$email=NULL, $password=NULL,$nombre=NULL,$telefono=NULL,$notaMedia=NULL,$direccion=NULL,$provincia=NULL,$localidad=NULL) {
+  public function __construct($email=NULL, $dni=NULL,$password=NULL,$nombre=NULL,$telefono=NULL,$notaMedia=NULL,$direccion=NULL,$provincia=NULL,$localidad=NULL) {
     $this->dni = $dni;
     $this->email = $email;
     $this->password = $password; 

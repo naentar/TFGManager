@@ -3,9 +3,6 @@
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../core/I18n.php");
 
-require_once(__DIR__."/../model/Coordinador.php");
-require_once(__DIR__."/../model/CoordinadorMapper.php");
-
 require_once(__DIR__."/../controller/BaseController.php");
 
 /**
@@ -23,12 +20,16 @@ class UsersController extends BaseController {
    * 
    * @var UserMapper
    */  
-  private $coordinadorMapper;    
+  private $coordinadorMapper; 
+  private $alumnoMapper; 
+  private $profesorMapper;  
   
   public function __construct() {    
     parent::__construct();
     
 	$this->coordinadorMapper = new CoordinadorMapper();
+	$this->alumnoMapper = new AlumnoMapper();
+	$this->profesorMapper = new ProfesorMapper();
 
     // Users controller operates in a "welcome" layout
     // different to the "default" layout where the internal
@@ -74,18 +75,25 @@ class UsersController extends BaseController {
       $login = $_POST["email"];
       $pass = $_POST["password"];
 	  if ($this->coordinadorMapper->checkUser($login)){
-		  if ($this->coordinadorMapper->isValidUser($_POST["email"],$_POST["password"])) {
-		  $_SESSION["currentuser"]=$_POST["email"]; 		
-		// send user to the restricted area (HTTP 302 code)
-		$this->view->redirect("users", "index");
-		
-		} 
-       		
-	  }	
-	  
-    }
+		if ($this->coordinadorMapper->isValidUser($login,$pass)) {
+		$_SESSION["currentuser"]=$_POST["email"]; 		
+		$this->view->redirect("users", "index");	
+		}      		
+	  } else if ($this->alumnoMapper->checkUser($login)) {
+		if ($this->alumnoMapper->isValidUser($login, $pass)) {
+			$_SESSION["currentuser"]=$_POST["email"];
+			$this->view->redirect("users", "index");
+		   }		  
+     } else if ($this->profesorMapper->checkUser($login)) {
+		if ($this->profesorMapper->isValidUser($login, $pass)) {
+			$_SESSION["currentuser"]=$_POST["email"];
+			$this->view->redirect("users", "index");
+		   }		  
+        }
+	}
     // render the view (/view/users/login.php)
     $this->view->render("users", "login");     
+    
  }
 
  /**
