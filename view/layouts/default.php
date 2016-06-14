@@ -51,7 +51,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-				    <li>
+				    
+					<li>
                         <a href="#">Informaci&oacuten</a>
                     </li>
 					
@@ -65,15 +66,15 @@
 					?>
 					<?php
 					    if(isset($currentuser)) echo '<li class="menuItem"><a href="index.php?controller=users&action=logout">Cerrar sesi&oacute;n</a></li>';
-					?>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-    <!-- header -->
-    
+					?>					
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+	<!-- header -->
+					
     <main>
       <div id="flash">
 	<?= $view->popFlash() ?>
@@ -99,6 +100,8 @@
 				</p>
 			</div>
 		</section>
+		
+		
 		
 		
     

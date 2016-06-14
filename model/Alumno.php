@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__."/../core/ValidationException.php");
-
+require_once(__DIR__ . "/../core/ViewManager.php");
 class Alumno {
 
   private $dni;
@@ -99,5 +99,39 @@ class Alumno {
   
   public function setLocalidad($localidad) {
     $this->localidad = $localidad;
-  } 
+  }	
+	
+  public function validoParaActualizar()
+  {
+	$errors = array();
+
+	try {
+		if (strlen($this->telefono) < 1) {
+			$errors["telefono"] = "El campo nombre no puede estar vacio";
+		}
+		if (strlen($this->password) < 5 && strlen($this->password) > 0 ) {
+			$errors["password"] = "Contrase&ntilde;a no v&aacute;lida. 5 caracteres m&aicute;nimo";
+		}
+		if (strlen($this->direccion) < 1) {
+			$errors["direccion"] = "El campo direccion no puede estar vacio";
+		}
+		if (strlen($this->provincia) < 1) {
+			$errors["provincia"] = "Dni no v&aacute;lido";
+		}
+		if (strlen($this->localidad) < 1) {
+			$errors["localidad"] = "El campo apellidos no puede estar vacio";
+		}
+		if (sizeof($errors) > 0) {
+			throw new ValidationException ($errors, "Alumno no v&aacute;lido");
+		}
+	} catch (ValidationException $ex) {
+		foreach ($ex->getErrors() as $key => $error) {
+			$errors[$key] = $error;
+		}
+	}
+	if (sizeof($errors) > 0) {
+		throw new ValidationException($errors, "Alumno no v&aacute;lido");
+	}
+  }
+   
 }

@@ -5,33 +5,27 @@ require_once(__DIR__."/../core/I18n.php");
 
 require_once(__DIR__."/../controller/BaseController.php");
 
-class CoordinadorController extends BaseController {
+
+class AlumnoController extends BaseController {
   
-  private $coordinadorMapper;    
+  private $alumnoMapper;  
   
   public function __construct() {    
     parent::__construct();
     
-    $this->coordinadorMapper = new CoordinadorMapper();    
+	$this->alumnoMapper = new AlumnoMapper();
+ 
   }
-  
   public function index() {
-        if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
-            $this->view->render("coordinador", "indexCr");
+        if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
+            $this->view->render("alumno", "indexAl");
         }else{
             echo "No est&aacute;s autorizado";
             echo "<br>Redireccionando...";
             header("Refresh: 5; index.php?controller=users&action=index");
         }	
     }
-  
 	
-
-  public function logout() {
-    session_destroy();
-
-    $this->view->redirect("coordinador", "login");
-   
-  }
+  	
   
 }

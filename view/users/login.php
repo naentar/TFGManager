@@ -5,7 +5,13 @@
  $view = ViewManager::getInstance();
  $errors = $view->getVariable("errors");
 ?>
-
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- header -->
 <header class="business-header">
         <div class="container">
             <div class="row">

@@ -21,28 +21,10 @@ require_once(__DIR__."/../model/TFG.php");
 
 
 
-/**
- * Class BaseController
- *
- * Implements a basic super constructor for
- * the controllers in the Blog App.
- * Basically, it provides some protected
- * attributes and view variables.
- * 
- * @author lipido <lipido@gmail.com>
- */
 class BaseController {
 
-  /**
-   * The view manager instance
-   * @var ViewManager
-   */
   protected $view;
   
-  /**
-   * The current user instance
-   * @var User
-   */
   protected $currentUser;
   protected $username;
   
@@ -58,7 +40,6 @@ class BaseController {
 	$this->alumMapper = new AlumnoMapper();
 	$this->profMapper = new ProfesorMapper();
 
-    // get the current user and put it to the view
     if (session_status() == PHP_SESSION_NONE) {      
 	session_start();
     }
@@ -68,14 +49,17 @@ class BaseController {
 		  $this->currentUser = new Coordinador($_SESSION["currentuser"]);      
 		  //add current user to the view, since some views require it
 		  $this->view->setVariable("currentusername", $this->currentUser->getEmailC());
+		  $this->username = $this->currentUser->getEmailC();
 	      } else if($this->alumMapper->checkUser($_SESSION["currentuser"])){		  
 			  $this->currentUser = new Alumno($_SESSION["currentuser"]);      
 			  //add current user to the view, since some views require it
 			  $this->view->setVariable("currentusername", $this->currentUser->getEmailA());
+			  $this->username = $this->currentUser->getEmailA();
 		  } else if($this->profMapper->checkUser($_SESSION["currentuser"])){		  
 			  $this->currentUser = new Profesor($_SESSION["currentuser"]);      
 			  //add current user to the view, since some views require it
 			  $this->view->setVariable("currentusername", $this->currentUser->getEmailP());
+			  $this->username = $this->currentUser->getEmailP();
 		  }
     }     
   }

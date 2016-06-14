@@ -5,13 +5,7 @@ require_once(__DIR__ . "/../../core/ViewManager.php");
 $view = ViewManager::getInstance();
 $usuario = $view->getVariable("currentusername");
 ?>  
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-    <!-- header -->
+
     <header class="business-header">
         <div class="container">
             <div class="row">
@@ -30,7 +24,7 @@ $usuario = $view->getVariable("currentusername");
         <div class="row">
             <div class="col-sm-8">
                 <h2>Objetivo de esta web</h2>
-                <p>La p&aacute;gina esta pensada para facilitar la gesti&oacute;n de las distintas partes de las que consta un curso de TFG.</p>
+                <p>werks</p>
                 <p>En caso de haber recibido un correo conforme formas parte de este curso con un usuario y contraseña puedes iniciar sesi&oacute;n aqu&iacute;:</p>
                 <p>
                     <a class="btn btn-default btn-lg" href="index.php?controller=users&action=login">Iniciar sesi&oacute;n</a>
