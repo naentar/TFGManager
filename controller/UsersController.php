@@ -208,6 +208,52 @@ class UsersController extends BaseController {
 	}
   }
   
+  public function modifyCr() {
+    if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+	   $coordinador= $this->coordinadorMapper->consultarUsuario($this->currentUser->getEmailC());
+	   $this->view->setVariable("coordinadorInf",$coordinador);
+	   $this->view->render("coordinador", "modificarCr");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }
+  
+  public function modificarCoordinador(){
+	if(isset($this->currentUser)) {
+		if (isset($_POST["password"]) && isset($_POST["sndpassword"])) {
+			$pass = $_POST["password"];
+			$pass2 = $_POST["sndpassword"];
+			if ($pass != $pass2) {
+				$errors = array();
+				$errors["contrasenhaDistintasPro"] = "Las contrase&ntilde;as no coinciden";
+				$this->view->setVariable("errors", $errors);
+				$this->view->setFlash(i18n("Las contrase&ntilde;as no coinciden"));
+			} else {
+				$coordinador = new Coordinador($this->currentUser->getEmailC());
+				$coordinador->setPasswordC($pass);
+				$coordinador->setGmail($_POST["gmail"]);
+                $coordinador->setPasswordGmail($_POST["passwordg"]);
+				try {
+					$this->coordinadorMapper->modificar($coordinador);
+					$this->view->redirect("coordinador", "index");
+				} catch (ValidationException $ex) {
+					$errors = $ex->getErrors();
+					$this->view->setVariable("errors", $errors);
+					$this->view->setFlash(i18n("Datos incorrectos"));
+					
+				}
+			}
+		   $this->view->redirect("coordinador", "index");
+		}
+	}else{
+		echo "Upss! no deberías estar aquí";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=alumno&action=index");
+	}
+  }
+  
   public function realizarPropuesta() {
 	if(isset($this->currentUser)) {
                     $propuesta = new PropuestaDeTFG();

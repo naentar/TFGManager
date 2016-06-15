@@ -42,7 +42,7 @@ class ProfesorMapper {
             $stmt = $this->db->prepare("UPDATE Profesor SET contrasenhaPr=? WHERE email=?");
             $stmt->execute(array($Pr->getPasswordP(), $Pr->getEmailP()));
        }
-    }
+  }
   
   public function isValidUser($email, $password) {
     $stmt = $this->db->prepare("SELECT count(email) FROM profesor where email=? and contrasenhaPr=?");

@@ -6,11 +6,15 @@ class Coordinador {
   private $email;
   private $password;
   private $estadoCurso;
+  private $gmail;
+  private $passwordGmail;
   
-  public function __construct($email=NULL, $password=NULL,$estadoCurso=NULL) {
+  public function __construct($email=NULL, $password=NULL,$estadoCurso=NULL,$gmail=NULL,$passwordGmail=NULL) {
     $this->email = $email;
     $this->password = $password; 
-    $this->estadoCurso = $estadoCurso;	
+    $this->estadoCurso = $estadoCurso;
+    $this->gmail = $gmail;
+    $this->passwordGmail = $passwordGmail;	
   }
 
 
@@ -38,5 +42,19 @@ class Coordinador {
     $this->estadoCurso = $estadoCurso;
   }
   
+  public function getGmail() {
+    return $this->gmail;
+  }
   
+  public function setGmail($gmail) {
+    $this->gmail = $gmail;
+  }
+  
+  public function getPasswordGmail() {
+    return $this->passwordGmail;
+  }  
+   
+  public function setPasswordGmail($passwordGmail) {
+    $this->passwordGmail = $passwordGmail;
+  }
 }
