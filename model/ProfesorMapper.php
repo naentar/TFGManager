@@ -16,23 +16,25 @@ class ProfesorMapper {
     $stmt->execute(array($user->getUsername(), $user->getPasswd()));
   }
   
-  public function usernameExists($username) {
-    $stmt = $this->db->prepare("SELECT count(username) FROM users where username=?");
-    $stmt->execute(array($username));
-    
-    if ($stmt->fetchColumn() > 0) {   
-      return true;
-    } 
+  public function checkUser($email) {
+	$stmt = $this->db->prepare("SELECT count(email) FROM profesor where email=?");
+	$stmt->execute(array($email));
+	  if ($stmt->fetchColumn() > 0) {
+		return true;
+	  }
+  }
+	
+  public function consultarUsuario($email) {
+	$stmt = $this->db->prepare("select * from profesor where email=?");
+	$stmt->execute(array($email));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
   }
   
-   public function checkUser($email)
-    {
-        $stmt = $this->db->prepare("SELECT count(email) FROM profesor where email=?");
-        $stmt->execute(array($email));
-        if ($stmt->fetchColumn() > 0) {
-            return true;
-        }
-
+  public function modificar(Profesor $Pr) {
+       if($Pr->getPasswordP()!=""){
+            $stmt = $this->db->prepare("UPDATE Profesor SET contrasenhaPr=? WHERE email=?");
+            $stmt->execute(array($Pr->getPasswordP(), $Pr->getEmailP()));
+       }
     }
   
   public function isValidUser($email, $password) {

@@ -5,22 +5,6 @@
  $view = ViewManager::getInstance();
  $errors = $view->getVariable("errors");
 ?>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-    <!-- header -->
-<header class="business-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="tagline">P&aacute;gina web para la gesti&oacute;n de TFG's</h1>
-                </div>
-            </div>
-        </div>
-    </header>
 
 <div class="container">
 	<hr>

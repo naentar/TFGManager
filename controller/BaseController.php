@@ -50,16 +50,19 @@ class BaseController {
 		  //add current user to the view, since some views require it
 		  $this->view->setVariable("currentusername", $this->currentUser->getEmailC());
 		  $this->username = $this->currentUser->getEmailC();
+		  $this->view->setVariable("usertype", "c");
 	      } else if($this->alumMapper->checkUser($_SESSION["currentuser"])){		  
 			  $this->currentUser = new Alumno($_SESSION["currentuser"]);      
 			  //add current user to the view, since some views require it
 			  $this->view->setVariable("currentusername", $this->currentUser->getEmailA());
 			  $this->username = $this->currentUser->getEmailA();
+			  $this->view->setVariable("usertype", "a");
 		  } else if($this->profMapper->checkUser($_SESSION["currentuser"])){		  
 			  $this->currentUser = new Profesor($_SESSION["currentuser"]);      
 			  //add current user to the view, since some views require it
 			  $this->view->setVariable("currentusername", $this->currentUser->getEmailP());
 			  $this->username = $this->currentUser->getEmailP();
+			  $this->view->setVariable("usertype", "p");
 		  }
     }     
   }

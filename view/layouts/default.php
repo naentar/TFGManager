@@ -3,6 +3,7 @@
  
  require_once(__DIR__."/../../core/ViewManager.php");
  $view = ViewManager::getInstance();
+ $usertype = $view->getVariable("usertype");
  $currentuser = $view->getVariable("currentusername");
  
 ?><!DOCTYPE html>
@@ -52,10 +53,17 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    
-					<li>
-                        <a href="#">Informaci&oacuten</a>
-                    </li>
 					
+					<?php
+					if(isset($usertype)){
+						if (strval($usertype)=="c") { echo '<li class="menuItem"><a href="index.php?controller=coordinador&action=index">P&aacute;gina principal</a></li>';
+
+						} else if (strval($usertype)=="a") { echo '<li class="menuItem"><a href="index.php?controller=alumno&action=index">P&aacute;gina principal</a></li>';
+
+						} else if (strval($usertype)=="p") { echo '<li class="menuItem"><a href="index.php?controller=profesor&action=index">P&aacute;gina principal</a></li>';
+					  }	
+					}  
+					?>
 					<li>
 					<?php
 							include(__DIR__."/language_select_element.php");
@@ -74,6 +82,16 @@
 		<!-- /.container -->
 	</nav>
 	<!-- header -->
+	
+	    <header class="business-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="tagline">ESEI TFG Manager</h1>
+                </div>
+            </div>
+        </div>
+    </header>
 					
     <main>
       <div id="flash">

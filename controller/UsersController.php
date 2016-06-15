@@ -102,7 +102,52 @@ class UsersController extends BaseController {
             header("Refresh: 5; index.php?controller=alumno&action=index");
         }
     }
+	
+	
+  public function modifyPr() {
+    if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
+	   $profesor= $this->profesorMapper->consultarUsuario($this->currentUser->getEmailP());
+	   $this->view->setVariable("profesorInf",$profesor);
+	   $this->view->render("profesor", "modificarPr");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }
   
+  public function modificarProfesor(){
+	if(isset($this->currentUser)) {
+		if (isset($_POST["password"]) && isset($_POST["sndpassword"])) {
+			$pass = $_POST["password"];
+			$pass2 = $_POST["sndpassword"];
+			if ($pass != $pass2) {
+				$errors = array();
+				$errors["contrasenhaDistintasPro"] = "Las contrase&ntilde;as no coinciden";
+				$this->view->setVariable("errors", $errors);
+				$this->view->setFlash(i18n("Las contrase&ntilde;as no coinciden"));
+			} else {
+				$profesor = new Profesor($this->currentUser->getEmailP());
+				$profesor->setPasswordP($pass);
+				try {
+					$profesor->validoParaActualizar();
+					$this->profesorMapper->modificar($profesor);
+					$this->view->redirect("Profesor", "index");
+				} catch (ValidationException $ex) {
+					$errors = $ex->getErrors();
+					$this->view->setVariable("errors", $errors);
+					$this->view->setFlash(i18n("Datos incorrectos"));
+					
+				}
+			}
+		   $this->view->redirect("profesor", "index");
+		}
+	}else{
+		echo "Upss! no deberías estar aquí";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=alumno&action=index");
+	}
+  }
 	  	
       
 

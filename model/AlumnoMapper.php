@@ -25,8 +25,7 @@ class AlumnoMapper {
     } 
   }
   
-  public function checkUser($email)
-  {
+  public function checkUser($email) {
   	$stmt = $this->db->prepare("SELECT count(email) FROM alumno where email=?");
 	$stmt->execute(array($email));
 	if ($stmt->fetchColumn() > 0) {
@@ -48,9 +47,8 @@ class AlumnoMapper {
             $stmt = $this->db->prepare("UPDATE Alumno SET telefono=?,direccion=?, localidad=?, provincia=?  WHERE email=?");
             $stmt->execute(array($Al->getTelefono(),$Al->getDireccion(), $Al->getLocalidad(), $Al->getProvincia(), $Al->getEmailA()));
        }
-    }
-		
-  
+  }
+		 
   public function isValidUser($email, $password) {
     $stmt = $this->db->prepare("SELECT count(email) FROM alumno where email=? and contrasenhaAl=?");
     $stmt->execute(array($email, $password));

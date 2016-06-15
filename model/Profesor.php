@@ -68,5 +68,26 @@ class Profesor {
   public function setDepartamento($departamento) {
     $this->departamento = $departamento;
   } 
+  
+  
+  public function validoParaActualizar() {
+	$errors = array();
+
+	try {
+		if (strlen($this->password) < 5 && strlen($this->password) > 0 ) {
+			$errors["password"] = "Contrase&ntilde;a no v&aacute;lida. 5 caracteres m&aicute;nimo";
+		}
+		if (sizeof($errors) > 0) {
+			throw new ValidationException ($errors, "Modificaci&oacute;n no v&aacute;lida");
+		}
+	} catch (ValidationException $ex) {
+		foreach ($ex->getErrors() as $key => $error) {
+			$errors[$key] = $error;
+		}
+	}
+	if (sizeof($errors) > 0) {
+		throw new ValidationException($errors, "Modificaci&oacute;n no v&aacute;lida");
+	}
+  }
 
 }

@@ -6,15 +6,7 @@ $view = ViewManager::getInstance();
 $usuario = $view->getVariable("currentusername");
 ?>  
 
-    <header class="business-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="tagline">P&aacute;gina web para la gesti&oacute;n de TFG's</h1>
-                </div>
-            </div>
-        </div>
-    </header>
+
 
     <!-- Page Content -->
     <div class="container">
@@ -23,12 +15,8 @@ $usuario = $view->getVariable("currentusername");
 
         <div class="row">
             <div class="col-sm-8">
-                <h2>Objetivo de esta web</h2>
-                <p>werks</p>
-                <p>En caso de haber recibido un correo conforme formas parte de este curso con un usuario y contraseña puedes iniciar sesi&oacute;n aqu&iacute;:</p>
-                <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=login">Iniciar sesi&oacute;n</a>
-                </p>
+
+                
             </div>
             <div class="col-sm-4">
                 <h2>Informaci&oacute;n del centro</h2>
@@ -43,18 +31,6 @@ $usuario = $view->getVariable("currentusername");
                     <br>
                     <abbr title="Email">Email:</abbr> <a href="mailto:#"> coordinadortfg@esei.uvigo.com</a>
                 </address>
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <hr>
-
-        <div class="row">
-
-            <div class="col-sm-10">
-                <a href="#"><img class="img-circle img-responsive img-center" src="imgs/tfg.jpg" alt=""></a>
-                <h2>Lista de TFG's ofrecidos por profesores</h2>
-                <p>Aqu&iacute; podr&aacute;s comprobar la lista con todos los TFG's que ofrecen los profesores una vez haya sido publicada (para ello pulsa sobre el icono "TFG").</p>
             </div>
         </div>
         <!-- /.row -->
