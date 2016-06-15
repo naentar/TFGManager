@@ -57,12 +57,38 @@ class UsersController extends BaseController {
   
   public function actualizarEstadoCurso() {
     if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+	    //https://www.google.com/settings/security/lesssecureapps
+		$gmail = "";
+		$passwdgmail = "";
 		if($_POST["nuevoEstadoCurso"]=="0"){
            $this->coordinadorMapper->modificarEstadoCurso("0");
 		   $this->view->setVariable("estadocurso","0");
 		} else if($_POST["nuevoEstadoCurso"]=="1"){
            $this->coordinadorMapper->modificarEstadoCurso("1");
 		   $this->view->setVariable("estadocurso","1");
+		   require_once(__DIR__."/../phpmailer/PHPMailerAutoload.php");
+		    $mail = new PHPMailer;
+		    $mail->SMTPDebug = 3;                               // Enable verbose debug output
+			$mail->isSMTP();                                      // Set mailer to use SMTP
+			$mail->Host = "smtp.gmail.com";  // Specify main and backup SMTP servers
+			$mail->SMTPAuth = true;                               // Enable SMTP authentication
+			$mail->Username = $gmail;                             // SMTP username
+			$mail->Password = $passwdgmail;                           // SMTP password
+			$mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+			$mail->Port = 465;                                    // TCP port to connect to
+			$mail->isHTML(true);
+			$mail->setFrom($gmail);
+			$mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
+			$mail->Body = "Por favor, env&iacute;a tus propuestas en la siguiente direcci&oacute;n";
+			$mail->addAddress("aglaiaaglaia13@gmail.com");
+			if(!$mail->Send()){
+			   echo "Mailer error" .$mail->ErrorInfo;
+			}else{
+			   echo "Message has been sent";
+			}
+			
+
+
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
            $this->coordinadorMapper->modificarEstadoCurso("2");
 		   $this->view->setVariable("estadocurso","2");
