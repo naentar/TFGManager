@@ -21,6 +21,12 @@ class CoordinadorMapper {
     $stmt->execute(array($value, "1")); 
   }
   
+  public function infoGmail() {
+	$stmt = $this->db->prepare("select gmailCorreos, contrasenhaCorreos from coordinador WHERE idCoordinador=?");
+	$stmt->execute(array("1")); 
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+  
   public function checkUser($email) {
 	$stmt = $this->db->prepare("SELECT count(email) FROM coordinador where email=?");
 	$stmt->execute(array($email));

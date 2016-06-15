@@ -48,6 +48,11 @@ class AlumnoMapper {
             $stmt->execute(array($Al->getTelefono(),$Al->getDireccion(), $Al->getLocalidad(), $Al->getProvincia(), $Al->getEmailA()));
        }
   }
+  
+  public function listarAlumnos() {
+	$stmt = $this->db->query("select * from alumno");
+	return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+  }
 		 
   public function isValidUser($email, $password) {
     $stmt = $this->db->prepare("SELECT count(email) FROM alumno where email=? and contrasenhaAl=?");

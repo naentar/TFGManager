@@ -58,40 +58,48 @@ class UsersController extends BaseController {
   public function actualizarEstadoCurso() {
     if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
 	    //https://www.google.com/settings/security/lesssecureapps
-		$gmail = "";
-		$passwdgmail = "";
+		require_once(__DIR__."/../phpmailer/PHPMailerAutoload.php");
+		$gmaillog = $this->coordinadorMapper->infoGmail();
+		foreach($gmaillog as $log):
+			$gmail = $log["gmailCorreos"];	
+            $passwdgmail = $log["contrasenhaCorreos"];			
+	    endforeach;
+		$mail = new PHPMailer;
+		//$mail->SMTPDebug = 3;                               
+		$mail->isSMTP();                                      
+		$mail->Host = "smtp.gmail.com";  
+		$mail->SMTPAuth = true;                               
+		$mail->Username = $gmail;                             
+		$mail->Password = $passwdgmail;                          
+		$mail->SMTPSecure = 'ssl';                            
+		$mail->Port = 465;                                    
+		$mail->isHTML(true);
+		$mail->setFrom($gmail);		
 		if($_POST["nuevoEstadoCurso"]=="0"){
            $this->coordinadorMapper->modificarEstadoCurso("0");
 		   $this->view->setVariable("estadocurso","0");
 		} else if($_POST["nuevoEstadoCurso"]=="1"){
            $this->coordinadorMapper->modificarEstadoCurso("1");
-		   $this->view->setVariable("estadocurso","1");
-		   require_once(__DIR__."/../phpmailer/PHPMailerAutoload.php");
-		    $mail = new PHPMailer;
-		    $mail->SMTPDebug = 3;                               // Enable verbose debug output
-			$mail->isSMTP();                                      // Set mailer to use SMTP
-			$mail->Host = "smtp.gmail.com";  // Specify main and backup SMTP servers
-			$mail->SMTPAuth = true;                               // Enable SMTP authentication
-			$mail->Username = $gmail;                             // SMTP username
-			$mail->Password = $passwdgmail;                           // SMTP password
-			$mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-			$mail->Port = 465;                                    // TCP port to connect to
-			$mail->isHTML(true);
-			$mail->setFrom($gmail);
-			$mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
-			$mail->Body = "Por favor, env&iacute;a tus propuestas en la siguiente direcci&oacute;n";
-			$mail->addAddress("aglaiaaglaia13@gmail.com");
-			if(!$mail->Send()){
-			   echo "Mailer error" .$mail->ErrorInfo;
-			}else{
-			   echo "Message has been sent";
-			}
-			
-
-
+		   $this->view->setVariable("estadocurso","1");		   
+		   $mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
+		   $mail->Body = "Por favor, env&iacute;a tus propuestas en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina.";			
+		   $listaProfesores = $this->profesorMapper->listarProfesores("");
+                foreach($listaProfesores as $profesor):
+			        $mail->addAddress($profesor["email"]);						
+			    endforeach; 			
+			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;			
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
            $this->coordinadorMapper->modificarEstadoCurso("2");
 		   $this->view->setVariable("estadocurso","2");
+		   $mail->Subject = "Comienza la fase de solicitudes de TFG por parte del alumnado";
+		   $mail->Body = "Por favor, env&iacute;a tu solicitud en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina.";			
+		   $listaAlumnos = $this->alumnoMapper->listarAlumnos();
+                foreach($listaAlumnos as $alumno):
+			        $mail->addAddress($alumno["email"]);						
+			    endforeach; 			
+			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
            $this->coordinadorMapper->modificarEstadoCurso("3");
 		   $this->view->setVariable("estadocurso","3");	 
