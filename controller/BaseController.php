@@ -13,8 +13,8 @@ require_once(__DIR__."/../model/AlumnoMapper.php");
 require_once(__DIR__."/../model/Profesor.php");
 require_once(__DIR__."/../model/ProfesorMapper.php");
 
-require_once(__DIR__."/../model/PropuestaTFG.php");
-//require_once(__DIR__."/../model/PropuestaTFGMapper.php");
+require_once(__DIR__."/../model/PropuestaDeTFG.php");
+require_once(__DIR__."/../model/PropuestaDeTFGMapper.php");
 
 require_once(__DIR__."/../model/TFG.php");
 //require_once(__DIR__."/../model/TFGMapper.php");

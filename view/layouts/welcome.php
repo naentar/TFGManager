@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-require_once(__DIR__ . "/../../core/ViewManager.php");
-$view = ViewManager::getInstance();
-$usuario = $view->getVariable("currentusername");
-?>  
+ <?php
+ require_once(__DIR__ . "/../../core/ViewManager.php");
+ $view = ViewManager::getInstance();
+ $usuario = $view->getVariable("currentusername");
+ $currentuser = $view->getVariable("currentusername");
+ ?>  
 
     <!-- Page Content -->
     <div class="container">
@@ -15,10 +16,13 @@ $usuario = $view->getVariable("currentusername");
             <div class="col-sm-8">
                 <h2>Objetivo de esta web</h2>
                 <p>La p&aacute;gina esta pensada para facilitar la gesti&oacute;n de las distintas partes de las que consta un curso de TFG.</p>
-                <p>En caso de haber recibido un correo conforme formas parte de este curso con un usuario y contraseña puedes iniciar sesi&oacute;n aqu&iacute;:</p>
-                <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=login">Iniciar sesi&oacute;n</a>
-                </p>
+				<?php
+						if (!isset($currentuser)) echo '
+						<p>En caso de haber recibido un correo conforme formas parte de este curso con un usuario y contraseña puedes iniciar sesi&oacute;n aqu&iacute;:</p>
+							<p>
+								<a class="btn btn-default btn-lg" href="index.php?controller=users&action=login">Iniciar sesi&oacute;n</a>
+							</p>';
+				?>                
             </div>
             <div class="col-sm-4">
                 <h2>Informaci&oacute;n del centro</h2>

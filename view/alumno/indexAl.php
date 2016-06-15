@@ -35,7 +35,7 @@ $usuario = $view->getVariable("currentusername");
             </div>
         </div>
         <!-- /.row -->
-
+        
     </div>
 	
     <!-- /.container -->

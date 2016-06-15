@@ -8,23 +8,30 @@ require_once(__DIR__."/../controller/BaseController.php");
 
 class ProfesorController extends BaseController {
   
-  private $profesorMapper;  
+  private $profesorMapper; 
+  private $coordinadorMapper;   
   
   public function __construct() {    
     parent::__construct();
     
 	$this->profesorMapper = new ProfesorMapper();
+	$this->coordinadorMapper = new CoordinadorMapper();
  
   }
-  public function index()
-    {
+  public function index() {
         if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
-            $this->view->render("profesor", "indexPr");
+		    $estado = $this->coordinadorMapper->estadoCursoActual(); 
+            $this->view->setVariable("estadocurso",$estado["estadorCurso"]);	         
+			$listaProfesores = $this->profesorMapper->listarProfesores($this->username);
+            $this->view->setVariable("listaProfesores", $listaProfesores);
+			$this->view->render("profesor", "indexPr");
         }else{
             echo "No est&aacute;s autorizado";
             echo "<br>Redireccionando...";
             header("Refresh: 5; index.php?controller=users&action=index");
         }	
-    }
+  }
+  
+  
   
 }

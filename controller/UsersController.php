@@ -9,7 +9,8 @@ class UsersController extends BaseController {
   
   private $coordinadorMapper; 
   private $alumnoMapper; 
-  private $profesorMapper;  
+  private $profesorMapper;
+  private $propuestadetfgMapper;  
   
   public function __construct() {    
     parent::__construct();
@@ -17,6 +18,7 @@ class UsersController extends BaseController {
 	$this->coordinadorMapper = new CoordinadorMapper();
 	$this->alumnoMapper = new AlumnoMapper();
 	$this->profesorMapper = new ProfesorMapper();
+	$this->propuestadetfgMapper = new PropuestaDeTFGMapper();
 
     // Users controller operates in a "welcome" layout
     // different to the "default" layout where the internal
@@ -24,7 +26,7 @@ class UsersController extends BaseController {
     //$this->view->setLayout("welcome");     
   }
   public function index()
-    {
+    {		
         $this->view->render("layouts", "welcome");
     }
 
@@ -147,6 +149,33 @@ class UsersController extends BaseController {
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=alumno&action=index");
 	}
+  }
+  
+  public function realizarPropuesta() {
+	if(isset($this->currentUser)) {
+                    $propuesta = new PropuestaDeTFG();
+                    $propuesta->setTitulo($_POST["titulo"]);
+                    $propuesta->setDescripcion($_POST["descripcion"]);
+					$dniprof = $this->profesorMapper->getId($this->currentUser->getEmailP());
+					$propuesta->setTutor($dniprof["dniProfesor"]);
+					if($_POST["cotutor"]!= NULL){
+                    $propuesta->setCotutor($_POST["cotutor"]);
+					}
+                    try {
+                        $propuesta->validoParaCrear();
+                        $this->propuestadetfgMapper->insertar($propuesta);
+                        $this->view->redirect("profesor", "index");
+                    } catch (ValidationException $ex) {
+                        $errors = $ex->getErrors();
+                        $this->view->setVariable("errors", $errors);
+                        $this->view->setFlash(i18n("Datos incorrectos"));						
+                    }               
+               $this->view->redirect("profesor", "index");           
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=alumno&action=index");
+        }	
   }
 	  	
       

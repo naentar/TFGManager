@@ -14,14 +14,10 @@ class CoordinadorMapper {
     $stmt = $this->db->prepare("INSERT INTO users values (?,?)");
     $stmt->execute(array($user->getUsername(), $user->getPasswd()));
   }
-  
-  public function usernameExists($username) {
-    $stmt = $this->db->prepare("SELECT count(username) FROM users where username=?");
-    $stmt->execute(array($username));
-    
-    if ($stmt->fetchColumn() > 0) {   
-      return true;
-    } 
+  public function estadoCursoActual() {
+    $stmt = $this->db->prepare("SELECT estadorCurso FROM coordinador WHERE email=?");
+	$stmt->execute(array("asdasd@asd.asd"));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
   }
   
   public function checkUser($email) {

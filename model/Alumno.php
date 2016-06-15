@@ -101,8 +101,7 @@ class Alumno {
     $this->localidad = $localidad;
   }	
 	
-  public function validoParaActualizar()
-  {
+  public function validoParaActualizar() {
 	$errors = array();
 
 	try {

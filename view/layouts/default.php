@@ -5,6 +5,7 @@
  $view = ViewManager::getInstance();
  $usertype = $view->getVariable("usertype");
  $currentuser = $view->getVariable("currentusername");
+ $estadocurso = $view->getVariable("estadocurso");
  
 ?><!DOCTYPE html>
 <html>
@@ -53,6 +54,11 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    
+					<!--<li>
+					<?php
+							echo strval($estadocurso);
+						?>
+					</li>-->
 					
 					<?php
 					if(isset($usertype)){
