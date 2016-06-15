@@ -43,7 +43,7 @@
     </div>
 	
 	<?php 
-		if(strval($estadocurso)=="0"){ 
+		if(strval($estadocurso)=="1"){ 
 	?>
 	<div class="container">
 

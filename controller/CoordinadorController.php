@@ -17,6 +17,8 @@ class CoordinadorController extends BaseController {
   
   public function index() {
         if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+		    $estado = $this->coordinadorMapper->estadoCursoActual(); 
+            $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
             $this->view->render("coordinador", "indexCr");
         }else{
             echo "No est&aacute;s autorizado";

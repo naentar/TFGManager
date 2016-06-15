@@ -54,6 +54,29 @@ class UsersController extends BaseController {
 	}
     $this->view->render("users", "login");        
   }
+  
+  public function actualizarEstadoCurso() {
+    if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+		if($_POST["nuevoEstadoCurso"]=="0"){
+           $this->coordinadorMapper->modificarEstadoCurso("0");
+		   $this->view->setVariable("estadocurso","0");
+		} else if($_POST["nuevoEstadoCurso"]=="1"){
+           $this->coordinadorMapper->modificarEstadoCurso("1");
+		   $this->view->setVariable("estadocurso","1");
+		} else if($_POST["nuevoEstadoCurso"]=="2"){
+           $this->coordinadorMapper->modificarEstadoCurso("2");
+		   $this->view->setVariable("estadocurso","2");
+		} else if($_POST["nuevoEstadoCurso"]=="3"){
+           $this->coordinadorMapper->modificarEstadoCurso("3");
+		   $this->view->setVariable("estadocurso","3");	 
+		}		
+		$this->view->render("coordinador", "indexCr");
+        }else{
+            echo "No est&aacute;s autorizado";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }	
+  }
  
  
   public function modifyAl() {

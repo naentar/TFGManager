@@ -10,14 +10,15 @@ class CoordinadorMapper {
     $this->db = PDOConnection::getInstance();
   }
      
-  public function save($user) {
-    $stmt = $this->db->prepare("INSERT INTO users values (?,?)");
-    $stmt->execute(array($user->getUsername(), $user->getPasswd()));
-  }
   public function estadoCursoActual() {
-    $stmt = $this->db->prepare("SELECT estadorCurso FROM coordinador WHERE email=?");
-	$stmt->execute(array("asdasd@asd.asd"));
+    $stmt = $this->db->prepare("SELECT estadorCurso FROM coordinador WHERE idCoordinador=?");
+	$stmt->execute(array("1"));
 	return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  
+  public function modificarEstadoCurso($value) {
+    $stmt = $this->db->prepare("UPDATE Coordinador SET estadorCurso=? WHERE idCoordinador=?");
+    $stmt->execute(array($value, "1")); 
   }
   
   public function checkUser($email) {
