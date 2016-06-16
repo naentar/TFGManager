@@ -20,4 +20,15 @@ class SolicitudDeTFGMapper {
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
    
+  public function comprobarId($id){
+  $stmt = $this->db->prepare("SELECT Alumno_dniAlumno FROM alumno_escoge_propuestasdetfg WHERE Alumno_dniAlumno=?");
+  $stmt->execute(array($id));
+  $existe = $stmt->fetch(PDO::FETCH_ASSOC);
+	if($existe["Alumno_dniAlumno"]!=NULL){
+	   $valor = "si";
+	} else {
+	   $valor = "no";
+	}
+  return $valor; 
+  } 
 }

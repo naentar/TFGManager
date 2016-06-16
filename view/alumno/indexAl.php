@@ -6,6 +6,8 @@
  $usuario = $view->getVariable("currentusername");
  $estadocurso = $view->getVariable("estadocurso");
  $listaPropuestas = $view->getVariable("listarPropuestas");
+ $existeTFG = $view->getVariable("existeTFG");
+ $existeSolicitud = $view->getVariable("existeSolicitud");
  ?>  
 
     <!-- Page Content -->
@@ -40,7 +42,8 @@
         <!-- /.row -->
     
     <?php 
-		if(strval($estadocurso)=="2"){ 
+		if(strval($estadocurso)=="2"){
+            if($existeTFG=="no" && $existeSolicitud=="no"){		
 	?>     
         <div class="row">
 	    <br>
@@ -124,6 +127,7 @@
             </div>
 	</div>		
     <?php 
+			}
 		}
 	?>	
 

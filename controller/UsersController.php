@@ -344,7 +344,7 @@ class UsersController extends BaseController {
 		       $this->view->setFlash("Solicitud incorrecta, el tutor y el cotutor no pueden ser la misma persona.");
 		    }else{        		
 				$TFG = new TFG();
-				$TFG->setIdTFG("15/16-001");
+				$TFG->setIdTFG($this->tfgMapper->generarCodigo());
 				$TFG->setTituloEs($_POST["titulo"]);
 				$TFG->setTituloEn($_POST["titulo"]);
 				$TFG->setTituloGa($_POST["titulo"]);

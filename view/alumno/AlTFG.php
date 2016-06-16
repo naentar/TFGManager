@@ -13,7 +13,7 @@
 	<div class="container">
 	    <div class="row">
 	    <br>
-	    <h3>Realizar solicitud:</h3>
+	    <h3>Realizar solicitud de acuerdo mutuo:</h3>
         <hr>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=mutuoAcuerdo" >
 				<div class="mycenter red">
@@ -58,7 +58,7 @@
 				</div>
 				<div class="form-group">        
 				  <div class="col-sm-offset-4 col-sm-10">
-						<input type="submit" class="btn btn-default" value="Modificar" >
+						<input type="submit" class="btn btn-default" value="Solicitar" >
 				  </div>
 				</div>
 			</form>
