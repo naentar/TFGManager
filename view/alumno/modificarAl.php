@@ -52,6 +52,9 @@ $usuario = $view->getVariable("currentusername");
 	    <h3>Informaci&oacute;n modificable:</h3>
         <hr>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=modificarAlumno" >
+				<div class="mycenter red">
+		           <?php echo $view->popFlash();?>
+	            </div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="telefono">Tel&eacute;fono:</label>
 				  <div class="col-sm-4">

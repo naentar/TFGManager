@@ -21,6 +21,7 @@
                 <p>En esta opci&oacute;n podrás comprobar tu informaci&oacute;n personal adem&aacute;s de realizar modificaciones sobre la misma y poder modificar la contraseña.</p>
                 
             </div>
+			
             <div class="col-sm-4">
                 <h2>Informaci&oacute;n del centro</h2>
                 <address>
@@ -40,7 +41,7 @@
     
     <?php 
 		if(strval($estadocurso)=="2"){ 
-	?>
+	?>     
         <div class="row">
 	    <br>
 	    <h3>Realizar solicitud de TFG por orden de prioridad:</h3>
@@ -112,7 +113,16 @@
 				</div>
 			</form>
 		</div>
-        <!-- /.row -->	
+        <!-- /.row -->
+        <div class="row"> 
+		<hr>		
+	    <div class="col-sm-8">
+			    <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=alumnoTFG">Solicitar TFG de mutuo acuerdo</a>
+                </p> 
+                <p>En caso de querer realizar una solicitud de TFG preacordado con un profesor en lugar de realizar una solicitud sobre la lista de propuestas del profesorado, por favor pulsa aquí.</p>                
+            </div>
+	</div>		
     <?php 
 		}
 	?>	

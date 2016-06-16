@@ -11,7 +11,8 @@ class UsersController extends BaseController {
   private $alumnoMapper; 
   private $profesorMapper;
   private $propuestadetfgMapper; 
-  private $solicituddetfgMapper;  
+  private $solicituddetfgMapper;
+  private $tfgMapper;  
   
   public function __construct() {    
     parent::__construct();
@@ -21,6 +22,7 @@ class UsersController extends BaseController {
 	$this->profesorMapper = new ProfesorMapper();
 	$this->propuestadetfgMapper = new PropuestaDeTFGMapper();
 	$this->solicituddetfgMapper = new SolicitudDeTFGMapper();
+	$this->tfgMapper = new TFGMapper();
 
     // Users controller operates in a "welcome" layout
     // different to the "default" layout where the internal
@@ -138,6 +140,7 @@ class UsersController extends BaseController {
                     $errors["contrasenhaDistintasPro"] = "Las contrase&ntilde;as no coinciden";
                     $this->view->setVariable("errors", $errors);
                     $this->view->setFlash(i18n("Las contrase&ntilde;as no coinciden"));
+					$this->modifyAl();
                 } else {
                     $alumno = new Alumno($this->currentUser->getEmailA());
                     $alumno->setTelefono($_POST["telefono"]);
@@ -155,8 +158,9 @@ class UsersController extends BaseController {
                         $this->view->setFlash(i18n("Datos incorrectos"));
 						
                     }
+			    $this->view->redirect("alumno", "index");
                 }
-               $this->view->redirect("alumno", "index");
+               
             }
         }else{
             echo "Upss! no deberías estar aquí";
@@ -331,8 +335,37 @@ class UsersController extends BaseController {
         } 
 
   }  
-
-
+  
+  public function mutuoAcuerdo() {
+	if(isset($this->currentUser)) {
+	    if($_POST["tutor"]=="sin"){
+            $this->view->setFlash("Solicitud incorrecta, se debe seleccionar el tutor.");
+        } else if($_POST["tutor"]==$_POST["cotutor"]){
+		       $this->view->setFlash("Solicitud incorrecta, el tutor y el cotutor no pueden ser la misma persona.");
+		    }else{        		
+				$TFG = new TFG();
+				$TFG->setIdTFG("15/16-001");
+				$TFG->setTituloEs($_POST["titulo"]);
+				$TFG->setTituloEn($_POST["titulo"]);
+				$TFG->setTituloGa($_POST["titulo"]);
+				$TFG->setEmpresa($_POST["empresa"]);
+				$TFG->setTutor($_POST["tutor"]);
+				$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
+				$TFG->setAlumno($dniAl["dniAlumno"]);
+				if($_POST["cotutor"]!= NULL){
+				$TFG->setCotutor($_POST["cotutor"]);
+				}
+				$this->tfgMapper->insertar($TFG);               
+		        $this->view->redirect("alumno", "alumnoTFG"); 
+			}
+		  $this->view->redirect("alumno", "alumnoTFG"); 	
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }	
+  }
+  
   public function logout() {
     session_destroy();
     

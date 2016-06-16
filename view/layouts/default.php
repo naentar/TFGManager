@@ -63,7 +63,7 @@
 					<?php
 					if(isset($usertype)){
 						if (strval($usertype)=="c") { echo '<li class="menuItem"><a href="index.php?controller=coordinador&action=index">P&aacute;gina principal</a></li>';
-
+							
 						} else if (strval($usertype)=="a") { echo '<li class="menuItem"><a href="index.php?controller=alumno&action=index">P&aacute;gina principal</a></li>';
 
 						} else if (strval($usertype)=="p") { echo '<li class="menuItem"><a href="index.php?controller=profesor&action=index">P&aacute;gina principal</a></li>';
