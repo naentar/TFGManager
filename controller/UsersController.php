@@ -10,7 +10,8 @@ class UsersController extends BaseController {
   private $coordinadorMapper; 
   private $alumnoMapper; 
   private $profesorMapper;
-  private $propuestadetfgMapper;  
+  private $propuestadetfgMapper; 
+  private $solicituddetfgMapper;  
   
   public function __construct() {    
     parent::__construct();
@@ -19,6 +20,7 @@ class UsersController extends BaseController {
 	$this->alumnoMapper = new AlumnoMapper();
 	$this->profesorMapper = new ProfesorMapper();
 	$this->propuestadetfgMapper = new PropuestaDeTFGMapper();
+	$this->solicituddetfgMapper = new SolicitudDeTFGMapper();
 
     // Users controller operates in a "welcome" layout
     // different to the "default" layout where the internal
@@ -31,8 +33,7 @@ class UsersController extends BaseController {
     }
 
   public function login() {
-    if (isset($_POST["email"])){ 
-   
+    if (isset($_POST["email"])){   
       $login = $_POST["email"];
       $pass = $_POST["password"];
 	  if ($this->coordinadorMapper->checkUser($login)){
@@ -50,7 +51,9 @@ class UsersController extends BaseController {
 			$_SESSION["currentuser"]=$_POST["email"];
 			$this->view->redirect("profesor", "index");
 		   }		  
-        }
+     } else {	 
+	  $this->view->setFlash("Login incorrecto");
+	 }
 	}
     $this->view->render("users", "login");        
   }
@@ -158,7 +161,7 @@ class UsersController extends BaseController {
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";
-            header("Refresh: 5; index.php?controller=alumno&action=index");
+            header("Refresh: 5; index.php?controller=users&action=index");
         }
     }
 	
@@ -204,7 +207,7 @@ class UsersController extends BaseController {
 	}else{
 		echo "Upss! no deberías estar aquí";
 		echo "<br>Redireccionando...";
-		header("Refresh: 5; index.php?controller=alumno&action=index");
+		header("Refresh: 5; index.php?controller=users&action=index");
 	}
   }
   
@@ -250,7 +253,7 @@ class UsersController extends BaseController {
 	}else{
 		echo "Upss! no deberías estar aquí";
 		echo "<br>Redireccionando...";
-		header("Refresh: 5; index.php?controller=alumno&action=index");
+		header("Refresh: 5; index.php?controller=users&action=index");
 	}
   }
   
@@ -277,11 +280,57 @@ class UsersController extends BaseController {
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";
-            header("Refresh: 5; index.php?controller=alumno&action=index");
+            header("Refresh: 5; index.php?controller=users&action=index");
         }	
   }
 	  	
-      
+  public function realizarSolicitud() {
+    if(isset($this->currentUser)) {
+	  if($_POST["firstopt"]=="vacio1" && $_POST["secondopt"]=="vacio2" && $_POST["thirdopt"]=="vacio3" && $_POST["fourthopt"]=="vacio4" && $_POST["fifthopt"]=="vacio5"){
+	        $this->view->setFlash("Solicitud incorrecta, no has solicitado ning&uacute;n TFG."); 	  
+	    } else if($_POST["firstopt"]==$_POST["secondopt"] || $_POST["firstopt"]==$_POST["thirdopt"] || $_POST["firstopt"]==$_POST["fourthopt"] || $_POST["firstopt"]==$_POST["fifthopt"] || $_POST["secondopt"]==$_POST["thirdopt"]
+		 || $_POST["secondopt"]==$_POST["fourthopt"] || $_POST["secondopt"]==$_POST["fifthopt"] || $_POST["thirdopt"]==$_POST["fourthopt"] || $_POST["thirdopt"]==$_POST["fifthopt"] || $_POST["fourthopt"]==$_POST["fifthopt"] ){
+		    $this->view->setFlash("Solicitud incorrecta, no puedes seleccionar dos veces el mismo TFG");       		
+		} else {
+		        $alumno = $this->alumnoMapper->consultarUsuario($this->currentUser->getEmailA());
+							 
+				$solicitud = new SolicitudDeTFG();				
+				$solicitud->setAlumno($alumno["dniAlumno"]);
+					if($_POST["firstopt"]!="vacio1"){				
+						$solicitud->setIdPropuesta($_POST["firstopt"]);
+						$solicitud->setPrioridad("1");
+						$this->solicituddetfgMapper->insertar($solicitud);
+					}
+					if($_POST["secondopt"]!="vacio2"){				
+						$solicitud->setIdPropuesta($_POST["secondopt"]);
+						$solicitud->setPrioridad("2");
+						$this->solicituddetfgMapper->insertar($solicitud);
+					}
+					if($_POST["thirdopt"]!="vacio3"){				
+						$solicitud->setIdPropuesta($_POST["thirdopt"]);
+						$solicitud->setPrioridad("3");
+						$this->solicituddetfgMapper->insertar($solicitud);
+					}
+					if($_POST["fourthopt"]!="vacio4"){				
+						$solicitud->setIdPropuesta($_POST["fourthopt"]);
+						$solicitud->setPrioridad("4");
+						$this->solicituddetfgMapper->insertar($solicitud);
+					}
+					if($_POST["fifthopt"]!="vacio5"){				
+						$solicitud->setIdPropuesta($_POST["fifthopt"]);
+						$solicitud->setPrioridad("5");
+						$this->solicituddetfgMapper->insertar($solicitud);
+					}
+				$this->view->redirect("alumno", "index");
+				}                                      	
+          $this->view->redirect("alumno", "index");         		  
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        } 
+
+  }  
 
 
   public function logout() {

@@ -10,11 +10,6 @@ class AlumnoMapper {
   public function __construct() {
     $this->db = PDOConnection::getInstance();
   }
-     
-  public function save($user) {
-    $stmt = $this->db->prepare("INSERT INTO users values (?,?)");
-    $stmt->execute(array($user->getUsername(), $user->getPasswd()));
-  }
   
   public function usernameExists($username) {
     $stmt = $this->db->prepare("SELECT count(username) FROM users where username=?");

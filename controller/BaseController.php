@@ -19,6 +19,8 @@ require_once(__DIR__."/../model/PropuestaDeTFGMapper.php");
 require_once(__DIR__."/../model/TFG.php");
 //require_once(__DIR__."/../model/TFGMapper.php");
 
+require_once(__DIR__."/../model/SolicitudDeTFG.php");
+require_once(__DIR__."/../model/SolicitudDeTFGMapper.php");
 
 
 class BaseController {

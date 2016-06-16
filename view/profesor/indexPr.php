@@ -39,14 +39,10 @@
             </div>
         </div>
         <!-- /.row -->
-		
-    </div>
-	
+			
 	<?php 
 		if(strval($estadocurso)=="1"){ 
 	?>
-	<div class="container">
-
         <div class="row">
 	    <br>
 	    <h3>Realizar propuesta de TFG:</h3>
@@ -82,11 +78,12 @@
 				</div>
 			</form>
 		</div>
-        <!-- /.row -->		
-    </div>	
-	<?php 
+        <!-- /.row -->	
+    <?php 
 		}
-	?>
+	?>		
+    </div>	
+	
     <!-- /.container -->
 
     <!-- jQuery -->

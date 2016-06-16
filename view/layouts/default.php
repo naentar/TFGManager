@@ -99,11 +99,7 @@
         </div>
     </header>
 					
-    <main>
-      <div id="flash">
-	<?= $view->popFlash() ?>
-      </div>
-      
+    <main>      
       <?= $view->getFragment(ViewManager::DEFAULT_FRAGMENT) ?>    
     </main>
 	

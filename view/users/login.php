@@ -1,14 +1,10 @@
 <?php 
- //file: view/users/login.php
- 
  require_once(__DIR__."/../../core/ViewManager.php");
- $view = ViewManager::getInstance();
- $errors = $view->getVariable("errors");
+ $view = ViewManager::getInstance(); 
 ?>
 
 <div class="container">
-	<hr>
-		
+	<hr>	
   <form class="form-horizontal" role="form" method="post" action="index.php?controller=users&amp;action=login" >
     <div class="form-group">
       <label class="control-label col-sm-4" for="email">Email:</label>
@@ -27,6 +23,9 @@
 			<input type="submit" class="btn btn-default" value="Iniciar sesi&oacute;n" >
       </div>
     </div>
+	<div class="mycenter flash">
+		<?php echo $view->popFlash();?>
+	</div>
   </form>
   
 
