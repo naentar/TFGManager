@@ -20,7 +20,8 @@
                 <p>En esta opci&oacute;n podr&aacute; modificar la contraseñade la cuenta, adem&aacute;s, es recomendable la asignaci&oacute;n de la informaci&oacute;n referente al gmail con el que enviar los correos para
 				el correcto funcionamiento de los mismos.</p>               
             </div>
-		</div>	
+		</div>
+<!-- /.row -->		
         <div class="row">
 	    <br>
 	    <h3>Gestionar estado del curso:</h3>
@@ -43,22 +44,22 @@
 				  <label class="control-label col-sm-4" for="nuevoEstadoCurso">Modificar estado a:</label>
 				  <div class="col-sm-4">			
 				  <select class="form-control" name="nuevoEstadoCurso">
-				  <?php if(strval($estadocurso)=="0") { echo'
+				  <?php if($estadocurso=="0") { echo'
 					<option value="0" disabled>1.Inicio de curso</option>
 					<option value="1">2.Propuestas de Profesores</option>
 					<option value="2" disabled>3.Solicitudes de Alumnos</option>
 					<option value="3" disabled>4.Cursando TFG</option>';
-					} else if(strval($estadocurso)=="1") { echo'
+					} else if($estadocurso=="1") { echo'
 					<option value="0" disabled>1.Inicio de curso</option>
 					<option value="1" disabled>2.Propuestas de Profesores</option>
 					<option value="2" >3.Solicitudes de Alumnos</option>
 					<option value="3" disabled>4.Cursando TFG</option>';
-					} else if(strval($estadocurso)=="2") { echo'
+					} else if($estadocurso=="2") { echo'
 					<option value="0" disabled>1.Inicio de curso</option>
 					<option value="1" disabled>2.Propuestas de Profesores</option>
 					<option value="2" disabled>3.Solicitudes de Alumnos</option>
 					<option value="3" >4.Cursando TFG</option>';
-					} else if(strval($estadocurso)=="3") { echo'
+					} else if($estadocurso=="3") { echo'
 					<option value="0" >1.Inicio de curso</option>
 					<option value="1" disabled>2.Propuestas de Profesores</option>
 					<option value="2" disabled>3.Solicitudes de Alumnos</option>
@@ -75,7 +76,23 @@
 				</div>
 			</form>
 		</div>
-        <!-- /.row -->		
+        <!-- /.row -->
+        <?php 
+		if($estadocurso=="1"){	
+	    ?>		
+        <div class="row">
+		<hr>
+            <div class="col-sm-8">
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionPropuestas">Gestionar propuestas</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute;s realizar la gesti&oacute;n de las distintas propuestas de TFG presentadas por los profesores.</p>               
+            </div>
+		</div>
+        <!-- /.row -->
+        <?php 
+		}	
+	    ?>		
     </div>	
 	
     <!-- /.container -->

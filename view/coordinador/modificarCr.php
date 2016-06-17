@@ -27,13 +27,13 @@
 				  </div>
 				</div>				
 				<div class="form-group">
-				  <label class="control-label col-sm-4 " for="password">Contraseña de la p&aacue;gina:</label>
+				  <label class="control-label col-sm-4 " for="password">Contraseña de la p&aacute;gina:</label>
 				  <div class="col-sm-4">          
 					<input type="password" class="form-control" name="password" placeholder="Introduce contraseña">
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4 " for="sndpassword">Repetir contraseña de la p&aacue;gina:</label>
+				  <label class="control-label col-sm-4 " for="sndpassword">Repetir contraseña de la p&aacute;gina:</label>
 				  <div class="col-sm-4">          
 					<input type="password" class="form-control" name="sndpassword" placeholder="Introduce contraseña otra vez">
 				  </div>

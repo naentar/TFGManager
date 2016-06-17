@@ -352,13 +352,34 @@ class UsersController extends BaseController {
 				$TFG->setTutor($_POST["tutor"]);
 				$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
 				$TFG->setAlumno($dniAl["dniAlumno"]);
-				if($_POST["cotutor"]!= NULL){
 				$TFG->setCotutor($_POST["cotutor"]);
-				}
 				$this->tfgMapper->insertar($TFG);               
 		        $this->view->redirect("alumno", "alumnoTFG"); 
 			}
 		  $this->view->redirect("alumno", "alumnoTFG"); 	
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }	
+  }
+  
+  public function gestionarPropuesta() {
+    if(isset($this->currentUser)) {
+                    $propuesta = new PropuestaDeTFG();
+					$propuesta->setIdPk(($_POST["idpropuesta"]));
+					if(isset($_POST["modificar"])){
+					   $propuesta->setTitulo($_POST["titulo"]);
+                       $propuesta->setDescripcion($_POST["descripcion"]);
+					   $propuesta->setTutor($_POST["tutor"]);
+                       $propuesta->setCotutor(($_POST["cotutor"]));
+					   $this->propuestadetfgMapper->modificar($propuesta);
+                       $this->view->redirect("coordinador", "gestionPropuestas");					
+					}else if(isset($_POST["eliminar"])){
+					   $this->propuestadetfgMapper->eliminar($propuesta);
+                       $this->view->redirect("coordinador", "gestionPropuestas");										
+					}               
+               $this->view->redirect("coordinador", "gestionPropuestas");           
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";

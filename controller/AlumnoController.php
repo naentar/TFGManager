@@ -31,8 +31,8 @@ class AlumnoController extends BaseController {
             $estado = $this->coordinadorMapper->estadoCursoActual(); 
             $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
 			if($estado["estadorCurso"]==2){
-			$listaPropuestas = $this->propuestadetfgMapper->listarPropuestas();
-            $this->view->setVariable("listarPropuestas", $listaPropuestas);
+			$listarPropuestasTitulo = $this->propuestadetfgMapper->listarPropuestasTitulo();
+            $this->view->setVariable("listarPropuestasTitulo", $listarPropuestasTitulo);
 			$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
 			$infoTFG = $this->tfgMapper->comprobarId($dniAl["dniAlumno"]);
             $this->view->setVariable("existeTFG", $infoTFG);

@@ -7,15 +7,25 @@ class PropuestaDeTFG {
   private $descripcion;
   private $cotutor;
   private $tutor;
+  private $idPk;
   
-  public function __construct($titulo=NULL, $descripcion=NULL,$tutor=NULL,$cotutor=NULL) {
+  public function __construct($titulo=NULL, $descripcion=NULL,$tutor=NULL,$cotutor=NULL,$idPk=NULL) {
     $this->titulo = $titulo;
     $this->descripcion = $descripcion;
     $this->tutor = $tutor;		
-    $this->cotutor = $cotutor;	
+    $this->cotutor = $cotutor;
+    $this->idPk = $idPk;	
   }
 
 
+  public function getIdPk() {
+    return $this->idPk;
+  }
+  
+  public function setIdPk($idPk) {
+    $this->idPk = $idPk;
+  } 
+  
   public function getTitulo() {
     return $this->titulo;
   }

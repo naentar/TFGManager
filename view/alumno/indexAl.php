@@ -5,7 +5,7 @@
  $view = ViewManager::getInstance();
  $usuario = $view->getVariable("currentusername");
  $estadocurso = $view->getVariable("estadocurso");
- $listaPropuestas = $view->getVariable("listarPropuestas");
+ $listarPropuestasTitulo = $view->getVariable("listarPropuestasTitulo");
  $existeTFG = $view->getVariable("existeTFG");
  $existeSolicitud = $view->getVariable("existeSolicitud");
  ?>  
@@ -42,7 +42,7 @@
         <!-- /.row -->
     
     <?php 
-		if(strval($estadocurso)=="2"){
+		if($estadocurso=="2"){
             if($existeTFG=="no" && $existeSolicitud=="no"){		
 	?>     
         <div class="row">
@@ -59,7 +59,7 @@
 				  <div class="col-sm-4">			
 				  <select class="form-control" name="firstopt">
 					<option value="vacio1">Sin seleccionar</option>
-					<?php foreach($listaPropuestas as $propuesta):
+					<?php foreach($listarPropuestasTitulo as $propuesta):
 						echo '<option value="'.$propuesta["idPropuestasDeTFG"].'">'.$propuesta["titulo"].'</option>';
 					 endforeach; ?>
 				  </select>				
@@ -70,7 +70,7 @@
 				  <div class="col-sm-4">			
 				  <select class="form-control" name="secondopt">
 					<option value="vacio2">Sin seleccionar</option>
-					<?php foreach($listaPropuestas as $propuesta):
+					<?php foreach($listarPropuestasTitulo as $propuesta):
 						echo '<option value="'.$propuesta["idPropuestasDeTFG"].'">'.$propuesta["titulo"].'</option>';
 					 endforeach; ?>
 				  </select>				
@@ -81,7 +81,7 @@
 				  <div class="col-sm-4">			
 				  <select class="form-control" name="thirdopt">
 					<option value="vacio3">Sin seleccionar</option>
-					<?php foreach($listaPropuestas as $propuesta):
+					<?php foreach($listarPropuestasTitulo as $propuesta):
 						echo '<option value="'.$propuesta["idPropuestasDeTFG"].'">'.$propuesta["titulo"].'</option>';
 					 endforeach; ?>
 				  </select>				
@@ -92,7 +92,7 @@
 				  <div class="col-sm-4">			
 				  <select class="form-control" name="fourthopt">
 					<option value="vacio4">Sin seleccionar</option>
-					<?php foreach($listaPropuestas as $propuesta):
+					<?php foreach($listarPropuestasTitulo as $propuesta):
 						echo '<option value="'.$propuesta["idPropuestasDeTFG"].'">'.$propuesta["titulo"].'</option>';
 					 endforeach; ?>
 				  </select>				
@@ -103,7 +103,7 @@
 				  <div class="col-sm-4">			
 				  <select class="form-control" name="fifthopt">
 					<option value="vacio5">Sin seleccionar</option>
-					<?php foreach($listaPropuestas as $propuesta):
+					<?php foreach($listarPropuestasTitulo as $propuesta):
 						echo '<option value="'.$propuesta["idPropuestasDeTFG"].'">'.$propuesta["titulo"].'</option>';
 					 endforeach; ?>
 				  </select>				
@@ -127,8 +127,18 @@
             </div>
 	</div>		
     <?php 
+			}else{
+	?>
+        <div class="row">
+            <div class="col-sm-8">
+			    <h2>Solicitud almacenada</h2>
+                <p>Ya has realizado tu solicitud de TFG, por favor espera hasta el final del per&iacute;odo de asignaci&oacute;n para comprobar que TFG te ha sido asignado.</p>               
+            </div>  
+        </div> 
+
+	<?php
 			}
-		}
+		}	
 	?>	
 
 	 
