@@ -117,6 +117,20 @@
 		</div>
         <!-- /.row -->
         <?php 
+		}
+         if($estadocurso=="4"){		
+	    ?>
+        <div class="row">
+		<hr>
+            <div class="col-sm-8">
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionTFGs">Gestionar TFG's</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute;s realizar la gesti&oacute;n de los TFG's que se encuentren asignados en este momento.</p>               
+            </div>
+		</div>
+        <!-- /.row -->
+        <?php 
 		}	
 	    ?>		
     </div>	

@@ -437,9 +437,31 @@ class UsersController extends BaseController {
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";
             header("Refresh: 5; index.php?controller=users&action=index");
-        }
+        } 
+  }
   
-  
+  public function gestionarTFGs() {
+    if(isset($this->currentUser)) {
+				$tfg = new TFG();
+				$tfg->setIdTFG(($_POST["idTFG"]));
+				if(isset($_POST["eliminar"])){
+				   $this->tfgMapper->eliminar($tfg);
+				   $this->view->redirect("coordinador", "gestionTFGs");					
+				}else if(isset($_POST["modificar"])){
+				   $tfg->setEmpresa($_POST["empresa"]);
+				   $tfg->setTutor($_POST["tutor"]);
+				   $tfg->setCotutor(($_POST["cotutor"]));			   
+				   $tfg->setTituloEn($_POST["tituloEn"]);
+				   $tfg->setTituloEs($_POST["tituloEs"]);
+				   $tfg->setTituloGa($_POST["tituloGa"]);
+				   $this->tfgMapper->modificar($tfg);
+				   $this->view->redirect("coordinador", "gestionTFGs");
+				   }                          
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }	
   }
   
   
