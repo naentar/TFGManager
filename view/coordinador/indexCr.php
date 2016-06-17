@@ -34,7 +34,8 @@
 					if(strval($estadocurso)=="0") echo '1.Inicio de curso';
 					if(strval($estadocurso)=="1") echo '2.Propuestas de Profesores';
 					if(strval($estadocurso)=="2") echo '3.Solicitudes de Alumnos';
-					if(strval($estadocurso)=="3") echo '4.Cursando TFG';								
+					if(strval($estadocurso)=="3") echo '4.Entrega de anteproyectos';
+					if(strval($estadocurso)=="4") echo '5.Cursando TFG';								
 					?>" disabled></b>
 				  </div>
 				</div>				
@@ -48,22 +49,32 @@
 					<option value="0" disabled>1.Inicio de curso</option>
 					<option value="1">2.Propuestas de Profesores</option>
 					<option value="2" disabled>3.Solicitudes de Alumnos</option>
-					<option value="3" disabled>4.Cursando TFG</option>';
+					<option value="3" disabled>4.Entrega de anteproyectos</option>
+					<option value="4" disabled>5.Cursando TFG</option>';
 					} else if($estadocurso=="1") { echo'
 					<option value="0" disabled>1.Inicio de curso</option>
 					<option value="1" disabled>2.Propuestas de Profesores</option>
 					<option value="2" >3.Solicitudes de Alumnos</option>
-					<option value="3" disabled>4.Cursando TFG</option>';
+					<option value="3" disabled>4.Entrega de anteproyectos</option>
+					<option value="4" disabled>5.Cursando TFG</option>';
 					} else if($estadocurso=="2") { echo'
 					<option value="0" disabled>1.Inicio de curso</option>
 					<option value="1" disabled>2.Propuestas de Profesores</option>
 					<option value="2" disabled>3.Solicitudes de Alumnos</option>
-					<option value="3" >4.Cursando TFG</option>';
+					<option value="3" >4.Entrega de anteproyectos</option>
+					<option value="4" disabled>5.Cursando TFG</option>';
 					} else if($estadocurso=="3") { echo'
+					<option value="0" disabled>1.Inicio de curso</option>
+					<option value="1" disabled>2.Propuestas de Profesores</option>
+					<option value="2" disabled>3.Solicitudes de Alumnos</option>
+					<option value="3" disabled>4.Entrega de anteproyectos</option>
+					<option value="4" >5.Cursando TFG</option>';
+					} else if($estadocurso=="4") { echo'
 					<option value="0" >1.Inicio de curso</option>
 					<option value="1" disabled>2.Propuestas de Profesores</option>
 					<option value="2" disabled>3.Solicitudes de Alumnos</option>
-					<option value="3" disabled>4.Cursando TFG</option>';
+					<option value="3" disabled>4.Entre de anteproyectos</option>
+					<option value="4" disabled>5.Cursando TFG</option>';
 					}
 					?>
 				  </select>				

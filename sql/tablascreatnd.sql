@@ -80,7 +80,6 @@ DROP TABLE IF EXISTS `eseitfgmanager`.`TFG` ;
 
 CREATE TABLE IF NOT EXISTS `eseitfgmanager`.`TFG` (
   `idTFG` VARCHAR(9) NOT NULL,
-  `fechaInicio` DATE NULL,
   `tituloEn` VARCHAR(70) NOT NULL,
   `tituloGa` VARCHAR(70) NOT NULL,
   `tituloEs` VARCHAR(70) NOT NULL,

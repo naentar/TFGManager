@@ -8,6 +8,7 @@
  $listarPropuestasTitulo = $view->getVariable("listarPropuestasTitulo");
  $existeTFG = $view->getVariable("existeTFG");
  $existeSolicitud = $view->getVariable("existeSolicitud");
+ $TFGacep = $view->getVariable("TFGacep");
  ?>  
 
     <!-- Page Content -->
@@ -123,9 +124,10 @@
 			    <p>
                     <a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=alumnoTFG">Solicitar TFG de mutuo acuerdo</a>
                 </p> 
-                <p>En caso de querer realizar una solicitud de TFG preacordado con un profesor en lugar de realizar una solicitud sobre la lista de propuestas del profesorado, por favor pulsa aquí.</p>                
+                <p>En caso de querer realizar una solicitud de TFG preacordado con un profesor en lugar de realizar una solicitud sobre la lista de propuestas del profesorado, por favor pulse aqu&iacute;.</p>                
             </div>
-	</div>		
+	    </div>	
+        <!-- /.row -->		 
     <?php 
 			}else{
 	?>
@@ -139,6 +141,32 @@
 	<?php
 			}
 		}	
+		if($estadocurso=="3"){
+		   if($TFGacep["tituloEn"]=="aceptado"){
+	?>	
+		    <div class="row"> 
+				<hr>		
+				<div class="col-sm-8">
+						<p>
+							<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=confirmarAnteproyeco">Confirmar anteproyecto</a>
+						</p> 
+						<p>En caso de querer realizar una entrega de anteproyecto, rellene el formulario que se encuentra en este bot&oacute;n.</p>                
+				</div>
+			</div>	
+        <!-- /.row -->
+	<?php
+            }else {
+	?>
+			<div class="row"> 
+				<hr>		
+				<div class="col-sm-8">
+					<h2>Solicitud almacenada</h2>
+					<p>Tu solicitud de anteproyecto ya ha sido almacenada, ya puedes comenzar con la realizaci&oacute;n de tu TFG..</p>                
+				</div>
+			</div>
+	<?php 	
+			}
+		}
 	?>	
 
 	 

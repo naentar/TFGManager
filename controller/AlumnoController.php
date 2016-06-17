@@ -30,14 +30,18 @@ class AlumnoController extends BaseController {
         if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
             $estado = $this->coordinadorMapper->estadoCursoActual(); 
             $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+			$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
 			if($estado["estadorCurso"]==2){
 			$listarPropuestasTitulo = $this->propuestadetfgMapper->listarPropuestasTitulo();
             $this->view->setVariable("listarPropuestasTitulo", $listarPropuestasTitulo);
-			$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
 			$infoTFG = $this->tfgMapper->comprobarId($dniAl["dniAlumno"]);
             $this->view->setVariable("existeTFG", $infoTFG);
 			$infoSolicitud = $this->solicituddetfgMapper->comprobarId($dniAl["dniAlumno"]);
             $this->view->setVariable("existeSolicitud", $infoSolicitud);
+			}
+			if($estado["estadorCurso"]==3){
+			$TFGacep = $this->tfgMapper->getTFG($dniAl["dniAlumno"]);
+            $this->view->setVariable("TFGacep", $TFGacep);
 			}
 			$this->view->render("alumno", "indexAl");
         }else{
@@ -47,7 +51,7 @@ class AlumnoController extends BaseController {
         }	
   }
   
-  public function alumnoTFG(){
+  public function alumnoTFG() {
 	if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
 	   $listaProfesores = $this->profesorMapper->listarProfesores("");
 	   $estado = $this->coordinadorMapper->estadoCursoActual(); 
@@ -59,6 +63,21 @@ class AlumnoController extends BaseController {
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=users&action=index");
 	}	 
-  }			 	
+  }
+
+  public function confirmarAnteproyeco() { 
+    if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
+       $id = $this->alumnoMapper->getId($this->currentUser->getEmailA());
+	   $TFG = $this->tfgMapper->getTFG($id["dniAlumno"]);
+       $this->view->setVariable("TFG", $TFG);
+	   $this->view->render("alumno", "confirmarA");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}
+
+
+  } 
   
 }

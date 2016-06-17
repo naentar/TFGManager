@@ -8,18 +8,16 @@ class TFG {
   private $tituloGa;
   private $tituloEs;
   private $empresa;
-  private $fechaInicio;
   private $tutor;
   private $cotutor;
   private $alumno;
   
-  public function __construct($idTFG=NULL,$tituloEn=NULL, $tituloGa=NULL,$tituloEs=NULL,$empresa=NULL,$fechaInicio=NULL,$tutor=NULL,$cotutor=NULL,$alumno=NULL) {
+  public function __construct($idTFG=NULL,$tituloEn=NULL, $tituloGa=NULL,$tituloEs=NULL,$empresa=NULL,$tutor=NULL,$cotutor=NULL,$alumno=NULL) {
     $this->idTFG = $idTFG;
 	$this->tituloEn = $tituloEn;
     $this->tituloGa = $tituloGa; 
     $this->tituloEs = $tituloEs;	
 	$this->empresa = $empresa; 
-    $this->fechaInicio = $fechaInicio;
     $this->tutor = $tutor;
 	$this->cotutor = $cotutor;
 	$this->alumno = $alumno;
@@ -63,14 +61,6 @@ class TFG {
    
   public function setEmpresa($empresa) {
     $this->empresa = $empresa;
-  }
-  
-  public function getFechaInicio() {
-    return $this->empresa;
-  }  
-   
-  public function setFechaInicio($fechaInicio) {
-    $this->fechaInicio = $fechaInicio;
   }
   
   public function getTutor() {

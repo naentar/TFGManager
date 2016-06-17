@@ -107,7 +107,11 @@ class UsersController extends BaseController {
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
            $this->coordinadorMapper->modificarEstadoCurso("3");
-		   $this->view->setVariable("estadocurso","3");	 
+		   $this->view->setVariable("estadocurso","3");
+           $this->tfgMapper->rechazarNoAceptados();		   
+		} else if($_POST["nuevoEstadoCurso"]=="4"){
+           $this->coordinadorMapper->modificarEstadoCurso("4");
+		   $this->view->setVariable("estadocurso","4");	   
 		}		
 		$this->view->render("coordinador", "indexCr");
         }else{
@@ -418,6 +422,24 @@ class UsersController extends BaseController {
             echo "<br>Redireccionando...";
             header("Refresh: 5; index.php?controller=users&action=index");
         }	
+  }
+  
+  public function confirmarAnte() {
+    if(isset($this->currentUser)) {
+			$tfg = new TFG();
+			$tfg->setIdTFG(($_POST["idTFG"]));
+			$tfg->setTituloEn($_POST["tituloEn"]);
+			$tfg->setTituloEs($_POST["tituloEs"]);
+			$tfg->setTituloGa($_POST["tituloGa"]);
+			$this->tfgMapper->modificarTitulos($tfg);
+			$this->view->redirect("alumno", "index");           
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }
+  
+  
   }
   
   

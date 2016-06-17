@@ -25,6 +25,22 @@ class TFGMapper {
     $stmt->execute(array($Tf->getIdTFG())); 
   }
   
+  public function modificarTitulos(TFG $Tf){
+    $stmt = $this->db->prepare("UPDATE TFG SET tituloEn=?, tituloGa=?, tituloEs=? WHERE idTFG=?");
+    $stmt->execute(array($Tf->getTituloEn(), $Tf->getTituloGa(), $Tf->getTituloEs(), $Tf->getIdTFG()));
+  }
+  
+  public function getTFG($dni){
+    $stmt = $this->db->prepare("SELECT * FROM tfg WHERE Alumno_dniAlumno=?");
+    $stmt->execute(array($dni));
+	return $stmt->fetch(PDO::FETCH_ASSOC); 
+  }
+  
+  public function rechazarNoAceptados(){
+    $stmt = $this->db->prepare("DELETE FROM TFG where tituloEn=?");
+    $stmt->execute(array("aceptado")); 
+  }  
+  
   public function listarTFGs(){
     $stmt = $this->db->query("select * from tfg");
 	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC);
