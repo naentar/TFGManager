@@ -26,7 +26,7 @@
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="empresa">¿Realizado en empresa?:</label>
+				  <label class="control-label col-sm-4" for="empresa">¿Se realiza en empresa?:</label>
 				  <div class="col-sm-4">			
 				  <select class="form-control" name="empresa">
 					<option value="0">No</option>

@@ -15,6 +15,44 @@ class TFGMapper {
     $stmt->execute(array($Tf->getIdTFG(), $Tf->getTituloEn(), $Tf->getTituloGa(), $Tf->getTituloEs(), $Tf->getEmpresa(), $Tf->getAlumno(), $Tf->getTutor(), $Tf->getCotutor())); 
   }
   
+  public function modificar(TFG $Tf){
+    $stmt = $this->db->prepare("UPDATE TFG SET tituloEn=?, tituloGa=?, tituloEs=?, empresa=?, Profesor_dniProfesor=?, Profesor_dniProfesorCotutor=? WHERE idTFG=?");
+    $stmt->execute(array($Tf->getTituloEn(), $Tf->getTituloGa(), $Tf->getTituloEs(), $Tf->getEmpresa(), $Tf->getTutor(), $Tf->getCotutor(), $Tf->getIdTFG())); 
+  }
+  
+  public function eliminar(TFG $Tf){
+    $stmt = $this->db->prepare("DELETE FROM TFG where idTFG=?");
+    $stmt->execute(array($Tf->getIdTFG())); 
+  }
+  
+  public function listarTFGs(){
+    $stmt = $this->db->query("select * from tfg");
+	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$aux = 0;
+       foreach($stmtex as $propuesta):
+	   $result = $this->db->prepare("select nombre from profesor where dniProfesor=?");
+       $result->execute(array($propuesta["Profesor_dniProfesor"]));
+       $resultex = $result->fetch(PDO::FETCH_ASSOC);
+       $tutor = $resultex["nombre"];
+       if($propuesta["Profesor_dniProfesorCotutor"]!="NULL"){
+          $resultco = $this->db->prepare("select nombre from profesor where dniProfesor=?");
+          $resultco->execute(array($propuesta["Profesor_dniProfesorCotutor"]));
+          $resultcoex = $resultco->fetch(PDO::FETCH_ASSOC);
+		  $cotutor = $resultcoex["nombre"];
+       }else{
+          $cotutor = "NULL";
+       }
+	   $resultal = $this->db->prepare("select nombre from alumno where dniAlumno=?");
+       $resultal->execute(array($propuesta["Alumno_dniAlumno"]));
+       $resultalex = $resultal->fetch(PDO::FETCH_ASSOC);
+	   $alumno = $resultalex["nombre"];
+       array_push($stmtex[$aux],$tutor,$cotutor,$alumno);
+       $aux = $aux + 1;	   
+    endforeach;
+	$aux = 0;
+	return $stmtex;  
+  }
+  
   public function comprobarId($id){
     $stmt = $this->db->prepare("SELECT idTFG FROM TFG WHERE Alumno_dniAlumno=?");
     $stmt->execute(array($id));

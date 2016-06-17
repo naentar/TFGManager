@@ -354,9 +354,9 @@ class UsersController extends BaseController {
 				$TFG->setAlumno($dniAl["dniAlumno"]);
 				$TFG->setCotutor($_POST["cotutor"]);
 				$this->tfgMapper->insertar($TFG);               
-		        $this->view->redirect("alumno", "alumnoTFG"); 
+		        $this->view->redirect("alumno", "index"); 
 			}
-		  $this->view->redirect("alumno", "alumnoTFG"); 	
+		  $this->view->redirect("alumno", "index"); 	
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";
@@ -386,6 +386,40 @@ class UsersController extends BaseController {
             header("Refresh: 5; index.php?controller=users&action=index");
         }	
   }
+  
+  public function gestionarSolicitud() {
+    if(isset($this->currentUser)) {
+                    $tfg = new TFG();
+					$tfg->setIdTFG(($_POST["idTFG"]));
+					if(isset($_POST["eliminar"])){
+					   $this->tfgMapper->eliminar($tfg);
+                       $this->view->redirect("coordinador", "gestionSolicitudes");					
+					}else {
+                       $tfg->setEmpresa($_POST["empresa"]);
+					   $tfg->setTutor($_POST["tutor"]);
+                       $tfg->setCotutor(($_POST["cotutor"]));
+					   if(isset($_POST["modificar"])){
+					   $tfg->setTituloEn($_POST["titulo"]);
+					   $tfg->setTituloEs($_POST["titulo"]);
+					   $tfg->setTituloGa($_POST["titulo"]);
+					   $this->tfgMapper->modificar($tfg);
+                       $this->view->redirect("coordinador", "gestionSolicitudes");
+					   } else if(isset($_POST["aceptar"])){
+					   $tfg->setTituloEn("aceptado");
+					   $tfg->setTituloEs($_POST["titulo"]);
+					   $tfg->setTituloGa($_POST["titulo"]);
+					   $this->tfgMapper->modificar($tfg);
+                       $this->view->redirect("coordinador", "gestionSolicitudes");
+					   }
+					}               
+               $this->view->redirect("coordinador", "gestionPropuestas");           
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }	
+  }
+  
   
   public function logout() {
     session_destroy();

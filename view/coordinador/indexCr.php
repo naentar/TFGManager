@@ -92,6 +92,21 @@
         <!-- /.row -->
         <?php 
 		}	
+
+		if($estadocurso=="2"){	
+	    ?>		
+        <div class="row">
+		<hr>
+            <div class="col-sm-8">
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionSolicitudes">Gestionar solicitudes de TFG mutuo</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute;s realizar la gesti&oacute;n de las distintas solicitudes de TFG de mutuo acuerdo entre profesor y alumno.</p>               
+            </div>
+		</div>
+        <!-- /.row -->
+        <?php 
+		}	
 	    ?>		
     </div>	
 	

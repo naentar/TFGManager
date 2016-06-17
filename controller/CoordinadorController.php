@@ -10,13 +10,15 @@ class CoordinadorController extends BaseController {
   private $coordinadorMapper;    
   private $profesorMapper;
   private $propuestadetfgMapper;
+  private $tfgMapper;
   
   public function __construct() {    
     parent::__construct();
     
     $this->coordinadorMapper = new CoordinadorMapper(); 
     $this->profesorMapper = new ProfesorMapper();
-    $this->propuestadetfgMapper = new PropuestaDeTFGMapper();	
+    $this->propuestadetfgMapper = new PropuestaDeTFGMapper();
+    $this->tfgMapper = new TFGMapper();	
   }
   
   public function index() {
@@ -41,6 +43,23 @@ class CoordinadorController extends BaseController {
        $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
        $this->view->setVariable("listaProfesores", $listaProfesores);
 	   $this->view->render("coordinador", "gestionPropuestas");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	 
+  }
+  
+    public function gestionSolicitudes(){
+	if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+       $listarTFGs = $this->tfgMapper->listarTFGs();
+       $this->view->setVariable("listarTFGs", $listarTFGs);	   
+	   $listaProfesores = $this->profesorMapper->listarProfesores("");
+       $this->view->setVariable("listaProfesores", $listaProfesores);
+	   $estado = $this->coordinadorMapper->estadoCursoActual(); 
+       $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+       $this->view->setVariable("listaProfesores", $listaProfesores);
+	   $this->view->render("coordinador", "gestionSolicitudes");
 	}else{
 		echo "No est&aacute;s autorizado";
 		echo "<br>Redireccionando...";
