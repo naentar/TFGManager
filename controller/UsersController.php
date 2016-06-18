@@ -95,10 +95,137 @@ class UsersController extends BaseController {
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;			
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
+		   //Generar PDF
+		   require_once(__DIR__."/../fpdf/fpdf.php");
+		   require_once(__DIR__."/../fpdf/header.php");
+		   $filename="propuestas.pdf";
+			$pdf = new PDF();
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			$pdf->SetFont('Arial','B',16);
+            $pdf->Cell(40,10,'PROPOSTAS DE TRABALLO FIN DE GRAO',0,1);			
+			$pdf->SetFont('Arial','',15);
+            $pdf->Cell(40,10,utf8_decode('CURSO ACADÉMICO 2015-2016'),0,1);
+			$pdf->Ln(8);
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Dereito Privado");
+			if (!empty($listapropuestas)) {
+			    $pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: Dereito Privado'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):			
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Enxeñaría de Sistemas e Automática");
+			if (!empty($listapropuestas)) {
+				$pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: ENXEÑARÍA DE SISTEMAS E AUTOMÁTICA'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Informática e Investigación Operativa");
+			if (!empty($listapropuestas)) {
+				$pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: ESTATÍSTICA E INVESTIGACIÓN OPERATIVA'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Informática");
+			if (!empty($listapropuestas)) {
+				$pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: Informática'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Matemática aplicada II");
+			if (!empty($listapropuestas)) {
+				$pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: MATEMÁTICA APLICADA II'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Matemáticas");
+			if (!empty($listapropuestas)) {
+				$pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: MATEMÁTICAS'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Organización de Empresas y Marketing");
+			if (!empty($listapropuestas)) {
+				$pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: ORGANIZACIÓN DE EMPRESAS Y MARKETING'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("OTecnología y Electrónica");
+			if (!empty($listapropuestas)) {
+				$pdf->SetFont('Arial','B',13); 
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: TECNOLOGÍA ELECTRÓNICA'),0,1);
+				$pdf->SetFont('Arial','',12);
+			foreach($listapropuestas as $propuesta):
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
+				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+            $pdf->Output('F',$filename);		   
            $this->coordinadorMapper->modificarEstadoCurso("2");
 		   $this->view->setVariable("estadocurso","2");
 		   $mail->Subject = "Comienza la fase de solicitudes de TFG por parte del alumnado";
-		   $mail->Body = "Por favor, env&iacute;a tu solicitud en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina.";			
+		   $mail->Body = "Podr&aacte;s comprobar la lista de propuestas en el pdf adjunto o en la p&aacute;gina. Por favor, env&iacute;a tu solicitud en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina. ";	
+           $mail->addAttachment('/../propuestas.pdf');		   
 		   $listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						

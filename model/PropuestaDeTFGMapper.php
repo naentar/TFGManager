@@ -56,9 +56,33 @@ class PropuestaDeTFGMapper {
        array_push($stmtex[$aux],$tutor,$cotutor);
        $aux = $aux + 1;	   
     endforeach;
+	return $stmtex;
+  }	
+  
+    public function listarPropuestasPorDepartamento($departamento) {
+	$stmt = $this->db->prepare("SELECT * FROM propuestasdetfg INNER JOIN profesor ON propuestasdetfg.Profesor_dniProfesor=profesor.dniProfesor WHERE profesor.departamento=?");
+	$stmt->execute(array($departamento));
+	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	$aux = 0;
+       foreach($stmtex as $propuesta):
+	   $result = $this->db->prepare("select nombre from profesor where dniProfesor=?");
+       $result->execute(array($propuesta["Profesor_dniProfesor"]));
+       $resultex = $result->fetch(PDO::FETCH_ASSOC);
+       $tutor = $resultex["nombre"];
+       if($propuesta["Profesor_dniProfesorCotutor"]!="NULL"){
+          $resultco = $this->db->prepare("select nombre from profesor where dniProfesor=?");
+          $resultco->execute(array($propuesta["Profesor_dniProfesorCotutor"]));
+          $resultcoex = $resultco->fetch(PDO::FETCH_ASSOC);
+		  $cotutor = $resultcoex["nombre"];
+       }else{
+          $cotutor = "NULL";
+       }
+       array_push($stmtex[$aux],$tutor,$cotutor);
+       $aux = $aux + 1;	   
+    endforeach;
 	return $stmtex;
   }
+  
   
   public function sorteo() {
     $stmt = $this->db->query("select * from propuestasdetfg");
