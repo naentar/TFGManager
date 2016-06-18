@@ -31,6 +31,8 @@ class UsersController extends BaseController {
   }
   public function index()
     {		
+	    $estado = $this->coordinadorMapper->estadoCursoActual(); 
+        $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
         $this->view->render("layouts", "welcome");
     }
 
@@ -95,7 +97,7 @@ class UsersController extends BaseController {
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;			
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
-		   //Generar PDF
+		   //Generar PDF de propuestas
 		   require_once(__DIR__."/../fpdf/fpdf.php");
 		   require_once(__DIR__."/../fpdf/header.php");
 		   $filename="propuestas.pdf";
@@ -206,7 +208,7 @@ class UsersController extends BaseController {
 				$pdf->Cell(0,10,'',0,1);
 			endforeach;
 			}
-			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("OTecnología y Electrónica");
+			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Tecnología y Electrónica");
 			if (!empty($listapropuestas)) {
 				$pdf->SetFont('Arial','B',13); 
 			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: TECNOLOGÍA ELECTRÓNICA'),0,1);
@@ -232,7 +234,9 @@ class UsersController extends BaseController {
 			    endforeach; 			
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
-			//Asignar Solicitudes:
+							
+		} else if($_POST["nuevoEstadoCurso"]=="3"){
+		   //Asignar Solicitudes:
 			$arr = array();
 			$alumnosorden = $this->alumnoMapper->ordenarPorNota();
 			    foreach($alumnosorden as $actual):
@@ -283,14 +287,43 @@ class UsersController extends BaseController {
 					$propid->setIdPk($listaprop["idPropuestasDeTFG"]);
 					$this->propuestadetfgMapper->eliminar($propid);					
                 endforeach;	
-				}				
-		} else if($_POST["nuevoEstadoCurso"]=="3"){
+				}
+				$mail->Subject = "Comienza de confirmaciones de anteproyecto";
+		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web, donde debes introducir el título del TFG en tres idiomas y confirmar si se realiza en empresa o no. ";			   
+		        $listaAlumnos = $this->alumnoMapper->listarAlumnos();
+                foreach($listaAlumnos as $alumno):
+			        $mail->addAddress($alumno["email"]);						
+			    endforeach; 			
+			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
            $this->coordinadorMapper->modificarEstadoCurso("3");
-		   $this->view->setVariable("estadocurso","3");
-           $this->tfgMapper->rechazarNoPresentados();		   
+		   $this->view->setVariable("estadocurso","3");           		   
 		} else if($_POST["nuevoEstadoCurso"]=="4"){
+		   //Generar PDF de propuestas
+		   require_once(__DIR__."/../fpdf/fpdf.php");
+		   require_once(__DIR__."/../fpdf/header.php");
+		   $filename="asignaciones.pdf";
+			$pdf = new PDF();
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			$pdf->SetFont('Arial','B',16);
+            $pdf->Cell(40,10,utf8_decode('Asignación definitiva de Traballo de Fin de Grao 2016-2017'),0,1);			
+			$pdf->Ln(8);
+			$tfgsasignados = $this->tfgMapper->listarTFGs("si");
+			if (!empty($tfgsasignados)) {
+				$pdf->SetFont('Arial','',12);
+			foreach($tfgsasignados as $solicitud):	
+                $pdf->Cell(0,10,utf8_decode('Alumno/a: '.$solicitud[2]),1,1);			
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$solicitud["tituloEs"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$solicitud[0]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$solicitud[1]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+            $pdf->Output('F',$filename);
            $this->coordinadorMapper->modificarEstadoCurso("4");
-		   $this->view->setVariable("estadocurso","4");	   
+		   $this->view->setVariable("estadocurso","4");
+           $this->tfgMapper->rechazarNoPresentados();		   
 		}		
 		$this->view->render("coordinador", "indexCr");
         }else{

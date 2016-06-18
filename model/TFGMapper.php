@@ -43,8 +43,13 @@ class TFGMapper {
     $stmt->execute(array("solicitado"));
   }  
   
-  public function listarTFGs(){
+  public function listarTFGs($solicitud){
+    if($solicitud=="no"){
     $stmt = $this->db->query("select * from tfg");
+	}else if($solicitud=="si"){
+	$stmt = $this->db->prepare("select * from tfg where tituloEn=?");
+	$stmt->execute(array("solicitado"));
+	}
 	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	$aux = 0;
        foreach($stmtex as $propuesta):
