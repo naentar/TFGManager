@@ -105,10 +105,62 @@ class UsersController extends BaseController {
 			    endforeach; 			
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+			//Asignar Solicitudes:
+			$arr = array();
+			$alumnosorden = $this->alumnoMapper->ordenarPorNota();
+			    foreach($alumnosorden as $actual):
+			        $alumnoActual = $actual["dniAlumno"];
+					$solicitudAlumno = $this->solicituddetfgMapper->getSolicitud($alumnoActual);
+					if (!empty($solicitudAlumno)) {
+					//Seleccionar toda la información referente al identificador de la propuesta
+					$propuestaSeleccionada = $this->propuestadetfgMapper->getPropuesta($solicitudAlumno["PropuestasDeTFG_idPropuestasDeTFG"]);
+					//insertar en TFG la información obtenida a partir de la consulta sobre la propuesta
+					$tfgprop = new TFG();
+					$tfgprop->setIdTFG($this->tfgMapper->generarCodigo());
+					$tfgprop->setTituloEs($propuestaSeleccionada["titulo"]);
+					$tfgprop->setTituloEn("solicitado");
+					$tfgprop->setTituloGa($propuestaSeleccionada["titulo"]);
+					$tfgprop->setEmpresa(0);
+					$tfgprop->setTutor($propuestaSeleccionada["Profesor_dniProfesor"]);
+					$tfgprop->setAlumno($alumnoActual);
+					$tfgprop->setCotutor($propuestaSeleccionada["Profesor_dniProfesorCotutor"]);
+					$this->tfgMapper->insertar($tfgprop);  					
+					//eliminar todas las entradas relacionadas con la solicitud del alumno y todas las entradas relacionadas con la propuesta que ha sido asignada, de la tabla propuestasdetfg
+					$this->solicituddetfgMapper->eliminarSolicitud($alumnoActual);	
+                    $this->solicituddetfgMapper->eliminarPropuesta($solicitudAlumno["PropuestasDeTFG_idPropuestasDeTFG"]);					
+					//eliminar propuesta asignada de la tabla propuestadetfg
+					$propid = new PropuestaDeTFG();
+					$propid->setIdPk($solicitudAlumno["PropuestasDeTFG_idPropuestasDeTFG"]);
+					$this->propuestadetfgMapper->eliminar($propid);
+					}else{
+					//anhadir a array gente que no le queden opciones en su solicitud
+					array_push($arr,$alumnoActual);					
+					}
+			    endforeach;
+				//realizar asignacion por sorteo sobre la gente que no le queden opciones  en su solicitud              
+				if(!empty($arr)){
+				foreach($arr as $alum):
+                    $listaprop = $this->propuestadetfgMapper->sorteo(); 				
+                    $tfgsort = new TFG();
+					$tfgsort->setIdTFG($this->tfgMapper->generarCodigo());
+					$tfgsort->setTituloEs($listaprop["titulo"]);
+					$tfgsort->setTituloEn("solicitado");
+					$tfgsort->setTituloGa($listaprop["titulo"]);
+					$tfgsort->setEmpresa(0);
+					$tfgsort->setTutor($listaprop["Profesor_dniProfesor"]);
+					$tfgsort->setAlumno($alum);
+					$tfgsort->setCotutor($listaprop["Profesor_dniProfesorCotutor"]);
+					$this->tfgMapper->insertar($tfgsort);
+                    $propid = new PropuestaDeTFG();
+					echo $listaprop["idPropuestasDeTFG"];
+					$propid->setIdPk($listaprop["idPropuestasDeTFG"]);
+					$this->propuestadetfgMapper->eliminar($propid);					
+                endforeach;	
+				}				
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
            $this->coordinadorMapper->modificarEstadoCurso("3");
 		   $this->view->setVariable("estadocurso","3");
-           $this->tfgMapper->rechazarNoAceptados();		   
+           $this->tfgMapper->rechazarNoPresentados();		   
 		} else if($_POST["nuevoEstadoCurso"]=="4"){
            $this->coordinadorMapper->modificarEstadoCurso("4");
 		   $this->view->setVariable("estadocurso","4");	   

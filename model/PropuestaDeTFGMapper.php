@@ -10,19 +10,25 @@ class PropuestaDeTFGMapper {
     $this->db = PDOConnection::getInstance();
   }
   
-  public function insertar(PropuestaDeTFG $Pr){
+  public function insertar(PropuestaDeTFG $Pr) {
     $stmt = $this->db->prepare("INSERT INTO PropuestasDeTFG(`titulo`,`descripcion`, `Profesor_dniProfesor`, `Profesor_dniProfesorCotutor`) values (?,?,?,?)");
     $stmt->execute(array($Pr->getTitulo(), $Pr->getDescripcion(), $Pr->getTutor(), $Pr->getCotutor())); 
   }
   
-  public function modificar(PropuestaDeTFG $Pr){
+  public function modificar(PropuestaDeTFG $Pr) {
     $stmt = $this->db->prepare("UPDATE PropuestasDeTFG SET titulo=?, descripcion=?, Profesor_dniProfesor=?, Profesor_dniProfesorCotutor=? WHERE idPropuestasDeTFG=?");
     $stmt->execute(array($Pr->getTitulo(), $Pr->getDescripcion(), $Pr->getTutor(), $Pr->getCotutor(), $Pr->getIdPk())); 
   }
   
-  public function eliminar(PropuestaDeTFG $Pr){
+  public function eliminar(PropuestaDeTFG $Pr) {
     $stmt = $this->db->prepare("DELETE FROM PropuestasDeTFG where idPropuestasDeTFG=?");
     $stmt->execute(array($Pr->getIdPk())); 
+  }
+  
+  public function getPropuesta($id) {
+    $stmt = $this->db->prepare("SELECT * FROM PropuestasDeTFG WHERE idPropuestasDeTFG=?");
+    $stmt->execute(array($id));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
   }
   
   public function listarPropuestasTitulo() {
@@ -54,4 +60,8 @@ class PropuestaDeTFGMapper {
 	return $stmtex;
   }
   
+  public function sorteo() {
+    $stmt = $this->db->query("select * from propuestasdetfg");
+	return $stmt->fetch(PDO::FETCH_ASSOC);  
+  }  
 }

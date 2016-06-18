@@ -40,6 +40,11 @@ class AlumnoMapper {
         return $stmt->fetch(PDO::FETCH_ASSOC);
   }
   
+  public function ordenarPorNota() {
+	$stmt = $this->db->query("SELECT * FROM alumno WHERE dniAlumno NOT IN (SELECT Alumno_dniAlumno FROM tfg) ORDER BY notaMedia DESC");
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);   
+  }
+  
   public function modificar(Alumno $Al) {
        if($Al->getPasswordA()!=""){
             $stmt = $this->db->prepare("UPDATE Alumno SET telefono=?,direccion=?, localidad=?, provincia=?, contrasenhaAl=? WHERE email=?");

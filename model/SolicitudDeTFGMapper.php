@@ -10,9 +10,25 @@ class SolicitudDeTFGMapper {
     $this->db = PDOConnection::getInstance();
   }
   
-  public function insertar(SolicitudDeTFG $St){
+  public function insertar(SolicitudDeTFG $St) {
     $stmt = $this->db->prepare("INSERT INTO alumno_escoge_propuestasdetfg(`Alumno_dniAlumno`,`PropuestasDeTFG_idPropuestasDeTFG`, `prioridad`) values (?,?,?)");
     $stmt->execute(array($St->getAlumno(), $St->getIdPropuesta(), $St->getPrioridad())); 
+  }
+  
+  public function eliminarSolicitud($dni) {
+    $stmt = $this->db->prepare("DELETE FROM alumno_escoge_propuestasdetfg where Alumno_dniAlumno=?");
+    $stmt->execute(array($dni)); 
+  }
+  
+  public function eliminarPropuesta($idprop) {
+    $stmt = $this->db->prepare("DELETE FROM alumno_escoge_propuestasdetfg where PropuestasDeTFG_idPropuestasDeTFG=?");
+    $stmt->execute(array($idprop));  
+  }
+  
+  public function getSolicitud($dni) {
+    $stmt = $this->db->prepare("SELECT * FROM alumno_escoge_propuestasdetfg WHERE Alumno_dniAlumno=? ORDER BY prioridad");
+    $stmt->execute(array($dni)); 
+    return $stmt->fetch(PDO::FETCH_ASSOC);	
   }
   
   public function listarSolicitudes() {

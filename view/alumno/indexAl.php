@@ -142,7 +142,7 @@
 			}
 		}	
 		if($estadocurso=="3"){
-		   if($TFGacep["tituloEn"]=="aceptado"){
+		   if($TFGacep["tituloEn"]=="aceptado" || $TFGacep["tituloEn"]=="solicitado"){
 	?>	
 		    <div class="row"> 
 				<hr>		
@@ -161,7 +161,7 @@
 				<hr>		
 				<div class="col-sm-8">
 					<h2>Solicitud almacenada</h2>
-					<p>Tu solicitud de anteproyecto ya ha sido almacenada, ya puedes comenzar con la realizaci&oacute;n de tu TFG..</p>                
+					<p>Tu solicitud de anteproyecto ya ha sido almacenada, ya puedes comenzar con la realizaci&oacute;n de tu TFG.</p>                
 				</div>
 			</div>
 	<?php 	

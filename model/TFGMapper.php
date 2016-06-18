@@ -36,9 +36,11 @@ class TFGMapper {
 	return $stmt->fetch(PDO::FETCH_ASSOC); 
   }
   
-  public function rechazarNoAceptados(){
+  public function rechazarNoPresentados(){
     $stmt = $this->db->prepare("DELETE FROM TFG where tituloEn=?");
     $stmt->execute(array("aceptado")); 
+	$stmt = $this->db->prepare("DELETE FROM TFG where tituloEn=?");
+    $stmt->execute(array("solicitado"));
   }  
   
   public function listarTFGs(){
@@ -87,7 +89,7 @@ class TFGMapper {
 		if(is_null($id[0])){
 		  return "15/16-001";	 
 		}else{
-	      list($fecha,$valor) = split('[-]',$id[0]);
+	      list($fecha,$valor) = preg_split('[-]',$id[0]);
 		  $valor = $valor + 1;
 		  if($valor <= 9){
 		    $codigo = $fecha.'-00'.$valor; 
