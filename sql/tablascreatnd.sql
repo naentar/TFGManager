@@ -79,7 +79,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `eseitfgmanager`.`TFG` ;
 
 CREATE TABLE IF NOT EXISTS `eseitfgmanager`.`TFG` (
-  `idTFG` VARCHAR(9) NOT NULL,
+  `idTFG` VARCHAR(11) NOT NULL,
   `tituloEn` VARCHAR(70) NOT NULL,
   `tituloGa` VARCHAR(70) NOT NULL,
   `tituloEs` VARCHAR(70) NOT NULL,

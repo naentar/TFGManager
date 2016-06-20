@@ -11,8 +11,8 @@
 
     <!-- Page Content -->
 	<div class="container">
-	  <h2>Lista de solicitudes de mutuo acuerdo</h2>
-	  <p>Selecciona la opci&oacute;n a realizar, en cada uno de los casos. Todas las solicitudes que no hayan sido aceptadas seran rechazadas.</p>
+	  <h2>Lista de TFGs</h2>
+	  <p>Selecciona la opci&oacute;n a realizar, en cada uno de los casos.</p>
 	  <table class="table table-hover">
 		<thead>
 		  <tr>			  

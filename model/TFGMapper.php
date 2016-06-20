@@ -92,7 +92,7 @@ class TFGMapper {
 	$maxcode = $this->db->query("select max(idTFG) as id from tfg");
 	$id=$maxcode->fetch(PDO::FETCH_BOTH);
 		if(is_null($id[0])){
-		  return "16/17-001";	 
+		  return "EI16/17-001";	 
 		}else{
 	      list($fecha,$valor) = preg_split('[-]',$id[0]);
 		  $valor = $valor + 1;

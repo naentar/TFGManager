@@ -51,7 +51,7 @@ class CoordinadorController extends BaseController {
   
   public function gestionSolicitudes(){
 	if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
-       $listarTFGs = $this->tfgMapper->listarTFGs();
+       $listarTFGs = $this->tfgMapper->listarTFGs("no");
        $this->view->setVariable("listarTFGs", $listarTFGs);	   
 	   $listaProfesores = $this->profesorMapper->listarProfesores("");
        $this->view->setVariable("listaProfesores", $listaProfesores);

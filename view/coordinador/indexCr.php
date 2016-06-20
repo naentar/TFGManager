@@ -10,25 +10,14 @@
 
 
     <!-- Page Content -->
-   <div class="container">
-        <hr>
-        <div class="row">
-            <div class="col-sm-8">
-                <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=modifyCr">Modificar cuenta</a>
-                </p> 
-                <p>En esta opci&oacute;n podr&aacute; modificar la contraseñade la cuenta, adem&aacute;s, es recomendable la asignaci&oacute;n de la informaci&oacute;n referente al gmail con el que enviar los correos para
-				el correcto funcionamiento de los mismos.</p>               
-            </div>
-		</div>
-<!-- /.row -->		
+   <div class="container">	
         <div class="row">
 	    <br>
 	    <h3>Gestionar estado del curso:</h3>
         <hr>		
 		<form class="form-horizontal" role="form" method="post" action="" >
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="estado">Estado actual:</label>
+				  <label class="control-label col-sm-4" for="estado">Estado del curso actual:</label>
 				  <div class="col-sm-4">
 					<b><input type="text" class="form-control" name="estado" value="<?php 
 					if(strval($estadocurso)=="0") echo '1.Inicio de curso';
@@ -42,42 +31,15 @@
 			</form>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=actualizarEstadoCurso" >
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="nuevoEstadoCurso">Modificar estado a:</label>
+				  <label class="control-label col-sm-4" for="nuevoEstadoCurso">Modificar estado del curso a:</label>
 				  <div class="col-sm-4">			
-				  <select class="form-control" name="nuevoEstadoCurso">
-				  <?php if($estadocurso=="0") { echo'
-					<option value="0" disabled>1.Inicio de curso</option>
-					<option value="1">2.Propuestas de Profesores</option>
-					<option value="2" disabled>3.Solicitudes de Alumnos</option>
-					<option value="3" disabled>4.Entrega de anteproyectos</option>
-					<option value="4" disabled>5.Cursando TFG</option>';
-					} else if($estadocurso=="1") { echo'
-					<option value="0" disabled>1.Inicio de curso</option>
-					<option value="1" disabled>2.Propuestas de Profesores</option>
-					<option value="2" >3.Solicitudes de Alumnos</option>
-					<option value="3" disabled>4.Entrega de anteproyectos</option>
-					<option value="4" disabled>5.Cursando TFG</option>';
-					} else if($estadocurso=="2") { echo'
-					<option value="0" disabled>1.Inicio de curso</option>
-					<option value="1" disabled>2.Propuestas de Profesores</option>
-					<option value="2" disabled>3.Solicitudes de Alumnos</option>
-					<option value="3" >4.Entrega de anteproyectos</option>
-					<option value="4" disabled>5.Cursando TFG</option>';
-					} else if($estadocurso=="3") { echo'
-					<option value="0" disabled>1.Inicio de curso</option>
-					<option value="1" disabled>2.Propuestas de Profesores</option>
-					<option value="2" disabled>3.Solicitudes de Alumnos</option>
-					<option value="3" disabled>4.Entrega de anteproyectos</option>
-					<option value="4" >5.Cursando TFG</option>';
-					} else if($estadocurso=="4") { echo'
-					<option value="0" >1.Inicio de curso</option>
-					<option value="1" disabled>2.Propuestas de Profesores</option>
-					<option value="2" disabled>3.Solicitudes de Alumnos</option>
-					<option value="3" disabled>4.Entre de anteproyectos</option>
-					<option value="4" disabled>5.Cursando TFG</option>';
-					}
-					?>
-				  </select>				
+				  <b><input type="text" class="form-control" name="estado" value="<?php 
+					if(strval($estadocurso)=="0") echo '2.Propuestas de Profesores';
+					if(strval($estadocurso)=="1") echo '3.Solicitudes de Alumnos';
+					if(strval($estadocurso)=="2") echo '4.Entrega de anteproyectos';
+					if(strval($estadocurso)=="3") echo '5.Cursando TFG';
+					if(strval($estadocurso)=="4") echo '1.Inicio de curso';								
+					?>" disabled></b>			
 				  </div>
 				</div>
 				<div class="form-group">        
@@ -132,7 +94,16 @@
         <!-- /.row -->
         <?php 
 		}	
-	    ?>		
+	    ?>	
+		<hr>
+        <div class="row">		
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=modifyCr">Modificar cuenta</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute; modificar la contraseñade la cuenta, adem&aacute;s, es recomendable la asignaci&oacute;n de la informaci&oacute;n referente al gmail con el que enviar los correos para
+				el correcto funcionamiento de los mismos.</p>               
+		</div> 
+<!-- /.row -->	  		
     </div>	
 	
     <!-- /.container -->

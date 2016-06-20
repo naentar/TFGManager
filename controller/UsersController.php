@@ -117,7 +117,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):			
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -131,7 +135,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -145,7 +153,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -159,7 +171,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -173,7 +189,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -188,7 +208,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -202,7 +226,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -216,7 +244,11 @@ class UsersController extends BaseController {
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$propuesta[0]),1,1);
+				if($propuesta[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$propuesta[1]),1,1);
+				}
 				$pdf->Cell(0,10,utf8_decode('Titulación: Grao en Enxeñaría Informática'),1,1);
 				$pdf->Cell(0,10,utf8_decode('Resumo: '.$propuesta["descripcion"]),1,1);
 				$pdf->Cell(0,10,'',0,1);
@@ -287,19 +319,8 @@ class UsersController extends BaseController {
 					$propid->setIdPk($listaprop["idPropuestasDeTFG"]);
 					$this->propuestadetfgMapper->eliminar($propid);					
                 endforeach;	
-				}
-				$mail->Subject = "Comienza de confirmaciones de anteproyecto";
-		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web, donde debes introducir el título del TFG en tres idiomas y confirmar si se realiza en empresa o no. ";			   
-		        $listaAlumnos = $this->alumnoMapper->listarAlumnos();
-                foreach($listaAlumnos as $alumno):
-			        $mail->addAddress($alumno["email"]);						
-			    endforeach; 			
-			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
-           $this->coordinadorMapper->modificarEstadoCurso("3");
-		   $this->view->setVariable("estadocurso","3");           		   
-		} else if($_POST["nuevoEstadoCurso"]=="4"){
-		   //Generar PDF de propuestas
+				}			
+				//Generar PDF de asignaciones
 		   require_once(__DIR__."/../fpdf/fpdf.php");
 		   require_once(__DIR__."/../fpdf/header.php");
 		   $filename="asignaciones.pdf";
@@ -316,11 +337,27 @@ class UsersController extends BaseController {
                 $pdf->Cell(0,10,utf8_decode('Alumno/a: '.$solicitud[2]),1,1);			
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$solicitud["tituloEs"]),1,1);
 				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$solicitud[0]),1,1);
+				if($solicitud[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
+				}		
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$solicitud[1]),1,1);
 				$pdf->Cell(0,10,'',0,1);
 			endforeach;
 			}
-            $pdf->Output('F',$filename);
+            $pdf->Output('F',$filename);				
+				$mail->Subject = "Comienza de confirmaciones de anteproyecto";
+		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web, donde debes introducir el título del TFG en tres idiomas y confirmar si se realiza en empresa o no. ";			   
+		        $mail->addAttachment('/../asignaciones.pdf');
+				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
+                foreach($listaAlumnos as $alumno):
+			        $mail->addAddress($alumno["email"]);						
+			    endforeach; 			
+			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+           $this->coordinadorMapper->modificarEstadoCurso("3");
+		   $this->view->setVariable("estadocurso","3");           		   
+		} else if($_POST["nuevoEstadoCurso"]=="4"){
            $this->coordinadorMapper->modificarEstadoCurso("4");
 		   $this->view->setVariable("estadocurso","4");
            $this->tfgMapper->rechazarNoPresentados();		   

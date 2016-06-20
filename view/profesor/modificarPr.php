@@ -11,7 +11,7 @@ $usuario = $view->getVariable("currentusername");
     <!-- Page Content -->
     <div class="container">
 
-	    <h3>Informaci&oacute;n de usuario:</h3>
+	    <h3>Informaci&oacute;n de la cuenta:</h3>
         <hr>
 
         <div class="row">
@@ -54,9 +54,6 @@ $usuario = $view->getVariable("currentusername");
     </div>
 	<div class="container">
 	    <div class="row">
-	    <br>
-	    <h3>Modificar contraseña:</h3>
-        <hr>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=modificarProfesor" >
 				<div class="form-group">
 				  <label class="control-label col-sm-4 " for="password">Contraseña:</label>

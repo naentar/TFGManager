@@ -11,7 +11,7 @@ $usuario = $view->getVariable("currentusername");
     <!-- Page Content -->
     <div class="container">
 
-	    <h3>Informaci&oacute;n no modificable:</h3>
+	    <h3>Informaci&oacute;n a modificar:</h3>
         <hr>
 
         <div class="row">
@@ -48,9 +48,6 @@ $usuario = $view->getVariable("currentusername");
     </div>
 	<div class="container">
 	    <div class="row">
-	    <br>
-	    <h3>Informaci&oacute;n modificable:</h3>
-        <hr>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=modificarAlumno" >
 				<div class="mycenter red">
 		           <?php echo $view->popFlash();?>

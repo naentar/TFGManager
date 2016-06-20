@@ -11,35 +11,7 @@
 
 
     <!-- Page Content -->
-    <div class="container">
-
-        <hr>
-
-        <div class="row">
-            <div class="col-sm-8">
-                <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=modifyPr">Modificar contraseña</a>
-                </p> 
-                <p>En esta opci&oacute;n podr&aacute; modificar tu contraseña, adem&aacute;s de poder comprobar tu informaci&oacute;n almacenada en el sistema en referencia a tu cuenta.</p>
-                
-            </div>
-            <div class="col-sm-4">
-                <h2>Informaci&oacute;n del centro</h2>
-                <address>
-                    <strong>Escuela Superior de Ingenier&iacute;a Inform&aacute;tica</strong>
-                    <br>Campus de Ourense - Edificio Polit&eacute;cnico
-                    <br>32004 OURENSE
-                    <br>
-                </address>
-                <address>
-                    <abbr title="Phone">Tel:</abbr> +34 988 387 000
-                    <br>
-                    <abbr title="Email">Email:</abbr> <a href="mailto:#"> coordinadortfg@esei.uvigo.com</a>
-                </address>
-            </div>
-        </div>
-        <!-- /.row -->
-			
+    <div class="container">			
 	<?php 
 		if(strval($estadocurso)=="1"){ 
 	?>
@@ -81,7 +53,17 @@
         <!-- /.row -->	
     <?php 
 		}
-	?>		
+	?>
+        <hr>
+        <div class="row">
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=modifyPr">Modificar contraseña</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute;s modificar tu contraseña, adem&aacute;s de poder comprobar tu informaci&oacute;n almacenada en el sistema en referencia a tu cuenta.</p>
+                
+            </div>
+        </div>
+        <!-- /.row -->	
     </div>	
 	
     <!-- /.container -->
