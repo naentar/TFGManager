@@ -27,28 +27,41 @@ class AlumnoController extends BaseController {
  
   }
   public function index() {
-        if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
-            $estado = $this->coordinadorMapper->estadoCursoActual(); 
-            $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
-			$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
-			if($estado["estadorCurso"]==2){
-			$listarPropuestasTitulo = $this->propuestadetfgMapper->listarPropuestasTitulo();
-            $this->view->setVariable("listarPropuestasTitulo", $listarPropuestasTitulo);
-			$infoTFG = $this->tfgMapper->comprobarId($dniAl["dniAlumno"]);
-            $this->view->setVariable("existeTFG", $infoTFG);
-			$infoSolicitud = $this->solicituddetfgMapper->comprobarId($dniAl["dniAlumno"]);
-            $this->view->setVariable("existeSolicitud", $infoSolicitud);
-			}
-			if($estado["estadorCurso"]==3){
-			$TFGacep = $this->tfgMapper->getTFG($dniAl["dniAlumno"]);
-            $this->view->setVariable("TFGacep", $TFGacep);
-			}
-			$this->view->render("alumno", "indexAl");
-        }else{
-            echo "No est&aacute;s autorizado";
-            echo "<br>Redireccionando...";
-            header("Refresh: 5; index.php?controller=users&action=index");
-        }	
+	if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
+		$estado = $this->coordinadorMapper->estadoCursoActual(); 
+		$this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+		$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
+		if($estado["estadorCurso"]==3){
+		$listarPropuestasTitulo = $this->propuestadetfgMapper->listarPropuestasTitulo();
+		$this->view->setVariable("listarPropuestasTitulo", $listarPropuestasTitulo);
+		$infoTFG = $this->tfgMapper->comprobarId($dniAl["dniAlumno"]);
+		$this->view->setVariable("existeTFG", $infoTFG);
+		$infoSolicitud = $this->solicituddetfgMapper->comprobarId($dniAl["dniAlumno"]);
+		$this->view->setVariable("existeSolicitud", $infoSolicitud);
+		}
+		if($estado["estadorCurso"]==5){
+		$TFGacep = $this->tfgMapper->getTFG($dniAl["dniAlumno"]);
+		$this->view->setVariable("TFGacep", $TFGacep);
+		}
+		$this->view->render("alumno", "indexAl");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }
+  
+  public function SolicitudTFG() {
+	if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
+		$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
+		$listarPropuestasTitulo = $this->propuestadetfgMapper->listarPropuestasTitulo();
+		$this->view->setVariable("listarPropuestasTitulo", $listarPropuestasTitulo);
+		$this->view->render("alumno", "Solicitud");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}
   }
 
   public function confirmarAnteproyeco() { 

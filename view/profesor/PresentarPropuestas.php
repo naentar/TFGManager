@@ -24,7 +24,7 @@
 					<b><input class="form-control" name="numero" value="<?php
 					$actual = $numeroPropPor - $numProp;
 					if($actual<=0){
-					echo "Ya has realizado el min&iacute;mo de tareas establecido.";
+					echo "Ya has realizado el min&iacute;mo de propuestas.";
 					}else {
 					echo "Te falta ".$actual." TFG para cumplir el m&iacute;nimo establecido.";
 					}?>" disabled></input></b>

@@ -288,7 +288,7 @@ class UsersController extends BaseController {
 			    foreach($alumnosorden as $actual):
 			        $alumnoActual = $actual["dniAlumno"];
 					$solicitudAlumno = $this->solicituddetfgMapper->getSolicitud($alumnoActual);
-					if (!empty($solicitudAlumno)) {
+					if (!empty($solicitudAlumno)) {					
 					//Seleccionar toda la información referente al identificador de la propuesta
 					$propuestaSeleccionada = $this->propuestadetfgMapper->getPropuesta($solicitudAlumno["PropuestasDeTFG_idPropuestasDeTFG"]);
 					//insertar en TFG la información obtenida a partir de la consulta sobre la propuesta
@@ -317,7 +317,8 @@ class UsersController extends BaseController {
 				//realizar asignacion por sorteo sobre la gente que no le queden opciones  en su solicitud              
 				if(!empty($arr)){
 				foreach($arr as $alum):
-                    $listaprop = $this->propuestadetfgMapper->sorteo(); 				
+                    $listaprop = $this->propuestadetfgMapper->sorteo(); 
+					if(!empty($listaprop)){					
                     $tfgsort = new TFG();
 					$tfgsort->setIdTFG($this->tfgMapper->generarCodigo());
 					$tfgsort->setTituloEs($listaprop["titulo"]);
@@ -331,13 +332,52 @@ class UsersController extends BaseController {
                     $propid = new PropuestaDeTFG();
 					echo $listaprop["idPropuestasDeTFG"];
 					$propid->setIdPk($listaprop["idPropuestasDeTFG"]);
-					$this->propuestadetfgMapper->eliminar($propid);					
+					$this->propuestadetfgMapper->eliminar($propid);	
+					}		
                 endforeach;	
 				}			
-				//Generar PDF de asignaciones
+				//Generar PDF de asignaciones provisionales
 		   require_once(__DIR__."/../fpdf/fpdf.php");
 		   require_once(__DIR__."/../fpdf/header.php");
-		   $filename="asignaciones.pdf";
+		   $filename="asignacionesP.pdf";
+			$pdf = new PDF();
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			$pdf->SetFont('Arial','B',16);
+            $pdf->Cell(40,10,utf8_decode('Asignación provisional de Traballo de Fin de Grao 2016-2017'),0,1);			
+			$pdf->Ln(8);
+			$tfgsasignados = $this->tfgMapper->listarTFGs("si");
+			if (!empty($tfgsasignados)) {
+				$pdf->SetFont('Arial','',12);
+			foreach($tfgsasignados as $solicitud):	
+                $pdf->Cell(0,10,utf8_decode('Alumno/a: '.$solicitud[2]),1,1);			
+				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$solicitud["tituloEs"]),1,1);
+				$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$solicitud[0]),1,1);
+				if($solicitud[1]=="NULL"){
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+				}else{
+				}		
+				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$solicitud[1]),1,1);
+				$pdf->Cell(0,10,'',0,1);
+			endforeach;
+			}
+            $pdf->Output('F',$filename);				
+				$mail->Subject = "Comienza la etapa de asignaciones oficiales";
+		        $mail->Body = "Aqu&iacute; puedes comprobar la lista de asignaciones de TFG provisional.";			   
+		        $mail->addAttachment('/../asignacionesP.pdf');
+				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
+                foreach($listaAlumnos as $alumno):
+			        $mail->addAddress($alumno["email"]);						
+			    endforeach; 			
+			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+        } else if($_POST["nuevoEstadoCurso"]=="5"){
+           $this->coordinadorMapper->modificarEstadoCurso("5");
+		   $this->view->setVariable("estadocurso","5"); 
+           //Generar PDF de asignaciones definitivas
+		   require_once(__DIR__."/../fpdf/fpdf.php");
+		   require_once(__DIR__."/../fpdf/header.php");
+		   $filename="asignacionesD.pdf";
 			$pdf = new PDF();
 			$pdf->AliasNbPages();
 			$pdf->AddPage();
@@ -362,16 +402,13 @@ class UsersController extends BaseController {
             $pdf->Output('F',$filename);				
 				$mail->Subject = "Comienza de confirmaciones de anteproyecto";
 		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web, donde debes introducir el título del TFG en tres idiomas y confirmar si se realiza en empresa o no. ";			   
-		        $mail->addAttachment('/../asignaciones.pdf');
+		        $mail->addAttachment('/../asignacionesD.pdf');
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
 			    endforeach; 			
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
-        } else if($_POST["nuevoEstadoCurso"]=="5"){
-           $this->coordinadorMapper->modificarEstadoCurso("5");
-		   $this->view->setVariable("estadocurso","5");       			
+			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;		   
 		} else if($_POST["nuevoEstadoCurso"]=="6"){
            $this->coordinadorMapper->modificarEstadoCurso("6");
 		   $this->view->setVariable("estadocurso","6");
