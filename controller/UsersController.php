@@ -603,7 +603,7 @@ class UsersController extends BaseController {
 				$TFG = new TFG();
 				$TFG->setIdTFG($this->tfgMapper->generarCodigo());
 				$TFG->setTituloEs($_POST["titulo"]);
-				$TFG->setTituloEn($_POST["solicitado"]);
+				$TFG->setTituloEn("solicitado");
 				$TFG->setTituloGa($_POST["titulo"]);
 				$TFG->setEmpresa($_POST["empresa"]);
 				$dniPr = $this->profesorMapper->getId($this->currentUser->getEmailP());
@@ -636,7 +636,7 @@ class UsersController extends BaseController {
 					   $this->propuestadetfgMapper->eliminar($propuesta);
                        $this->view->redirect("coordinador", "gestionPropuestas");										
 					}               
-               $this->view->redirect("coordinador", "gestionPropuestas");           
+               $this->view->redirect("profesor", "gestionPropuestas");           
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";
@@ -670,6 +670,32 @@ class UsersController extends BaseController {
 					   }
 					}               
                $this->view->redirect("coordinador", "gestionPropuestas");           
+        }else{
+            echo "Upss! no deberías estar aquí";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }	
+  }
+  
+    public function gestionarSolicitudMutuo() {
+    if(isset($this->currentUser)) {
+                    $tfg = new TFG();
+					$tfg->setIdTFG(($_POST["idTFG"]));
+					if(isset($_POST["eliminar"])){
+					   $this->tfgMapper->eliminar($tfg);
+                       $this->view->redirect("profesor", "gestionSolicitudes");					
+					}else if(isset($_POST["modificar"])){
+                       $tfg->setEmpresa($_POST["empresa"]);
+					   $tfg->setTutor($_POST["tutor"]);
+                       $tfg->setCotutor(($_POST["cotutor"]));
+					   $tfg->setTituloEn($_POST["tituloEn"]);
+					   $tfg->setTituloEs($_POST["titulo"]);
+					   $tfg->setTituloGa($_POST["titulo"]);
+					   $tfg->setAlumno($_POST["alumno"]);
+					   $this->tfgMapper->modificarMutuo($tfg);
+                       $this->view->redirect("profesor", "gestionSolicitudes");
+					}               
+               $this->view->redirect("profesor", "gestionPropuestas");           
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";

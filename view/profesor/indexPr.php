@@ -17,12 +17,18 @@
 	    ?>		
         <div class="row">
 		<hr>
-            <div class="col-sm-8">
                 <p>
                     <a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=solicitudesMutuoAcuerdo">Realizar solicitud de TFG de mutuo acuerdo.</a>
                 </p> 
-                <p>En esta opci&oacute;n podr&aacute;s realizar una solicitud de TFG de acordado con un alumno.</p>               
-            </div>
+                <p>En esta opci&oacute;n podr&aacute;s realizar una solicitud de TFG acordado con un alumno.</p>               
+		</div>
+        <!-- /.row -->
+		<hr>
+		<div class="row">
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=gestionSolicitudes">Gestionar solicitudes de TFG mutuo</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute;s gestionar tus propias solicitudes de TFG mutuo antes de que acabe el plazo.</p>               
 		</div>
         <!-- /.row -->
         <?php 

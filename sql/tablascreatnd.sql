@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `eseitfgmanager`.`Profesor` (
   `nombre` VARCHAR(100) NOT NULL,
   `areaDeConocimiento` VARCHAR(60) NOT NULL,
   `departamento` VARCHAR(30) NOT NULL,
-  `numeroDeTFGs` INT(2) NOT NULL,
+  `numeroDeTFGs` DECIMAL(3,1) NOT NULL,
   PRIMARY KEY (`dniProfesor`))
 ENGINE = InnoDB;
 

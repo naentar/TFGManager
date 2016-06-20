@@ -81,12 +81,10 @@
 	    ?>		
         <div class="row">
 		<hr>
-            <div class="col-sm-8">
                 <p>
                     <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionPropuestas">Gestionar propuestas</a>
                 </p> 
                 <p>En esta opci&oacute;n podr&aacute;s realizar la gesti&oacute;n de las distintas propuestas de TFG presentadas por los profesores.</p>               
-            </div>
 		</div>
         <!-- /.row -->
         <?php 
@@ -96,12 +94,10 @@
 	    ?>		
         <div class="row">
 		<hr>
-            <div class="col-sm-8">
                 <p>
                     <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionSolicitudes">Comprobar solicitudes de TFG mutuo</a>
                 </p> 
                 <p>En esta opci&oacute;n podr&aacute;s comprobar las distintas solicitudes de TFG de mutuo acuerdo entre profesor y alumno.</p>               
-            </div>
 		</div>
         <!-- /.row -->
         <?php 
@@ -110,12 +106,10 @@
 	    ?>
         <div class="row">
 		<hr>
-            <div class="col-sm-8">
                 <p>
                     <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionTFGs">Gestionar TFG's</a>
                 </p> 
                 <p>En esta opci&oacute;n podr&aacute;s realizar la gesti&oacute;n de los TFG's que se encuentren asignados en este momento.</p>               
-            </div>
 		</div>
         <!-- /.row -->
         <?php 
