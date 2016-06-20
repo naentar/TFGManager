@@ -11,7 +11,8 @@ class ProfesorController extends BaseController {
   private $profesorMapper; 
   private $coordinadorMapper; 
   private $tfgMapper;
-  private $alumnoMapper; 
+  private $alumnoMapper;
+  private $propuestadetfgMapper;
   
   public function __construct() {    
     parent::__construct();
@@ -20,15 +21,33 @@ class ProfesorController extends BaseController {
 	$this->profesorMapper = new ProfesorMapper();
 	$this->coordinadorMapper = new CoordinadorMapper();
 	$this->tfgMapper = new TFGMapper();
+	$this->propuestadetfgMapper = new PropuestaDeTFGMapper();
  
   }
   public function index() {
 	if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
 		$estado = $this->coordinadorMapper->estadoCursoActual(); 
-		$this->view->setVariable("estadocurso",$estado["estadorCurso"]);	         
+		$this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+		$this->view->render("profesor", "indexPr");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }
+  
+  public function presentarPropuestas() {
+	if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
+		$estado = $this->coordinadorMapper->estadoCursoActual(); 
+		$this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+		$dniProf = $this->profesorMapper->getId($this->username);	
+        $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($dniProf["dniProfesor"]);
+		$this->view->setVariable("numeroPropPor",$numeroDeProp);
 		$listaProfesores = $this->profesorMapper->listarProfesores($this->username);
 		$this->view->setVariable("listaProfesores", $listaProfesores);
-		$this->view->render("profesor", "indexPr");
+		$numProp = $this->propuestadetfgMapper->numeroDePropuestas($dniProf["dniProfesor"]);
+		$this->view->setVariable("numProp", $numProp);
+		$this->view->render("profesor", "PresentarPropuestas");
 	}else{
 		echo "No est&aacute;s autorizado";
 		echo "<br>Redireccionando...";
@@ -60,6 +79,22 @@ class ProfesorController extends BaseController {
 	   $listaAlumnos = $this->alumnoMapper->listarAlumnos();
 	   $this->view->setVariable("listaAlumnos", $listaAlumnos);
 	   $this->view->render("profesor", "gestionSolicitudes");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	 
+  }
+  
+  public function gestionPropuestas() {
+    if (isset($this->currentUser) && $this->profesorMapper->checkuser($this-> username)) {
+	   $listarPropuestas = $this->propuestadetfgMapper->listarPropuestas();
+       $this->view->setVariable("listarPropuestas", $listarPropuestas);
+	   $listaProfesores = $this->profesorMapper->listarProfesores("");
+       $this->view->setVariable("listaProfesores", $listaProfesores);
+	   $estado = $this->coordinadorMapper->estadoCursoActual(); 
+       $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+	   $this->view->render("profesor", "gestionPropuestas");
 	}else{
 		echo "No est&aacute;s autorizado";
 		echo "<br>Redireccionando...";

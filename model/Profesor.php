@@ -9,15 +9,17 @@ class Profesor {
   private $nombre;
   private $areaDeConocimiento;
   private $departamento;
+  private $tfgsenproceso;
   
   
   
-  public function __construct($email=NULL,$dni=NULL, $password=NULL,$nombre=NULL,$areaDeConocimiento=NULL,$departamento=NULL) {
+  public function __construct($email=NULL,$dni=NULL, $password=NULL,$nombre=NULL,$areaDeConocimiento=NULL,$departamento=NULL,$tfgsenproceso=NULL) {
     $this->email = $email;
     $this->password = $password; 
     $this->nombre = $nombre;	
 	$this->areaDeConocimiento = $areaDeConocimiento;
 	$this->departamento = $departamento;
+	$this->tfgsenproceso = $tfgsenproceso;
   }
 
 
@@ -69,6 +71,13 @@ class Profesor {
     $this->departamento = $departamento;
   } 
   
+  public function getTfgsenproceso() {
+    return $this->tfgsenproceso;
+  }
+  
+  public function setTfgsenproceso($tfgsenproceso){
+    $this->tfgsenproceso = $tfgsenproceso;
+  } 
   
   public function validoParaActualizar() {
 	$errors = array();

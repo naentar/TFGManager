@@ -59,7 +59,7 @@ class PropuestaDeTFGMapper {
 	return $stmtex;
   }	
   
-    public function listarPropuestasPorDepartamento($departamento) {
+  public function listarPropuestasPorDepartamento($departamento) {
 	$stmt = $this->db->prepare("SELECT * FROM propuestasdetfg INNER JOIN profesor ON propuestasdetfg.Profesor_dniProfesor=profesor.dniProfesor WHERE profesor.departamento=?");
 	$stmt->execute(array($departamento));
 	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -83,6 +83,17 @@ class PropuestaDeTFGMapper {
 	return $stmtex;
   }
   
+  public function numeroDePropuestas($dni){
+   $stmt = $this->db->prepare("select count(idPropuestasDeTFG) as Cuenta from PropuestasDeTFG where Profesor_dniProfesor=?");
+   $valorProfesor = $stmt->execute(array($dni));
+   $sumaT = $stmt->fetch(PDO::FETCH_ASSOC);
+   $stmt = $this->db->prepare("select count(idPropuestasDeTFG) as Cuenta from PropuestasDeTFG where Profesor_dniProfesorCotutor=?");
+   $valorProfesor = $stmt->execute(array($dni));
+   $sumaC = $stmt->fetch(PDO::FETCH_ASSOC);
+   $total = ($sumaT["Cuenta"]);
+   $total = $total + ($sumaC["Cuenta"]*0.5);
+   return $total;
+  }
   
   public function sorteo() {
     $stmt = $this->db->query("select * from propuestasdetfg");

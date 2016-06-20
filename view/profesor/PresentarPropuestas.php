@@ -6,6 +6,8 @@
  $usuario = $view->getVariable("currentusername");
  $listaProfesores = $view->getVariable("listaProfesores");
  $listaAlumnos = $view->getVariable("listaAlumnos");
+ $numeroPropPor = $view->getVariable("numeroPropPor");
+ $numProp = $view->getVariable("numProp");
  ?>  
 
     <!-- Page Content -->
@@ -13,36 +15,31 @@
 	<div class="container">
 	    <div class="row">
 	    <br>
-	    <h3>Realizar solicitud de acuerdo mutuo:</h3>
+	    <h3>Realizar propuesta de TFG:</h3>
         <hr>
-		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=mutuoAcuerdo" >
-				<div class="mycenter red">
-		           <?php echo $view->popFlash();?>
-	            </div>
+		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=realizarPropuesta" >
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="titulo">T&iacute;tulo del TFG</label>
+				  <label class="control-label col-sm-4" for="numero">N&uacute;mero de propuestas a realizar:</label>
 				  <div class="col-sm-4">
-					<b><input type="text" class="form-control" name="titulo" placeholder="Introduce t&iacute;tulo"></b>
+					<b><input class="form-control" name="numero" value="<?php
+					$actual = $numeroPropPor - $numProp;
+					if($actual<=0){
+					echo "Ya has realizado el min&iacute;mo de tareas establecido.";
+					}else {
+					echo "Te falta ".$actual." TFG para cumplir el m&iacute;nimo establecido.";
+					}?>" disabled></input></b>
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="empresa">¿Se realiza en empresa?:</label>
-				  <div class="col-sm-4">			
-				  <select class="form-control" name="empresa">
-					<option value="0">No</option>
-					<option value="1">S&iacute;</option>
-				  </select>				
+				  <label class="control-label col-sm-4" for="titulo">T&iacute;tulo:</label>
+				  <div class="col-sm-4">
+					<b><textarea class="form-control" rows="2" name="titulo" placeholder="Introduzca el t&iacute;tulo del TFG"></textarea></b>
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="alumno">Seleccione alumno:</label>
-				  <div class="col-sm-4">			
-				  <select class="form-control" name="alumno">
-				    <option value="sin">Seleccione alumno</option>
-					<?php foreach($listaAlumnos as $alumno):
-						echo '<option value="'.$alumno["dniAlumno"].'">'.$alumno["nombre"].'</option>';
-					 endforeach; ?>
-				  </select>				
+				  <label class="control-label col-sm-4" for="descripcion">Descripci&oacute;n</label>
+				  <div class="col-sm-4">
+					<b><textarea class="form-control" rows="5" name="descripcion" placeholder="Realice una descripci&oacute;n del TFG"></textarea></b>
 				  </div>
 				</div>
 				<div class="form-group">
@@ -58,12 +55,13 @@
 				</div>
 				<div class="form-group">        
 				  <div class="col-sm-offset-4 col-sm-10">
-						<input type="submit" class="btn btn-default" value="Solicitar" >
+						<input type="submit" class="btn btn-default" value="Presentar" >
 				  </div>
 				</div>
 			</form>
-		</div>	
-	</div>
+		</div>
+        <!-- /.row -->
+    </div>		
     <!-- /.container -->
 
     <!-- jQuery -->

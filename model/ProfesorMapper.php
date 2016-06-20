@@ -44,6 +44,38 @@ class ProfesorMapper {
        }
   }
   
+  public function calcularNPropuestasAPresentar($dni){
+    $stmt = $this->db->query("SELECT count(dniAlumno) as Cuenta FROM alumno");
+    $numAlumnos= $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $this->db->query("SELECT count(dniProfesor) as Cuenta FROM profesor");
+    $numProfesores= $stmt->fetch(PDO::FETCH_ASSOC);	
+	$total = $numAlumnos["Cuenta"]/$numProfesores["Cuenta"];
+	$stmt = $this->db->prepare("select numeroDeTFGs from profesor where dniProfesor=?");
+	$valorProfesor = $stmt->execute(array($dni));
+	$final = $stmt->fetch(PDO::FETCH_ASSOC);
+	$final = $total-$final["numeroDeTFGs"];	
+	return $final;
+  }
+  
+  public function actualizarNumeroDeTFGs($opcion,$profesor){
+    if($opcion==0){
+    $stmt = $this->db->prepare("UPDATE profesor SET numeroDeTFGs=numeroDeTFGs+1 where dniProfesor=?");
+	$stmt->execute(array($profesor));
+	}
+    if($opcion==1){
+    $stmt = $this->db->prepare("UPDATE profesor SET numeroDeTFGs=numeroDeTFGs+0.5 where dniProfesor=?");
+	$stmt->execute(array($profesor));
+	}
+    if($opcion==2){
+    $stmt = $this->db->prepare("UPDATE profesor SET numeroDeTFGs=numeroDeTFGs-0.5 where dniProfesor=?");
+	$stmt->execute(array($profesor));
+	}
+    if($opcion==3){
+    $stmt = $this->db->prepare("UPDATE profesor SET numeroDeTFGs=numeroDeTFGs-1 where dniProfesor=?");
+	$stmt->execute(array($profesor));
+	}	
+  }
+  
   public function isValidUser($email, $password) {
     $stmt = $this->db->prepare("SELECT count(email) FROM profesor where email=? and contrasenhaPr=?");
     $stmt->execute(array($email, $password));

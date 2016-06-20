@@ -90,15 +90,24 @@ class UsersController extends BaseController {
 		   $this->view->setVariable("estadocurso","1");
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
            $this->coordinadorMapper->modificarEstadoCurso("2");
-		   $this->view->setVariable("estadocurso","2");		   
-		   $mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
-		   $mail->Body = "Por favor, env&iacute;a tus propuestas en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina.";			
-		   $listaProfesores = $this->profesorMapper->listarProfesores("");
-                foreach($listaProfesores as $profesor):
-			        $mail->addAddress($profesor["email"]);						
-			    endforeach; 			
-			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;			
+		   $this->view->setVariable("estadocurso","2");	
+           $listaProfesores = $this->profesorMapper->listarProfesores("");
+                foreach($listaProfesores as $profesor):	
+				   $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($profesor["dniProfesor"]);
+				   if($numeroDeProp<=0){
+				   $mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
+				   $mail->Body = "Me gustar&iacute;a informarle que supera el n&uacute;mero de TFGs que los profesores deben presentar este año, en caso de no estar 
+				   tutorizando y por tanto no tiene que realizar ninguna propuesta.";				   
+				   $mail->addAddress($profesor["email"]);	
+				   }else if($numeroDeProp>0){
+				   $mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
+				   $mail->Body = "Por favor, realiza tus propuestas de TFG en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n 
+				   en la p&aacute;gina. El número de propuestas que debes realizar es: ".$numeroDeProp." y tienen de plazo hasta el ".$_POST["fecha"].".";				   
+				   $mail->addAddress($profesor["email"]);
+				   //Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+				   //if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+				   }		   
+				endforeach; 								
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
 		   $this->coordinadorMapper->modificarEstadoCurso("3");
 		   $this->view->setVariable("estadocurso","3"); 
@@ -539,7 +548,7 @@ class UsersController extends BaseController {
                         $this->view->setVariable("errors", $errors);
                         $this->view->setFlash(i18n("Datos incorrectos"));						
                     }               
-               $this->view->redirect("profesor", "index");           
+               $this->view->redirect("profesor", "PresentarPropuestas");           
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";
@@ -610,7 +619,9 @@ class UsersController extends BaseController {
 				$TFG->setTutor($dniPr["dniProfesor"]);				
 				$TFG->setAlumno($_POST["alumno"]);
 				$TFG->setCotutor($_POST["cotutor"]);
-				$this->tfgMapper->insertar($TFG);               
+				$this->tfgMapper->insertar($TFG); 
+				$this->profesorMapper->actualizarNumeroDeTFGs(0,$dniPr["dniProfesor"]);
+				$this->profesorMapper->actualizarNumeroDeTFGs(1,$_POST["cotutor"]);				
 		        $this->view->redirect("profesor", "solicitudesMutuoAcuerdo"); 
 			}
 		  $this->view->redirect("profesor", "solicitudesMutuoAcuerdo"); 	
@@ -631,10 +642,10 @@ class UsersController extends BaseController {
 					   $propuesta->setTutor($_POST["tutor"]);
                        $propuesta->setCotutor(($_POST["cotutor"]));
 					   $this->propuestadetfgMapper->modificar($propuesta);
-                       $this->view->redirect("coordinador", "gestionPropuestas");					
+                       $this->view->redirect("profesor", "gestionPropuestas");					
 					}else if(isset($_POST["eliminar"])){
 					   $this->propuestadetfgMapper->eliminar($propuesta);
-                       $this->view->redirect("coordinador", "gestionPropuestas");										
+                       $this->view->redirect("profesor", "gestionPropuestas");					   
 					}               
                $this->view->redirect("profesor", "gestionPropuestas");           
         }else{
@@ -644,32 +655,30 @@ class UsersController extends BaseController {
         }	
   }
   
+  public function gestionarPropuestaC() {
+    if(isset($this->currentUser)) {
+		$propuesta = new PropuestaDeTFG();
+		$propuesta->setIdPk(($_POST["idpropuesta"]));
+		$this->profesorMapper->actualizarNumeroDeTFGs(3,$_POST["tutor"]);
+		$this->profesorMapper->actualizarNumeroDeTFGs(2,$_POST["cotutor"]);		
+		$this->propuestadetfgMapper->eliminar($propuesta); 
+		$this->view->redirect("coordinador", "gestionPropuestas");					                           
+	}else{
+		echo "Upss! no deberías estar aquí";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}
+  
+  }
+  
   public function gestionarSolicitud() {
     if(isset($this->currentUser)) {
-                    $tfg = new TFG();
-					$tfg->setIdTFG(($_POST["idTFG"]));
-					if(isset($_POST["eliminar"])){
-					   $this->tfgMapper->eliminar($tfg);
-                       $this->view->redirect("coordinador", "gestionSolicitudes");					
-					}else {
-                       $tfg->setEmpresa($_POST["empresa"]);
-					   $tfg->setTutor($_POST["tutor"]);
-                       $tfg->setCotutor(($_POST["cotutor"]));
-					   if(isset($_POST["modificar"])){
-					   $tfg->setTituloEn($_POST["titulo"]);
-					   $tfg->setTituloEs($_POST["titulo"]);
-					   $tfg->setTituloGa($_POST["titulo"]);
-					   $this->tfgMapper->modificar($tfg);
-                       $this->view->redirect("coordinador", "gestionSolicitudes");
-					   } else if(isset($_POST["aceptar"])){
-					   $tfg->setTituloEn("aceptado");
-					   $tfg->setTituloEs($_POST["titulo"]);
-					   $tfg->setTituloGa($_POST["titulo"]);
-					   $this->tfgMapper->modificar($tfg);
-                       $this->view->redirect("coordinador", "gestionSolicitudes");
-					   }
-					}               
-               $this->view->redirect("coordinador", "gestionPropuestas");           
+				$tfg = new TFG();
+				$tfg->setIdTFG(($_POST["idTFG"]));
+				$this->tfgMapper->eliminar($tfg);
+				$this->profesorMapper->actualizarNumeroDeTFGs(3,$_POST["tutor"]);
+				$this->profesorMapper->actualizarNumeroDeTFGs(2,$_POST["cotutor"]);
+				$this->view->redirect("coordinador", "gestionSolicitudes");					                        
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";
@@ -683,6 +692,8 @@ class UsersController extends BaseController {
 					$tfg->setIdTFG(($_POST["idTFG"]));
 					if(isset($_POST["eliminar"])){
 					   $this->tfgMapper->eliminar($tfg);
+					   $this->profesorMapper->actualizarNumeroDeTFGs(3,$dniPr["dniProfesor"]);
+					   $this->profesorMapper->actualizarNumeroDeTFGs(2,$_POST["cotutor"]);	
                        $this->view->redirect("profesor", "gestionSolicitudes");					
 					}else if(isset($_POST["modificar"])){
                        $tfg->setEmpresa($_POST["empresa"]);

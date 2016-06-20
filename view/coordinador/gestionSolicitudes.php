@@ -61,7 +61,7 @@
 					       <option value="'.$propuesta["Profesor_dniProfesorCotutor"].'">'.$propuesta[1].'</option>';	 
 				    '</select></th>';
 				}else{
-				echo '<th><select class="form-control" name="cotutor">
+				echo '<th><select class="form-control" name="cotutor" disabled>
 					       <option value="NULL">Sin cotutor</option>';
 				    '</select></th>';
 				}
@@ -70,6 +70,8 @@
 				echo '<th><input type="submit" class="btn btn-info btn-sm" name="eliminar" value="Eliminar" ></th>';
 				echo '</div>';
 				echo '<input type="hidden" class="form-control" name="idTFG" value="'.$propuesta["idTFG"].'">';
+				echo '<input type="hidden" class="form-control" name="tutor" value="'.$propuesta["Profesor_dniProfesor"].'">';
+				echo '<input type="hidden" class="form-control" name="cotutor" value="'.$propuesta["Profesor_dniProfesorCotutor"].'">';
 				echo '</form>';
 				echo '</tr>';
 				}

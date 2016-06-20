@@ -35,42 +35,22 @@
 		} 
 		if(strval($estadocurso)=="2"){ 
 	    ?>
+		<hr>
         <div class="row">
-	    <br>
-	    <h3>Realizar propuesta de TFG:</h3>
-        <hr>
-		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=realizarPropuesta" >
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="titulo">T&iacute;tulo:</label>
-				  <div class="col-sm-4">
-					<b><textarea class="form-control" rows="2" name="titulo" placeholder="Introduzca el t&iacute;tulo del TFG"></textarea></b>
-				  </div>
-				</div>
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="descripcion">Descripci&oacute;n</label>
-				  <div class="col-sm-4">
-					<b><textarea class="form-control" rows="5" name="descripcion" placeholder="Realice una descripci&oacute;n del TFG"></textarea></b>
-				  </div>
-				</div>
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="cotutor">Seleccione cotutor:</label>
-				  <div class="col-sm-4">			
-				  <select class="form-control" name="cotutor">
-					<option value="NULL">Sin cotutor</option>
-					<?php foreach($listaProfesores as $profesor):
-						echo '<option value="'.$profesor["dniProfesor"].'">'.$profesor["nombre"].'</option>';
-					 endforeach; ?>
-				  </select>				
-				  </div>
-				</div>
-				<div class="form-group">        
-				  <div class="col-sm-offset-4 col-sm-10">
-						<input type="submit" class="btn btn-default" value="Presentar" >
-				  </div>
-				</div>
-			</form>
+			<p>
+				<a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=presentarPropuestas">Realizar propuesta de TFG</a>
+			</p> 
+			<p>En esta opci&oacute;n podr&aacute;s realizar tus propuestas de TFG, teniendo que cumplir el n&uacute;mero establecido en el correo como m&iacute;nimo.</p>		
+        </div>
+		<!-- /.row -->
+		<hr>
+		<div class="row">
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=gestionPropuestas">Gestionar propuestas de TFG</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute;s gestionar tus propias propuestas de TFG antes de que acabe el plazo.</p>               
 		</div>
-        <!-- /.row -->	
+        <!-- /.row -->
     <?php 
 		}
 	?>
