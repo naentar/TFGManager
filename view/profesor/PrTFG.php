@@ -4,14 +4,17 @@
  require_once(__DIR__ . "/../../core/ViewManager.php");
  $view = ViewManager::getInstance();
  $usuario = $view->getVariable("currentusername");
- $estadocurso = $view->getVariable("estadocurso");
+ //$estadocurso = $view->getVariable("estadocurso");
  $listaProfesores = $view->getVariable("listaProfesores");
+ $listaAlumnos = $view->getVariable("listaAlumnos");
+ $asd = $view->getVariable("asd");
  ?>  
 
     <!-- Page Content -->
     </div>
 	<div class="container">
 	    <div class="row">
+		<?php echo $asd;?>
 	    <br>
 	    <h3>Realizar solicitud de acuerdo mutuo:</h3>
         <hr>
@@ -35,12 +38,12 @@
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="tutor">Seleccione tutor:</label>
+				  <label class="control-label col-sm-4" for="alumno">Seleccione alumno:</label>
 				  <div class="col-sm-4">			
-				  <select class="form-control" name="tutor">
-					<option value="sin">Confirme tutor</option>
-					<?php foreach($listaProfesores as $profesor):
-						echo '<option value="'.$profesor["dniProfesor"].'">'.$profesor["nombre"].'</option>';
+				  <select class="form-control" name="alumno">
+				    <option value="sin">Seleccione alumno</option>
+					<?php foreach($listaAlumnos as $alumno):
+						echo '<option value="'.$alumno["dniAlumno"].'">'.$alumno["nombre"].'</option>';
 					 endforeach; ?>
 				  </select>				
 				  </div>

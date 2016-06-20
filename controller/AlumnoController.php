@@ -50,20 +50,6 @@ class AlumnoController extends BaseController {
             header("Refresh: 5; index.php?controller=users&action=index");
         }	
   }
-  
-  public function alumnoTFG() {
-	if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
-	   $listaProfesores = $this->profesorMapper->listarProfesores("");
-	   $estado = $this->coordinadorMapper->estadoCursoActual(); 
-       $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
-       $this->view->setVariable("listaProfesores", $listaProfesores);
-	   $this->view->render("alumno", "AlTFG");
-	}else{
-		echo "No est&aacute;s autorizado";
-		echo "<br>Redireccionando...";
-		header("Refresh: 5; index.php?controller=users&action=index");
-	}	 
-  }
 
   public function confirmarAnteproyeco() { 
     if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {

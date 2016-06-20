@@ -48,21 +48,21 @@
 
             <div class="col-sm-10">
 			    <?php	
-		            if($estadocurso=="0" || $estadocurso=="1"){
+		            if($estadocurso=="0" || $estadocurso=="1" || $estadocurso=="2"){
 	            ?>
                 <a href="#"><img class="img-circle img-responsive img-center" src="imgs/tfg.jpg" alt=""></a>				
                 <h2>Lista de TFG's ofrecidos por profesores</h2>
                 <p>Aqu&iacute; podr&aacute;s comprobar la lista con todos los TFG's que ofrecen los profesores una vez haya sido publicada (para ello pulsa sobre el icono "TFG").</p>
 				<?php	
 		             }	
-		            if($estadocurso=="2"){
+		            if($estadocurso=="3"){
 	            ?>
                 <a href="/TFGManager/propuestas.pdf"><img class="img-circle img-responsive img-center" src="imgs/tfg.jpg" alt=""></a>				
                 <h2>Lista de TFG's ofrecidos por profesores</h2>
                 <p>Aqu&iacute; podr&aacute;s comprobar la lista con todos los TFG's que ofrecen los profesores(para ello pulsa sobre el icono "TFG").</p>
 				<?php	
 		             }
-					 if($estadocurso=="3" || $estadocurso=="4"){
+					 if($estadocurso=="4" || $estadocurso=="5" || $estadocurso=="6" || $estadocurso=="7"){
 	            ?>
 				<a href="/TFGManager/asignaciones.pdf"><img class="img-circle img-responsive img-center" src="imgs/tfg.jpg" alt=""></a>
 				<h2>Lista de TFG's asignados a alumnos por petici&oacute;n</h2>

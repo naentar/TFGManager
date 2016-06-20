@@ -86,8 +86,11 @@ class UsersController extends BaseController {
            $this->coordinadorMapper->modificarEstadoCurso("0");
 		   $this->view->setVariable("estadocurso","0");
 		} else if($_POST["nuevoEstadoCurso"]=="1"){
-           $this->coordinadorMapper->modificarEstadoCurso("1");
-		   $this->view->setVariable("estadocurso","1");		   
+		   $this->coordinadorMapper->modificarEstadoCurso("1");
+		   $this->view->setVariable("estadocurso","1");
+		} else if($_POST["nuevoEstadoCurso"]=="2"){
+           $this->coordinadorMapper->modificarEstadoCurso("2");
+		   $this->view->setVariable("estadocurso","2");		   
 		   $mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
 		   $mail->Body = "Por favor, env&iacute;a tus propuestas en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina.";			
 		   $listaProfesores = $this->profesorMapper->listarProfesores("");
@@ -96,7 +99,9 @@ class UsersController extends BaseController {
 			    endforeach; 			
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;			
-		} else if($_POST["nuevoEstadoCurso"]=="2"){
+		} else if($_POST["nuevoEstadoCurso"]=="3"){
+		   $this->coordinadorMapper->modificarEstadoCurso("3");
+		   $this->view->setVariable("estadocurso","3"); 
 		   //Generar PDF de propuestas
 		   require_once(__DIR__."/../fpdf/fpdf.php");
 		   require_once(__DIR__."/../fpdf/header.php");
@@ -255,8 +260,6 @@ class UsersController extends BaseController {
 			endforeach;
 			}
             $pdf->Output('F',$filename);		   
-           $this->coordinadorMapper->modificarEstadoCurso("2");
-		   $this->view->setVariable("estadocurso","2");
 		   $mail->Subject = "Comienza la fase de solicitudes de TFG por parte del alumnado";
 		   $mail->Body = "Podr&aacte;s comprobar la lista de propuestas en el pdf adjunto o en la p&aacute;gina. Por favor, env&iacute;a tu solicitud en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina. ";	
            $mail->addAttachment('/../propuestas.pdf');		   
@@ -267,7 +270,9 @@ class UsersController extends BaseController {
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 							
-		} else if($_POST["nuevoEstadoCurso"]=="3"){
+		} else if($_POST["nuevoEstadoCurso"]=="4"){
+		   $this->coordinadorMapper->modificarEstadoCurso("4");
+		   $this->view->setVariable("estadocurso","4");
 		   //Asignar Solicitudes:
 			$arr = array();
 			$alumnosorden = $this->alumnoMapper->ordenarPorNota();
@@ -355,11 +360,12 @@ class UsersController extends BaseController {
 			    endforeach; 			
 			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
-           $this->coordinadorMapper->modificarEstadoCurso("3");
-		   $this->view->setVariable("estadocurso","3");           		   
-		} else if($_POST["nuevoEstadoCurso"]=="4"){
-           $this->coordinadorMapper->modificarEstadoCurso("4");
-		   $this->view->setVariable("estadocurso","4");
+        } else if($_POST["nuevoEstadoCurso"]=="5"){
+           $this->coordinadorMapper->modificarEstadoCurso("5");
+		   $this->view->setVariable("estadocurso","5");       			
+		} else if($_POST["nuevoEstadoCurso"]=="6"){
+           $this->coordinadorMapper->modificarEstadoCurso("6");
+		   $this->view->setVariable("estadocurso","6");
            $this->tfgMapper->rechazarNoPresentados();		   
 		}		
 		$this->view->render("coordinador", "indexCr");
@@ -591,25 +597,23 @@ class UsersController extends BaseController {
   
   public function mutuoAcuerdo() {
 	if(isset($this->currentUser)) {
-	    if($_POST["tutor"]=="sin"){
-            $this->view->setFlash("Solicitud incorrecta, se debe seleccionar el tutor.");
-        } else if($_POST["tutor"]==$_POST["cotutor"]){
-		       $this->view->setFlash("Solicitud incorrecta, el tutor y el cotutor no pueden ser la misma persona.");
-		    }else{        		
+	    if($_POST["alumno"]=="sin"){
+            $this->view->setFlash("Solicitud incorrecta, se debe seleccionar el alumno.");
+        } else{        		
 				$TFG = new TFG();
 				$TFG->setIdTFG($this->tfgMapper->generarCodigo());
 				$TFG->setTituloEs($_POST["titulo"]);
-				$TFG->setTituloEn($_POST["titulo"]);
+				$TFG->setTituloEn($_POST["solicitado"]);
 				$TFG->setTituloGa($_POST["titulo"]);
 				$TFG->setEmpresa($_POST["empresa"]);
-				$TFG->setTutor($_POST["tutor"]);
-				$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());
-				$TFG->setAlumno($dniAl["dniAlumno"]);
+				$dniPr = $this->profesorMapper->getId($this->currentUser->getEmailP());
+				$TFG->setTutor($dniPr["dniProfesor"]);				
+				$TFG->setAlumno($_POST["alumno"]);
 				$TFG->setCotutor($_POST["cotutor"]);
 				$this->tfgMapper->insertar($TFG);               
-		        $this->view->redirect("alumno", "index"); 
+		        $this->view->redirect("profesor", "solicitudesMutuoAcuerdo"); 
 			}
-		  $this->view->redirect("alumno", "index"); 	
+		  $this->view->redirect("profesor", "solicitudesMutuoAcuerdo"); 	
         }else{
             echo "Upss! no deberías estar aquí";
             echo "<br>Redireccionando...";

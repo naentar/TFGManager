@@ -14,7 +14,7 @@
     <!-- Page Content -->
     <div class="container">   
     <?php 
-		if($estadocurso=="2"){
+		if($estadocurso=="3"){
             if($existeTFG=="no" && $existeSolicitud=="no"){		
 	?>     
         <div class="row">
@@ -112,7 +112,7 @@
 	<?php
 			}
 		}	
-		if($estadocurso=="3"){
+		if($estadocurso=="5"){
 		   if($TFGacep["tituloEn"]=="aceptado" || $TFGacep["tituloEn"]=="solicitado"){
 	?>	
 		    <div class="row"> 
@@ -121,7 +121,7 @@
 						<p>
 							<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=confirmarAnteproyeco">Confirmar anteproyecto</a>
 						</p> 
-						<p>En caso de querer realizar una entrega de anteproyecto, rellene el formulario que se encuentra en este bot&oacute;n.</p>                
+						<p>En caso de querer realizar una asignaci&oacute;n oficial de anteproyecto, rellene el formulario que se encuentra en este bot&oacute;n.</p>                
 				</div>
 			</div>	
         <!-- /.row -->

@@ -11,10 +11,24 @@
 
 
     <!-- Page Content -->
-    <div class="container">			
-	<?php 
-		if(strval($estadocurso)=="1"){ 
-	?>
+    <div class="container">	
+     <?php 
+		if($estadocurso=="1"){	
+	    ?>		
+        <div class="row">
+		<hr>
+            <div class="col-sm-8">
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=solicitudesMutuoAcuerdo">Realizar solicitud de TFG de mutuo acuerdo.</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute;s realizar una solicitud de TFG de acordado con un alumno.</p>               
+            </div>
+		</div>
+        <!-- /.row -->
+        <?php 
+		} 
+		if(strval($estadocurso)=="2"){ 
+	    ?>
         <div class="row">
 	    <br>
 	    <h3>Realizar propuesta de TFG:</h3>
