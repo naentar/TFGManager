@@ -67,6 +67,12 @@
 					?>" disabled></b>			
 				  </div>
 				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="fecha">Fecha l&iacute;mite a enviar por email:</label>
+				  <div class="col-sm-4">
+					<b><input class="form-control" name="fecha" placeholder="Fecha para el paso a la siguiente etapa"></input></b>
+				  </div>
+				</div>
 				<input type="hidden" class="form-control" name="nuevoEstadoCurso" value="<?php echo $curso;?>">
 				<div class="form-group">        
 				  <div class="col-sm-offset-4 col-sm-10">

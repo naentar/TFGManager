@@ -9,6 +9,7 @@ class ProfesorMapper {
   
   public function __construct() {
     $this->db = PDOConnection::getInstance();
+	
   }
      
   public function getId($email) {
@@ -28,7 +29,7 @@ class ProfesorMapper {
   public function listarProfesores($email) {
 	$stmt = $this->db->prepare("select * from profesor WHERE email!=?");
 	$stmt->execute(array($email));
-	return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $stmt->fetchAll(PDO::FETCH_ASSOC);	 
   }
 	
   public function consultarUsuario($email) {

@@ -39,7 +39,7 @@ class CoordinadorController extends BaseController {
        $this->view->setVariable("listarPropuestas", $listarPropuestas);
 	   $listaProfesores = $this->profesorMapper->listarProfesores("");
        $this->view->setVariable("listaProfesores", $listaProfesores);
-	   $estado = $this->coordinadorMapper->estadoCursoActual(); 
+	   $estado = $this->coordinadorMapper->estadoCursoActual();
        $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
 	   $this->view->render("coordinador", "gestionPropuestas");
 	}else{

@@ -11,7 +11,23 @@
 
     <!-- Page Content -->
 	<div class="container">
-	  <h2>Lista de propuestas</h2>
+	<br>
+	 <h2>Lista de propuestas ordenadas por profesor</h2>
+	 <p>A continuaci&oacute;n se muestra una lista de profesores con sus correspondientes participaciones en los diferentes TFG's asignado. Adem&aacute;s, el valor que aparece al lado representa la diferencia con el &uacute;mero m&iacute;nimo de propuestas a presentar.</p>
+	<hr>
+	<div class="panel-group" id="accordion">
+	     <?php $auxcollapser = 0;
+	     foreach($listaProfesores as $profesor): ?>
+		  <div class="panel panel-default">
+			<div class="panel-heading">
+			  <h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $auxcollapser;?>">
+				<?php echo $profesor["nombre"];?> </a>
+			  </h4>
+			</div>
+			<div id="collapse<?php echo $auxcollapser;?>" class="panel-collapse collapse">
+			  <div class="panel-body">
+			  <h2>Lista de propuestas</h2>
 	  <p>Selecciona la opci&oacute;n a realizarSelecciona la opci&oacute;n a realizar, en cada uno de los casos.</p>
 	  <table class="table table-hover">
 		<thead>
@@ -25,6 +41,7 @@
 		</thead>
 		<tbody>		  
 		    <?php foreach($listarPropuestas as $propuesta):
+			    if($profesor["dniProfesor"]==$propuesta["Profesor_dniProfesor"] || $profesor["dniProfesor"]==$propuesta["Profesor_dniProfesorCotutor"]){
 			    echo '<tr>';
 				echo '<form method="post" action="index.php?controller=users&action=gestionarPropuestaC">';
 				echo '<div class="form-group">';
@@ -57,9 +74,23 @@
 				echo '<input type="hidden" class="form-control" name="cotutor" value="'.$propuesta["Profesor_dniProfesorCotutor"].'">';
 				echo '</form>';
 				echo '</tr>';
+				}
 		    endforeach; ?> 
 		</tbody>
 	  </table>
+			  
+			  
+			  </div>
+			</div>
+		</div>			
+		<?php $auxcollapser++;
+		endforeach; ?>
+	</div>
+	
+	
+	
+	
+	  
     </div>
     <!-- /.container -->
 
