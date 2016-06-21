@@ -133,7 +133,7 @@
         <!-- /.row -->
         <?php 
 		}
-         if($estadocurso=="6"){		
+         if($estadocurso=="4" || $estadocurso=="6"){		
 	    ?>
         <div class="row">
 		<hr>

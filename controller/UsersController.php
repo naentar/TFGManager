@@ -312,7 +312,9 @@ class UsersController extends BaseController {
 					$tfgprop->setTutor($propuestaSeleccionada["Profesor_dniProfesor"]);
 					$tfgprop->setAlumno($alumnoActual);
 					$tfgprop->setCotutor($propuestaSeleccionada["Profesor_dniProfesorCotutor"]);
-					$this->tfgMapper->insertar($tfgprop);  					
+					$this->tfgMapper->insertar($tfgprop);  
+                    $this->profesorMapper->actualizarNumeroDeTFGs(0,$propuestaSeleccionada["Profesor_dniProfesor"]);
+				    $this->profesorMapper->actualizarNumeroDeTFGs(1,$propuestaSeleccionada["Profesor_dniProfesorCotutor"]);						
 					//eliminar todas las entradas relacionadas con la solicitud del alumno y todas las entradas relacionadas con la propuesta que ha sido asignada, de la tabla propuestasdetfg
 					$this->solicituddetfgMapper->eliminarSolicitud($alumnoActual);	
                     $this->solicituddetfgMapper->eliminarPropuesta($solicitudAlumno["PropuestasDeTFG_idPropuestasDeTFG"]);					
@@ -340,6 +342,8 @@ class UsersController extends BaseController {
 					$tfgsort->setAlumno($alum);
 					$tfgsort->setCotutor($listaprop["Profesor_dniProfesorCotutor"]);
 					$this->tfgMapper->insertar($tfgsort);
+					$this->profesorMapper->actualizarNumeroDeTFGs(0,$listaprop["Profesor_dniProfesor"]);
+				    $this->profesorMapper->actualizarNumeroDeTFGs(1,$listaprop["Profesor_dniProfesorCotutor"]);
                     $propid = new PropuestaDeTFG();
 					echo $listaprop["idPropuestasDeTFG"];
 					$propid->setIdPk($listaprop["idPropuestasDeTFG"]);
@@ -771,35 +775,80 @@ class UsersController extends BaseController {
 			$tfg->setTituloGa($_POST["tituloGa"]);
 			$this->tfgMapper->modificarTitulos($tfg);
 			$this->view->redirect("alumno", "index");           
-        }else{
-            echo "Upss! no deberías estar aquí";
-            echo "<br>Redireccionando...";
-            header("Refresh: 5; index.php?controller=users&action=index");
-        } 
+	}else{
+		echo "Upss! no deberías estar aquí";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	} 
+  }
+  
+  public function cambiarAsignacionTFG() {
+	if(isset($this->currentUser)) {
+	  if($_POST["alumno"]=="vacio2" || $_POST["propuesta"]=="vacio2"){
+	    $this->view->setFlash("Solicitud incorrecta, se debe seleccionar un alumno y una propuesta."); 
+        $this->view->redirect("coordinador", "gestionTFGs");		
+	  }else{
+		$tfginfo = $this->tfgMapper->getTFG($_POST["alumno"]);	
+		$tfg = new TFG();
+		$tfg->setIdTFG($tfginfo["idTFG"]);
+		$this->tfgMapper->eliminar($tfg);
+		$this->profesorMapper->actualizarNumeroDeTFGs(3,$tfginfo["Profesor_dniProfesor"]);
+		$this->profesorMapper->actualizarNumeroDeTFGs(2,$tfginfo["Profesor_dniProfesorCotutor"]);
+        $propuesta = new PropuestaDeTFG();
+		$propuesta = new PropuestaDeTFG();
+		$propuesta->setTitulo($tfginfo["tituloEs"]);
+		$propuesta->setDescripcion("");
+		$propuesta->setTutor($tfginfo["Profesor_dniProfesor"]);
+		if($tfginfo["Profesor_dniProfesorCotutor"]!= NULL){
+		$propuesta->setCotutor($tfginfo["Profesor_dniProfesorCotutor"]);
+		}
+		$this->propuestadetfgMapper->insertar($propuesta);
+        $propuestaSeleccionada = $this->propuestadetfgMapper->getPropuesta($_POST["propuesta"]);
+		$tfgprop = new TFG();
+		$tfgprop->setIdTFG($this->tfgMapper->generarCodigo());
+		$tfgprop->setTituloEs($propuestaSeleccionada["titulo"]);
+		$tfgprop->setTituloEn($propuestaSeleccionada["titulo"]);
+		$tfgprop->setTituloGa($propuestaSeleccionada["titulo"]);
+		$tfgprop->setEmpresa(0);
+		$tfgprop->setTutor($propuestaSeleccionada["Profesor_dniProfesor"]);
+		$tfgprop->setAlumno($_POST["alumno"]);
+		$tfgprop->setCotutor($propuestaSeleccionada["Profesor_dniProfesorCotutor"]);
+		$this->tfgMapper->insertar($tfgprop);  
+		$this->profesorMapper->actualizarNumeroDeTFGs(0,$propuestaSeleccionada["Profesor_dniProfesor"]);
+		$this->profesorMapper->actualizarNumeroDeTFGs(1,$propuestaSeleccionada["Profesor_dniProfesorCotutor"]);	
+        $this->solicituddetfgMapper->eliminarPropuesta($_POST["propuesta"]);		
+	    $this->view->redirect("coordinador", "gestionTFGs");
+        }		
+	}else{
+		echo "Upss! no deberías estar aquí";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}
+  
   }
   
   public function gestionarTFGs() {
     if(isset($this->currentUser)) {
-				$tfg = new TFG();
-				$tfg->setIdTFG(($_POST["idTFG"]));
-				if(isset($_POST["eliminar"])){
-				   $this->tfgMapper->eliminar($tfg);
-				   $this->view->redirect("coordinador", "gestionTFGs");					
-				}else if(isset($_POST["modificar"])){
-				   $tfg->setEmpresa($_POST["empresa"]);
-				   $tfg->setTutor($_POST["tutor"]);
-				   $tfg->setCotutor(($_POST["cotutor"]));			   
-				   $tfg->setTituloEn($_POST["tituloEn"]);
-				   $tfg->setTituloEs($_POST["tituloEs"]);
-				   $tfg->setTituloGa($_POST["tituloGa"]);
-				   $this->tfgMapper->modificar($tfg);
-				   $this->view->redirect("coordinador", "gestionTFGs");
-				   }                          
-        }else{
-            echo "Upss! no deberías estar aquí";
-            echo "<br>Redireccionando...";
-            header("Refresh: 5; index.php?controller=users&action=index");
-        }	
+		$tfg = new TFG();
+		$tfg->setIdTFG(($_POST["idTFG"]));
+		if(isset($_POST["eliminar"])){
+		   $this->tfgMapper->eliminar($tfg);
+		   $this->view->redirect("coordinador", "gestionTFGs");					
+		}else if(isset($_POST["modificar"])){
+		   $tfg->setEmpresa($_POST["empresa"]);
+		   $tfg->setTutor($_POST["tutor"]);
+		   $tfg->setCotutor(($_POST["cotutor"]));			   
+		   $tfg->setTituloEn($_POST["tituloEn"]);
+		   $tfg->setTituloEs($_POST["tituloEs"]);
+		   $tfg->setTituloGa($_POST["tituloGa"]);
+		   $this->tfgMapper->modificar($tfg);
+		   $this->view->redirect("coordinador", "gestionTFGs");
+		   }                          
+	}else{
+		echo "Upss! no deberías estar aquí";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
   }
   
   

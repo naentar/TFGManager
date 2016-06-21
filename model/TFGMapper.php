@@ -42,8 +42,22 @@ class TFGMapper {
   }
   
   public function rechazarNoPresentados(){
+    $stmt = $this->db->prepare("SELECT * FROM tfg WHERE tituloEn=?");
+    $stmt->execute(array("aceptado"));
+	$stmt->fetch(PDO::FETCH_ASSOC); 
+	foreach($stmt as $tfg):
+	$this->profesorMapper->actualizarNumeroDeTFGs(3,$tfg["Profesor_dniProfesor"]);
+    $this->profesorMapper->actualizarNumeroDeTFGs(2,$tfg["Profesor_dniProfesorCotutor"]);	
+	endforeach;
     $stmt = $this->db->prepare("DELETE FROM TFG where tituloEn=?");
     $stmt->execute(array("aceptado")); 
+	$stmt = $this->db->prepare("SELECT * FROM tfg WHERE tituloEn=?");
+    $stmt->execute(array("solicitado"));
+	$stmt->fetch(PDO::FETCH_ASSOC); 
+	foreach($stmt as $tfg):
+	$this->profesorMapper->actualizarNumeroDeTFGs(3,$tfg["Profesor_dniProfesor"]);
+    $this->profesorMapper->actualizarNumeroDeTFGs(2,$tfg["Profesor_dniProfesorCotutor"]);	
+	endforeach;
 	$stmt = $this->db->prepare("DELETE FROM TFG where tituloEn=?");
     $stmt->execute(array("solicitado"));
   }  
@@ -108,6 +122,21 @@ class TFGMapper {
     endforeach;
 	$aux = 0;
 	return $stmtex;  
+  }
+  
+  public function getAlumnosCursandoTFG(){
+    $stmt = $this->db->query("SELECT Alumno_dniAlumno FROM tfg");
+	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+	$aux=0;
+	foreach($stmtex as $propuesta):
+	   $result = $this->db->prepare("select nombre from alumno where dniAlumno=?");
+       $result->execute(array($propuesta["Alumno_dniAlumno"]));
+       $resultex = $result->fetch(PDO::FETCH_ASSOC);
+       $alumno = $resultex["nombre"];
+	   array_push($stmtex[$aux],$alumno);
+	   $aux++;
+	endforeach;
+	return $stmtex;
   }
   
   public function comprobarId($id){

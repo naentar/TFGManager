@@ -62,10 +62,19 @@
                 <p>Aqu&iacute; podr&aacute;s comprobar la lista con todos los TFG's que ofrecen los profesores(para ello pulsa sobre el icono "TFG").</p>
 				<?php	
 		             }
-					 if($estadocurso=="4" || $estadocurso=="5" || $estadocurso=="6" || $estadocurso=="7"){
+					 if($estadocurso=="4" ){
 	            ?>
-				<a href="/TFGManager/asignaciones.pdf"><img class="img-circle img-responsive img-center" src="imgs/tfg.jpg" alt=""></a>
-				<h2>Lista de TFG's asignados a alumnos por petici&oacute;n</h2>
+				<a href="/TFGManager/asignacionesP.pdf"><img class="img-circle img-responsive img-center" src="imgs/tfg.jpg" alt=""></a>
+				<h2>Lista provisional de TFG's asignados a alumnos por petici&oacute;n</h2>
+                <p>Aqu&iacute; podr&aacute;s comprobar la lista de TFG's asignados a alumnos(para ello pulsa sobre el icono "TFG").</p>
+				<?php	
+		            }
+	            ?>
+				<?php
+					 if($estadocurso=="5" || $estadocurso=="6" || $estadocurso=="7"){
+	            ?>
+				<a href="/TFGManager/asignacionesD.pdf"><img class="img-circle img-responsive img-center" src="imgs/tfg.jpg" alt=""></a>
+				<h2>Lista definitiva de TFG's asignados a alumnos por petici&oacute;n</h2>
                 <p>Aqu&iacute; podr&aacute;s comprobar la lista de TFG's asignados a alumnos(para ello pulsa sobre el icono "TFG").</p>
 				<?php	
 		            }

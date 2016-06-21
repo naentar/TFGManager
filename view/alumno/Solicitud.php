@@ -10,7 +10,6 @@
     <!-- Page Content -->
     </div>
 	<div class="container">
-	            <div class="row">
 	    <br>
 	    <h3>Realizar solicitud de TFG por orden de prioridad:</h3>
         <hr>

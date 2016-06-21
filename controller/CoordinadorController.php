@@ -74,6 +74,12 @@ class CoordinadorController extends BaseController {
   
   public function gestionTFGs(){
 	if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+	   $estado = $this->coordinadorMapper->estadoCursoActual(); 
+       $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+	   $listarPropuestasTitulo = $this->propuestadetfgMapper->listarPropuestasTitulo();
+	   $this->view->setVariable("listarPropuestasTitulo", $listarPropuestasTitulo);
+	   $listarAlumnos = $this->tfgMapper->getAlumnosCursandoTFG();
+	   $this->view->setVariable("listarAlumnos", $listarAlumnos);
        $listarTFGs = $this->tfgMapper->listarTFGs("no");
        $this->view->setVariable("listarTFGs", $listarTFGs);	   
 	   $listaProfesores = $this->profesorMapper->listarProfesores("");
