@@ -38,6 +38,15 @@ class CoordinadorController extends BaseController {
 	   $listarPropuestas = $this->propuestadetfgMapper->listarPropuestas();
        $this->view->setVariable("listarPropuestas", $listarPropuestas);
 	   $listaProfesores = $this->profesorMapper->listarProfesores("");
+	   $aux=0;
+	   foreach($listaProfesores as $profesor):
+	   $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($profesor["dniProfesor"]);
+	   $numProp = $this->propuestadetfgMapper->numeroDePropuestas($profesor["dniProfesor"]);
+	   $total = $numeroDeProp - $numProp;
+	   $listaProfesores[$aux]["numeroDeTFGs"] = $total;	
+	   $aux++;
+	   endforeach;
+	   $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($profesor["dniProfesor"]);
        $this->view->setVariable("listaProfesores", $listaProfesores);
 	   $estado = $this->coordinadorMapper->estadoCursoActual();
        $this->view->setVariable("estadocurso",$estado["estadorCurso"]);

@@ -16,6 +16,9 @@
 	    <h3>Gestionar estado del curso:</h3>
         <hr>		
 		<form class="form-horizontal" role="form" method="post" action="" >
+		        <div class="mycenter red">
+		           <?php echo $view->popFlash();?>
+	            </div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="estado">Estado del curso actual:</label>
 				  <div class="col-sm-4">
@@ -67,12 +70,34 @@
 					?>" disabled></b>			
 				  </div>
 				</div>
+				<?php 
+		        if($estadocurso=="0"){	
+	            ?>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="fecha">Seleccione el archivo .xlsx del profesor:</label>
+				  <div class="col-sm-4">
+					<b><input name="datosprofesor" type="file"></input></b>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="fecha">Seleccione el archivo .xlsx del alumno:</label>
+				  <div class="col-sm-4">
+					<b><input name="datosalumno" type="file"></input></b>
+				  </div>
+				</div>
+				<?php 
+				}
+		        if($estadocurso=="1" || $estadocurso=="2" || $estadocurso=="3" || $estadocurso=="4"){	
+	            ?>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="fecha">Fecha l&iacute;mite a enviar por email:</label>
 				  <div class="col-sm-4">
 					<b><input class="form-control" name="fecha" placeholder="Fecha para el paso a la siguiente etapa"></input></b>
 				  </div>
 				</div>
+				<?php 
+				}	
+				?>
 				<input type="hidden" class="form-control" name="nuevoEstadoCurso" value="<?php echo $curso;?>">
 				<div class="form-group">        
 				  <div class="col-sm-offset-4 col-sm-10">

@@ -12,7 +12,7 @@ class UsersController extends BaseController {
   private $profesorMapper;
   private $propuestadetfgMapper; 
   private $solicituddetfgMapper;
-  private $tfgMapper;  
+  private $tfgMapper; 
   
   public function __construct() {    
     parent::__construct();
@@ -86,8 +86,19 @@ class UsersController extends BaseController {
            $this->coordinadorMapper->modificarEstadoCurso("0");
 		   $this->view->setVariable("estadocurso","0");
 		} else if($_POST["nuevoEstadoCurso"]=="1"){
-		   $this->coordinadorMapper->modificarEstadoCurso("1");
-		   $this->view->setVariable("estadocurso","1");
+		   $this->view->setVariable("estadocurso","0");
+		   if(empty($_POST["datosprofesor"]) || empty($_POST["datosalumno"])){
+		   $this->view->setFlash(i18n("Debes introducir un archivo para cada tipo de usuario"));
+		   }else{
+				if(file_exists($_POST["datosprofesor"]) && file_exists($_POST["datosalumno"])){
+				    $this->coordinadorMapper->modificarEstadoCurso("1");
+				    $this->view->setVariable("estadocurso","1");
+				    $this->coordinadorMapper->cargarDatos($_POST["datosprofesor"],$_POST["datosalumno"]);					
+				} else{
+				$this->view->setFlash(i18n("Los archivos introducidos no se encuentran en el directorio del servidor"));
+				}			
+		   }
+		   $this->view->redirect("coordinador", "index");
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
            $this->coordinadorMapper->modificarEstadoCurso("2");
 		   $this->view->setVariable("estadocurso","2");	
@@ -400,7 +411,7 @@ class UsersController extends BaseController {
 			endforeach;
 			}
             $pdf->Output('F',$filename);				
-				$mail->Subject = "Comienza de confirmaciones de anteproyecto";
+				$mail->Subject = "Comienza la etapa de asignaciones oficiales";
 		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web, donde debes introducir el título del TFG en tres idiomas y confirmar si se realiza en empresa o no. ";			   
 		        $mail->addAttachment('/../asignacionesD.pdf');
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();

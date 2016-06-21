@@ -22,7 +22,12 @@
 			<div class="panel-heading">
 			  <h4 class="panel-title">
 				<a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $auxcollapser;?>">
-				<?php echo $profesor["nombre"];?> </a>
+				<?php echo $profesor["nombre"];
+				if($profesor["numeroDeTFGs"]>0){
+				echo '<pre>Le falta el siguiente n&uacute;mero de propuestas de TFG para alcanzar el m&iacute;nimo establecido: '.$profesor["numeroDeTFGs"].'. </pre></a>';
+				}else if($profesor["numeroDeTFGs"]<=0){
+				echo '<pre>Supera con el siguiente n&uacute;mero las propuestas de TFG m&iacute;nimas establecidas: '.$profesor["numeroDeTFGs"]*(-1).'. </pre></a>';
+				}?>
 			  </h4>
 			</div>
 			<div id="collapse<?php echo $auxcollapser;?>" class="panel-collapse collapse">
