@@ -20,6 +20,21 @@ class AlumnoMapper {
     } 
   }
   
+  public function insertar(Alumno $Al) {
+    $stmt = $this->db->prepare("INSERT INTO `alumno`(`dniAlumno`, `email`, `contrasenhaAl`, `nombre`, `telefono`, `notaMedia`, `direccion`, `provincia`, `localidad`) VALUES (?,?,?,?,?,?,?,?,?)");
+    $stmt->execute(array($Al->getDniA(),$Al->getEmailA(),$Al->getPasswordA(),$Al->getNombre(),$Al->getTelefono(),$Al->getNotaMedia(), $Al->getDireccion(),  $Al->getProvincia(), $Al->getLocalidad()));  
+  }
+  
+  public function modificarC(Alumno $Al) {
+    $stmt = $this->db->prepare("UPDATE Alumno SET email=?,contrasenhaAl=?,nombre=?,telefono=?,notaMedia=?,direccion=?,  provincia=?, localidad=? WHERE dniAlumno=?");
+    $stmt->execute(array($Al->getEmailA(),$Al->getPasswordA(),$Al->getNombre(),$Al->getTelefono(),$Al->getNotaMedia(), $Al->getDireccion(),  $Al->getProvincia(), $Al->getLocalidad(),$Al->getDniA()));  
+  }
+  
+  public function eliminar(Alumno $Al) {
+    $stmt = $this->db->prepare("DELETE FROM Alumno WHERE dniAlumno=?");
+    $stmt->execute(array($Al->getDniA()));  
+  }
+  
   public function getId($email) {
     $stmt = $this->db->prepare("SELECT dniAlumno FROM alumno WHERE email=?");
     $stmt->execute(array($email));

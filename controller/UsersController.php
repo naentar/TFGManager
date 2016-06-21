@@ -450,6 +450,39 @@ class UsersController extends BaseController {
         }	
   }
   
+  public function gestionarAlumnoC() {
+     if(isset($this->currentUser)) {
+                    $alumno = new Alumno();
+					$alumno->setDniA(($_POST["dniAlumno"]));
+					if(isset($_POST["eliminar"])){
+					   $this->alumnoMapper->eliminar($alumno);
+                       $this->view->redirect("coordinador", "gestionUsuarios");					   
+					} 
+					   $alumno = new Alumno();
+					   $alumno->setEmailA($_POST["email"]);
+					   $alumno->setNombre($_POST["nombre"]);
+					   $alumno->setNotaMedia($_POST["notaMedia"]);
+					   $alumno->setTelefono($_POST["telefono"]);
+					   $alumno->setDireccion($_POST["direccion"]);
+					   $alumno->setLocalidad($_POST["localidad"]);
+					   $alumno->setProvincia($_POST["provincia"]);
+					   $alumno->setPasswordA($_POST["contrasenhaAl"]);					   
+					   if(isset($_POST["modificar"])){
+					   $this->alumnoMapper->modificarc($alumno);
+					   $this->view->redirect("coordinador", "gestionUsuarios");
+					   }
+					   if(isset($_POST["insertar"])){
+					   $this->alumnoMapper->insertar($alumno);
+                       $this->view->redirect("coordinador", "gestionUsuarios");
+                       }					    
+               $this->view->redirect("coordinador", "gestionUsuarios");           
+	}else{
+		echo "Upss! no deberías estar aquí";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }
+  
   public function modificarAlumno(){
         if(isset($this->currentUser)) {
             if (isset($_POST["password"]) && isset($_POST["sndpassword"])) {

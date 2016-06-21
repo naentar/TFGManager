@@ -145,7 +145,14 @@
         <!-- /.row -->
         <?php 
 		}	
-	    ?>	
+	    ?>
+		<hr>
+        <div class="row">		
+                <p>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionUsuarios">Gestionar usuarios</a>
+                </p> 
+                <p>En esta opci&oacute;n podr&aacute; consultar los distintos usuarios del sistema, as&iacute; como modificarlos.</p>               
+		</div>		
 		<hr>
         <div class="row">		
                 <p>

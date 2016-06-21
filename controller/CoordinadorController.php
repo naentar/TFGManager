@@ -10,6 +10,7 @@ class CoordinadorController extends BaseController {
   private $coordinadorMapper;    
   private $profesorMapper;
   private $propuestadetfgMapper;
+  private $alumnoMapper;
   private $tfgMapper;
   
   public function __construct() {    
@@ -18,6 +19,7 @@ class CoordinadorController extends BaseController {
     $this->coordinadorMapper = new CoordinadorMapper(); 
     $this->profesorMapper = new ProfesorMapper();
     $this->propuestadetfgMapper = new PropuestaDeTFGMapper();
+	$this->alumnoMapper = new AlumnoMapper();
     $this->tfgMapper = new TFGMapper();	
   }
   
@@ -90,6 +92,20 @@ class CoordinadorController extends BaseController {
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=users&action=index");
 	}	 
+  }
+  
+  public function gestionUsuarios() {
+    if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+	   $listarAlumnos = $this->alumnoMapper->listarAlumnos();
+	   $this->view->setVariable("listarAlumnos", $listarAlumnos);	   
+	   $listaProfesores = $this->profesorMapper->listarProfesores("");
+       $this->view->setVariable("listaProfesores", $listaProfesores);
+	   $this->view->render("coordinador", "gestionUsuarios");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	} 
   }
   
 }

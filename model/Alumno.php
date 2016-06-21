@@ -35,8 +35,7 @@ class Alumno {
   public function setDniA($dni) {
     $this->dni = $dni;
   } 
-  
-  
+   
   public function getEmailA() {
     return $this->email;
   }
