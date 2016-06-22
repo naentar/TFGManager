@@ -99,7 +99,7 @@ class TFGMapper {
   
     public function listarTFGsMutuoAcuerdo($dni){
 	$stmt = $this->db->prepare("select * from tfg where tituloEn=? and Profesor_dniProfesor=?");
-	$stmt->execute(array("solicitado",$dni));
+	$stmt->execute(array("mutuo",$dni));
 	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	$aux = 0;
        foreach($stmtex as $propuesta):

@@ -15,7 +15,8 @@
         <hr>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=realizarSolicitud" >
 		        <div class="mycenter red">
-		           <?php echo $view->popFlash();?>
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
 	            </div>
 				<br>
 				<div class="form-group">

@@ -143,7 +143,6 @@ class UsersController extends BaseController {
 			   $propuesta->setTitulo($profesor["areaDeConocimiento"]);
 			   $propuesta->setDescripcion("");
 			   $propuesta->setTutor($profesor["dniProfesor"]);
-			   echo $profesor["dniProfesor"];
                $this->propuestadetfgMapper->insertar($propuesta);			   
 		     }
 		   }
@@ -375,7 +374,6 @@ class UsersController extends BaseController {
 					$this->profesorMapper->actualizarNumeroDeTFGs(0,$listaprop["Profesor_dniProfesor"]);
 				    $this->profesorMapper->actualizarNumeroDeTFGs(1,$listaprop["Profesor_dniProfesorCotutor"]);
                     $propid = new PropuestaDeTFG();
-					echo $listaprop["idPropuestasDeTFG"];
 					$propid->setIdPk($listaprop["idPropuestasDeTFG"]);
 					$this->propuestadetfgMapper->eliminar($propid);	
 					}		
@@ -403,8 +401,8 @@ class UsersController extends BaseController {
 				if($solicitud[1]=="NULL" || $solicitud[1]==NULL){
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
 				}else{
-				}		
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$solicitud[1]),1,1);
+				}						
 				$pdf->Cell(0,10,'',0,1);
 			endforeach;
 			}
@@ -443,8 +441,8 @@ class UsersController extends BaseController {
 				if($solicitud[1]=="NULL" || $solicitud[1]==NULL){
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
 				}else{
-				}		
 				$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$solicitud[1]),1,1);
+				}		
 				$pdf->Cell(0,10,'',0,1);
 			endforeach;
 			}
@@ -678,10 +676,12 @@ class UsersController extends BaseController {
   public function realizarSolicitud() {
     if(isset($this->currentUser)) {
 	  if($_POST["firstopt"]=="vacio1" && $_POST["secondopt"]=="vacio2" && $_POST["thirdopt"]=="vacio3" && $_POST["fourthopt"]=="vacio4" && $_POST["fifthopt"]=="vacio5"){
-	        $this->view->setFlash("Solicitud incorrecta, no has solicitado ning&uacute;n TFG."); 	  
+	        $this->view->setFlash("Solicitud incorrecta, no has solicitado ning&uacute;n TFG.");
+            $this->view->redirect("alumno", "SolicitudTFG"); 			
 	    } else if($_POST["firstopt"]==$_POST["secondopt"] || $_POST["firstopt"]==$_POST["thirdopt"] || $_POST["firstopt"]==$_POST["fourthopt"] || $_POST["firstopt"]==$_POST["fifthopt"] || $_POST["secondopt"]==$_POST["thirdopt"]
 		 || $_POST["secondopt"]==$_POST["fourthopt"] || $_POST["secondopt"]==$_POST["fifthopt"] || $_POST["thirdopt"]==$_POST["fourthopt"] || $_POST["thirdopt"]==$_POST["fifthopt"] || $_POST["fourthopt"]==$_POST["fifthopt"] ){
-		    $this->view->setFlash("Solicitud incorrecta, no puedes seleccionar dos veces el mismo TFG");       		
+		    $this->view->setFlash("Solicitud incorrecta, no puedes seleccionar dos veces el mismo TFG");  
+            $this->view->redirect("alumno", "SolicitudTFG");      		
 		} else {
 		        $alumno = $this->alumnoMapper->consultarUsuario($this->currentUser->getEmailA());
 							 
@@ -732,7 +732,7 @@ class UsersController extends BaseController {
 				$TFG = new TFG();
 				$TFG->setIdTFG($this->tfgMapper->generarCodigo($fechaCurso["fechaCurso"]));
 				$TFG->setTituloEs($_POST["titulo"]);
-				$TFG->setTituloEn("solicitado");
+				$TFG->setTituloEn("mutuo");
 				$TFG->setTituloGa($_POST["titulo"]);
 				$TFG->setEmpresa($_POST["empresa"]);
 				$dniPr = $this->profesorMapper->getId($this->currentUser->getEmailP());
