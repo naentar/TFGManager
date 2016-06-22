@@ -37,13 +37,28 @@
 					<b><input type="text" class="form-control" name="tituloGa" placeholder="Introduce t&iacute;tulo"></b>
 				  </div>
 				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="empresa">¿Se realiza en empresa?:</label>
+				  <div class="col-sm-4">			
+				  <select class="form-control" name="empresa">
+					<option value="0">No</option>
+					<option value="1">S&iacute;</option>
+				  </select>				
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="descripcion">Breve descripci&oacute;n del proyecto.</label>
+				  <div class="col-sm-4">
+					<b><textarea class="form-control" rows="6" name="descripcion" placeholder="Introduce la descripci&oacute;n del proyecto."></textarea></b>
+				  </div>
+				</div>
 				<input type="hidden" class="form-control" name="idTFG" value="<?php echo $TFG["idTFG"];?>">
 				<div class="form-group">        
 				  <div class="col-sm-offset-4 col-sm-10">
 						<input type="submit" class="btn btn-default" value="Presentar" >
 				  </div>
 				</div>
-				
+				<input type="hidden" class="form-control" name="dni" value="<?php echo $TFG["Alumno_dniAlumno"];?>">
 			</form>
 		</div>	
 	</div>

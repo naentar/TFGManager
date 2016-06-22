@@ -12,7 +12,7 @@ class TFG {
   private $cotutor;
   private $alumno;
   
-  public function __construct($idTFG=NULL,$tituloEn=NULL, $tituloGa=NULL,$tituloEs=NULL,$empresa=NULL,$tutor=NULL,$cotutor=NULL,$alumno=NULL) {
+  public function __construct($idTFG=NULL,$tituloEn=NULL, $tituloGa=NULL,$tituloEs=NULL,$empresa=NULL,$tutor=NULL,$cotutor=NULL,$alumno=NULL,$descripcion=NULL) {
     $this->idTFG = $idTFG;
 	$this->tituloEn = $tituloEn;
     $this->tituloGa = $tituloGa; 
@@ -21,6 +21,7 @@ class TFG {
     $this->tutor = $tutor;
 	$this->cotutor = $cotutor;
 	$this->alumno = $alumno;
+	$this->descripcion = $descripcion;
   }
 
   public function getIdTFG() {
@@ -85,6 +86,14 @@ class TFG {
    
   public function setAlumno($alumno) {
     $this->alumno = $alumno;
+  }
+  
+  public function getDescripcion() {
+    return $this->descripcion;
+  }
+  
+  public function setDescripcion($descripcion) {
+    $this->descripcion = $descripcion;
   }
 
 }

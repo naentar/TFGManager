@@ -459,7 +459,7 @@ class UsersController extends BaseController {
 		} else if($_POST["nuevoEstadoCurso"]=="6"){
            $this->coordinadorMapper->modificarEstadoCurso("6");
 		   $this->view->setVariable("estadocurso","6");
-           $this->tfgMapper->rechazarNoPresentados();		   
+           $this->tfgMapper->declararNoAsignados();		   
 		}		
 		$this->view->render("coordinador", "indexCr");
         }else{
@@ -837,12 +837,83 @@ class UsersController extends BaseController {
   
   public function confirmarAsig() {
     if(isset($this->currentUser)) {
-			$tfg = new TFG();
-			$tfg->setIdTFG(($_POST["idTFG"]));
-			$tfg->setTituloEn($_POST["tituloEn"]);
-			$tfg->setTituloEs($_POST["tituloEs"]);
-			$tfg->setTituloGa($_POST["tituloGa"]);
-			$this->tfgMapper->modificarTitulos($tfg);
+		$tfg = new TFG();
+		$tfg->setIdTFG(($_POST["idTFG"]));
+		$tfg->setTituloEn($_POST["tituloEn"]);
+		$tfg->setTituloEs($_POST["tituloEs"]);
+		$tfg->setTituloGa($_POST["tituloGa"]);
+		$tfg->setEmpresa($_POST["empresa"]);
+		$tfg->setDescripcion($_POST["descripcion"]);
+		$this->tfgMapper->asignacionOficial($tfg);
+		$tfgactual = $this->tfgMapper->getTFG($_POST["dni"]);
+		$aluactual = $this->alumnoMapper->getAlumno($_POST["dni"]);
+		$profactual = $this->profesorMapper->getProfesor($tfgactual["Profesor_dniProfesor"]);
+		$coprofactual = $this->profesorMapper->getProfesor($tfgactual["Profesor_dniProfesorCotutor"]);
+		//Generar pdf a entregar 
+		require_once(__DIR__."/../fpdf/fpdf.php");
+		require_once(__DIR__."/../fpdf/header.php");
+	   $filename="asignacionOficial.pdf";
+		$pdf = new PDF();
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+	    $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,utf8_decode('Solicitud de asignación oficial'),0,1);			
+	    $pdf->Ln(8);
+		$pdf->SetFont('Arial','',15);
+        $pdf->Cell(40,10,utf8_decode('Datos del alumno:'),0,1);		
+			$pdf->SetFont('Arial','',12);
+			$pdf->Cell(0,10,utf8_decode('Alumno/a: '.$aluactual["nombre"]),1,1);
+            $pdf->Cell(0,10,utf8_decode('DNI: '.$aluactual["dniAlumno"]),1,1);	
+            $pdf->Cell(0,10,utf8_decode('Dirección: '.$aluactual["direccion"]),1,1);
+            $pdf->Cell(0,10,utf8_decode('Localidad: '.$aluactual["localidad"]),1,1);
+            $pdf->Cell(0,10,utf8_decode('Provincia: '.$aluactual["provincia"]),1,1);
+            $pdf->Cell(0,10,utf8_decode('Telefono: '.$aluactual["telefono"]),1,1);
+            $pdf->Cell(0,10,utf8_decode('Email: '.$aluactual["email"]),1,1);
+	    $pdf->Ln(8);
+		$pdf->SetFont('Arial','',15);
+        $pdf->Cell(40,10,utf8_decode('Datos del trabajo de fin de grado:'),0,1);		
+            $pdf->SetFont('Arial','',12); 		
+			$pdf->Cell(0,10,utf8_decode('Título do TFG en español: '.$tfgactual["tituloEs"]),1,1);
+			$pdf->Cell(0,10,utf8_decode('Título do TFG en galego: '.$tfgactual["tituloGa"]),1,1);
+			$pdf->Cell(0,10,utf8_decode('Título do TFG en ingés: '.$tfgactual["tituloEn"]),1,1);
+			$pdf->Cell(0,10,utf8_decode('Titor/a do TFG: '.$profactual["nombre"]),1,1);
+			if($tfgactual["Profesor_dniProfesorCotutor"]=="NULL" || $tfgactual["Profesor_dniProfesorCotutor"]==NULL){
+			$pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '),1,1);
+		    }else{
+		    $pdf->Cell(0,10,utf8_decode('Cotitor/a do TFG (se procede): '.$coprofactual["nombre"]),1,1);
+		    }
+			$pdf->Cell(0,10,utf8_decode('Area de coñecemento: '.$profactual["areaDeConocimiento"]),1,1);
+			$pdf->Cell(0,10,utf8_decode('Departamento: '.$profactual["departamento"]),1,1);
+			if($tfgactual["empresa"]==1){
+			$pdf->Cell(0,10,utf8_decode('Realizado en empresa: Sí'),1,1);
+			}else{
+			$pdf->Cell(0,10,utf8_decode('Realizado en empresa: No'),1,1);
+			}
+			$pdf->Cell(0,10,utf8_decode('Descripción do proyecto: '.$tfgactual["descripcion"]),1,1);			
+			$pdf->Output('F',$filename);
+			//Enviar mail con asignación
+			require_once(__DIR__."/../phpmailer/PHPMailerAutoload.php");
+			$gmaillog = $this->coordinadorMapper->infoGmail();
+			foreach($gmaillog as $log):
+				$gmail = $log["gmailCorreos"];	
+				$passwdgmail = $log["contrasenhaCorreos"];			
+			endforeach;
+			$mail = new PHPMailer;                               
+			$mail->isSMTP();                                      
+			$mail->Host = "smtp.gmail.com";  
+			$mail->SMTPAuth = true;                               
+			$mail->Username = $gmail;                             
+			$mail->Password = $passwdgmail;                          
+			$mail->SMTPSecure = 'ssl';                            
+			$mail->Port = 465;                                    
+			$mail->isHTML(true);
+			$mail->setFrom($gmail);
+		    $mail->Subject = "Documento de asignaci&oacute;n oficial de TFG";
+		    $mail->Body = "Por favor, presenta este documento en secretar&iacute;a con la firma de tu tutor";	
+            $mail->addAttachment('/../asignacionOficial.pdf');
+            $mail->addAddress($aluactual["email"]);			
+			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 			$this->view->redirect("alumno", "index");           
 	}else{
 		echo "Upss! no deberías estar aquí";

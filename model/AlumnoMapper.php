@@ -32,6 +32,12 @@ class AlumnoMapper {
 	return $stmt->fetch(PDO::FETCH_ASSOC);
   }
   
+  public function getAlumno($dni) {
+    $stmt = $this->db->prepare("SELECT * FROM alumno WHERE dniAlumno=?");
+    $stmt->execute(array($dni));
+	return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  
   public function checkUser($email) {
   	$stmt = $this->db->prepare("SELECT count(email) FROM alumno where email=?");
 	$stmt->execute(array($email));

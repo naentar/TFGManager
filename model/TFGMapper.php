@@ -27,9 +27,9 @@ class TFGMapper {
     $stmt->execute(array($Tf->getIdTFG())); 
   }
   
-  public function modificarTitulos(TFG $Tf){
-    $stmt = $this->db->prepare("UPDATE TFG SET tituloEn=?, tituloGa=?, tituloEs=? WHERE idTFG=?");
-    $stmt->execute(array($Tf->getTituloEn(), $Tf->getTituloGa(), $Tf->getTituloEs(), $Tf->getIdTFG()));
+  public function asignacionOficial(TFG $Tf){
+    $stmt = $this->db->prepare("UPDATE TFG SET tituloEn=?, tituloGa=?, tituloEs=?, empresa=?, descripcion=? WHERE idTFG=?");
+    $stmt->execute(array($Tf->getTituloEn(), $Tf->getTituloGa(), $Tf->getTituloEs(), $Tf->getEmpresa(), $Tf->getDescripcion(),$Tf->getIdTFG()));
   }
   
   public function modificarMutuo(TFG $Tf) {
@@ -43,25 +43,10 @@ class TFGMapper {
 	return $stmt->fetch(PDO::FETCH_ASSOC); 
   }
   
-  public function rechazarNoPresentados(){
-    $stmt = $this->db->prepare("SELECT * FROM tfg WHERE tituloEn=?");
-    $stmt->execute(array("aceptado"));
-	$stmt->fetch(PDO::FETCH_ASSOC); 
-	foreach($stmt as $tfg):
-	$this->profesorMapper->actualizarNumeroDeTFGs(3,$tfg["Profesor_dniProfesor"]);
-    $this->profesorMapper->actualizarNumeroDeTFGs(2,$tfg["Profesor_dniProfesorCotutor"]);	
-	endforeach;
-    $stmt = $this->db->prepare("DELETE FROM TFG where tituloEn=?");
-    $stmt->execute(array("aceptado")); 
-	$stmt = $this->db->prepare("SELECT * FROM tfg WHERE tituloEn=?");
-    $stmt->execute(array("solicitado"));
-	$stmt->fetch(PDO::FETCH_ASSOC); 
-	foreach($stmt as $tfg):
-	$this->profesorMapper->actualizarNumeroDeTFGs(3,$tfg["Profesor_dniProfesor"]);
-    $this->profesorMapper->actualizarNumeroDeTFGs(2,$tfg["Profesor_dniProfesorCotutor"]);	
-	endforeach;
-	$stmt = $this->db->prepare("DELETE FROM TFG where tituloEn=?");
-    $stmt->execute(array("solicitado"));
+  public function declararNoAsignados(){
+	$stmtac = $this->db->prepare("UPDATE tfg SET tituloEn=? WHERE tituloEn=? OR tituloEn=?");
+    $stmtac->execute(array("NoAsignado","solicitado","mutuo"));
+	$stmtac->fetch(PDO::FETCH_ASSOC); 	
   }  
   
   public function listarTFGs($solicitud){

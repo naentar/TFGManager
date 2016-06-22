@@ -37,7 +37,7 @@
 			}
 		}	
 		if($estadocurso=="5"){
-		   if($TFGacep["tituloEn"]=="aceptado" || $TFGacep["tituloEn"]=="solicitado"){
+		   if($TFGacep["tituloEn"]=="mutuo" || $TFGacep["tituloEn"]=="solicitado"){
 	?>	
 		    <div class="row"> 
 				<hr>		
