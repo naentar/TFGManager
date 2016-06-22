@@ -80,7 +80,7 @@ class CoordinadorController extends BaseController {
        $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
 	   $listarPropuestasTitulo = $this->propuestadetfgMapper->listarPropuestasTitulo();
 	   $this->view->setVariable("listarPropuestasTitulo", $listarPropuestasTitulo);
-	   $listarAlumnos = $this->tfgMapper->getAlumnosCursandoTFG();
+	   $listarAlumnos = $this->tfgMapper->getAlumnosSolicitandoTFG();
 	   $this->view->setVariable("listarAlumnos", $listarAlumnos);
        $listarTFGs = $this->tfgMapper->listarTFGs("no");
        $this->view->setVariable("listarTFGs", $listarTFGs);	   

@@ -126,8 +126,9 @@ class TFGMapper {
 	return $stmtex;  
   }
   
-  public function getAlumnosCursandoTFG(){
-    $stmt = $this->db->query("SELECT Alumno_dniAlumno FROM tfg");
+  public function getAlumnosSolicitandoTFG(){
+    $stmt = $this->db->prepare("SELECT Alumno_dniAlumno FROM tfg where tituloEn=?");
+	$stmt->execute(array("solicitado"));
 	$stmtex = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 	$aux=0;
 	foreach($stmtex as $propuesta):

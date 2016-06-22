@@ -873,10 +873,9 @@ class UsersController extends BaseController {
 		$this->propuestadetfgMapper->insertar($propuesta);
         $propuestaSeleccionada = $this->propuestadetfgMapper->getPropuesta($_POST["propuesta"]);
 		$tfgprop = new TFG();
-		$fechaCurso = $this->coordinadorMapper->getFechaCurso();
-		$tfgprop->setIdTFG($this->tfgMapper->generarCodigo($fechaCurso("fechaCurso")));
+		$tfgprop->setIdTFG($tfginfo["idTFG"]);
 		$tfgprop->setTituloEs($propuestaSeleccionada["titulo"]);
-		$tfgprop->setTituloEn($propuestaSeleccionada["titulo"]);
+		$tfgprop->setTituloEn("solicitado");
 		$tfgprop->setTituloGa($propuestaSeleccionada["titulo"]);
 		$tfgprop->setEmpresa(0);
 		$tfgprop->setTutor($propuestaSeleccionada["Profesor_dniProfesor"]);
@@ -884,8 +883,10 @@ class UsersController extends BaseController {
 		$tfgprop->setCotutor($propuestaSeleccionada["Profesor_dniProfesorCotutor"]);
 		$this->tfgMapper->insertar($tfgprop);  
 		$this->profesorMapper->actualizarNumeroDeTFGs(0,$propuestaSeleccionada["Profesor_dniProfesor"]);
-		$this->profesorMapper->actualizarNumeroDeTFGs(1,$propuestaSeleccionada["Profesor_dniProfesorCotutor"]);	
-        $this->solicituddetfgMapper->eliminarPropuesta($_POST["propuesta"]);		
+		$this->profesorMapper->actualizarNumeroDeTFGs(1,$propuestaSeleccionada["Profesor_dniProfesorCotutor"]);
+        $propElim = new PropuestaDeTFG();
+		$propElim->setIdPk($_POST["propuesta"]);
+        $this->propuestadetfgMapper->eliminar($propElim);		
 	    $this->view->redirect("coordinador", "gestionTFGs");
         }		
 	}else{

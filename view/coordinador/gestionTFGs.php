@@ -21,7 +21,8 @@
 		  <br>
 	      <div class="row">
 		  <div class="mycenter red">
-		   <?php echo $view->popFlash();?>
+		   <?php echo $view->popFlash();
+		   $view->setFlash("");?>
 		  </div>
 			<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=cambiarAsignacionTFG" >
                 <div class="form-group">
@@ -79,6 +80,7 @@
 		</thead>
 		<tbody>		  
 		    <?php foreach($listarTFGs as $propuesta):
+			    if((($propuesta["tituloEn"]=="solicitado") && ($estadocurso=="4")) || $estadocurso=="6"){
 			    echo '<tr>';
 				echo '<form method="post" action="index.php?controller=users&action=gestionarTFGs">';
 				echo '<div class="form-group">';
@@ -129,11 +131,12 @@
 					    if($propuesta["Profesor_dniProfesor"]!=$profesor["dniProfesor"] && $propuesta["Profesor_dniProfesorCotutor"]!=$profesor["dniProfesor"]){
 						echo '<option value="'.$profesor["dniProfesor"].'">'.$profesor["nombre"].'</option>';
 						}
+						
 					 endforeach;
 				    '</select></th>';
                 echo '</div>';
                 echo '<div class="form-group">';				
-				if($propuesta[1]!="NULL"){
+				if(empty($propuesta["Profesor_dniProfesorCotutor"])!=true){
 				echo '<th><select class="form-control" name="cotutor"';
 				if($estadocurso=="4") echo 'disabled';
 				echo    '>
@@ -167,6 +170,7 @@
 				echo '<input type="hidden" class="form-control" name="idTFG" value="'.$propuesta["idTFG"].'">';
 				echo '</form>';
 				echo '</tr>';
+				}
 		    endforeach; ?> 
 		</tbody>
 	  </table>
