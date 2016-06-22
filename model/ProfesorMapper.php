@@ -27,7 +27,7 @@ class ProfesorMapper {
   }
   
   public function listarProfesores($email) {
-	$stmt = $this->db->prepare("select * from profesor WHERE email!=?");
+	$stmt = $this->db->prepare("select * from profesor WHERE email!=? ORDER BY nombre");
 	$stmt->execute(array($email));
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);	 
   }

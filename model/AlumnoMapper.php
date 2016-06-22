@@ -62,7 +62,7 @@ class AlumnoMapper {
   }
   
   public function listarAlumnos() {
-	$stmt = $this->db->query("select * from alumno");
+	$stmt = $this->db->query("select * from alumno ORDER BY nombre");
 	return $stmt->fetchAll(PDO::FETCH_ASSOC); 
   }
 		 

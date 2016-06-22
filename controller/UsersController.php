@@ -130,7 +130,24 @@ class UsersController extends BaseController {
 				endforeach; 								
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
 		   $this->coordinadorMapper->modificarEstadoCurso("3");
-		   $this->view->setVariable("estadocurso","3"); 
+		   $this->view->setVariable("estadocurso","3");  
+		   $listaProfesores = $this->profesorMapper->listarProfesores("");
+		   foreach($listaProfesores as $profesor):
+		   $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($profesor["dniProfesor"]);
+		   $numProp = $this->propuestadetfgMapper->numeroDePropuestas($profesor["dniProfesor"]);
+		   $actual = $numeroDeProp - $numProp;
+		   $actual = round($actual);
+		   if($actual>0){		   
+		     for($i = $actual; $i>0; $i--){
+			   $propuesta = new PropuestaDeTFG();
+			   $propuesta->setTitulo($profesor["areaDeConocimiento"]);
+			   $propuesta->setDescripcion("");
+			   $propuesta->setTutor($profesor["dniProfesor"]);
+			   echo $profesor["dniProfesor"];
+               $this->propuestadetfgMapper->insertar($propuesta);			   
+		     }
+		   }
+		   endforeach;
 		   //Generar PDF de propuestas
 		   require_once(__DIR__."/../fpdf/fpdf.php");
 		   require_once(__DIR__."/../fpdf/header.php");
@@ -148,7 +165,7 @@ class UsersController extends BaseController {
 			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Dereito Privado");
 			if (!empty($listapropuestas)) {
 			    $pdf->SetFont('Arial','B',13); 
-			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: Dereito Privado'),0,1);
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: DEREITO PRIVADO'),0,1);
 				$pdf->SetFont('Arial','',12);
 			foreach($listapropuestas as $propuesta):			
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
@@ -202,7 +219,7 @@ class UsersController extends BaseController {
 			$listapropuestas = $this->propuestadetfgMapper->listarPropuestasPorDepartamento("Informática");
 			if (!empty($listapropuestas)) {
 				$pdf->SetFont('Arial','B',13); 
-			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: Informática'),0,1);
+			    $pdf->Cell(0,10,utf8_decode('DEPARTAMENTO: INFORMÁTICA'),0,1);
 				$pdf->SetFont('Arial','',12);
 			foreach($listapropuestas as $propuesta):
 				$pdf->Cell(0,10,utf8_decode('Título do TFG: '.$propuesta["titulo"]),1,1);
