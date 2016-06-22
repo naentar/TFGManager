@@ -16,7 +16,7 @@
 	<div class="container">
 	  	<?php if($estadocurso=="4"){
 		?>
-		 <h2>Modificar asignaci&oacute;n TFG de un alumno a uno de la lista de propuestas</h2>
+		 <h2>Gestionar reclamaciones</h2>
 	     <p>Este formulario te permite modificar el TFG asignado a un alumno, a uno de la lista de propuestas en caso de reclamaci&oacute;n. </p>
 		  <br>
 	      <div class="row">

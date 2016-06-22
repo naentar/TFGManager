@@ -64,7 +64,7 @@ class AlumnoController extends BaseController {
 	}
   }
 
-  public function confirmarAnteproyeco() { 
+  public function confirmarAsignacion() { 
     if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
        $id = $this->alumnoMapper->getId($this->currentUser->getEmailA());
 	   $TFG = $this->tfgMapper->getTFG($id["dniAlumno"]);

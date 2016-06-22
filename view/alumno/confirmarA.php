@@ -12,10 +12,10 @@
 	<div class="container">
 	    <div class="row">
 	    <br>
-	    <h3>Entrega de anteproyecto:</h3>
-		<p>Con el objetivo de formalizar este tr&aacute;mite se requiere asignar el t&iacute;tulo del TFG en los tres idiomas correspondientes:</p>
+	    <h3>Asignación oficial:</h3>
+		<p>Con el objetivo de formalizar este trámite se requiere cubrir el siguiente formulario, y entregar el pdf generado a partir del mismo en secretaría con el visto bueno del profesor:</p>
         <hr>
-		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=confirmarAnte" >
+		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=confirmarAsig" >
 				<div class="mycenter red">
 		           <?php echo $view->popFlash();?>
 	            </div>

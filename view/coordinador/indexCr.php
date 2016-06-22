@@ -8,12 +8,13 @@
 	?>  
 
 
+	
 
     <!-- Page Content -->
    <div class="container">	
         <div class="row">
 	    <br>
-	    <h3>Gestionar estado del curso:</h3>
+	    <h3>Pasos para gestionar TFG's:</h3>
         <hr>		
 		<form class="form-horizontal" role="form" method="post" action="" >
 		        <div class="mycenter red">
@@ -74,20 +75,20 @@
 		        if($estadocurso=="0"){	
 	            ?>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="fecha">Seleccione el archivo .xlsx del profesor:</label>
+				  <label class="control-label col-sm-4" for="fecha">Archivo excel para cargar profesores:</label>
 				  <div class="col-sm-4">
 					<b><input name="datosprofesor" type="file"></input></b>
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="fecha">Seleccione el archivo .xlsx del alumno:</label>
+				  <label class="control-label col-sm-4" for="fecha">Archivo excel para cargar alumnos:</label>
 				  <div class="col-sm-4">
 					<b><input name="datosalumno" type="file"></input></b>
 				  </div>
 				</div>
 				<?php 
 				}
-		        if($estadocurso=="1" || $estadocurso=="2" || $estadocurso=="3" || $estadocurso=="4"){	
+		        if($estadocurso=="0" || $estadocurso=="1" || $estadocurso=="2" || $estadocurso=="3" || $estadocurso=="4"){	
 	            ?>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="fecha">Fecha l&iacute;mite a enviar por email:</label>
@@ -126,7 +127,7 @@
         <div class="row">
 		<hr>
                 <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionSolicitudes">Comprobar solicitudes de TFG mutuo</a>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionSolicitudes">Gestionar solicitudes</a>
                 </p> 
                 <p>En esta opci&oacute;n podr&aacute;s comprobar las distintas solicitudes de TFG de mutuo acuerdo entre profesor y alumno.</p>               
 		</div>
@@ -138,7 +139,14 @@
         <div class="row">
 		<hr>
                 <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionTFGs">Gestionar TFG's</a>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=gestionTFGs">
+					<?php if($estadocurso=="4"){
+					echo 'Gestionar asignaciones provisionales';
+					}else{
+					echo 'Gestionar TFGs';
+					}
+					?>
+					</a>
                 </p> 
                 <p>En esta opci&oacute;n podr&aacute;s realizar la gesti&oacute;n de los TFG's que se encuentren asignados en este momento.</p>               
 		</div>

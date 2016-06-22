@@ -5,11 +5,67 @@
  $view = ViewManager::getInstance();
  $listarPropuestas = $view->getVariable("listarPropuestas");
  $listaProfesores = $view->getVariable("listaProfesores");
+ $listaProfesoresProp = $view->getVariable("listaProfesoresProp");
+ $listaAlumnos = $view->getVariable("listaAlumnos");
+ $numeroPropPor = $view->getVariable("numeroPropPor");
+ $numProp = $view->getVariable("numProp");
+ $dniProf = $view->getVariable("dniProf");
  ?>  
 
 
     <!-- Page Content -->
 	<div class="container">
+		<div class="row">
+	    <br>
+	    <h3>Realizar propuesta de TFG:</h3>
+        <hr>
+		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=realizarPropuesta" >
+		        <div class="mycenter red">
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
+	            </div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="numero">N&uacute;mero de propuestas a realizar:</label>
+				  <div class="col-sm-4">
+					<b><input class="form-control" name="numero" value="<?php
+					$actual = $numeroPropPor - $numProp;
+					if($actual<=0){
+					echo "Ya has realizado el min&iacute;mo de propuestas.";
+					}else {
+					echo "Te falta ".$actual." TFG para cumplir el m&iacute;nimo.";
+					}?>" disabled></input></b>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="titulo">T&iacute;tulo:</label>
+				  <div class="col-sm-4">
+					<b><textarea class="form-control" rows="2" name="titulo" placeholder="Introduzca el t&iacute;tulo del TFG"></textarea></b>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="descripcion">Descripci&oacute;n</label>
+				  <div class="col-sm-4">
+					<b><textarea class="form-control" rows="5" name="descripcion" placeholder="Realice una descripci&oacute;n del TFG"></textarea></b>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="cotutor">Seleccione cotutor:</label>
+				  <div class="col-sm-4">			
+				  <select class="form-control" name="cotutor">
+					<option value="NULL">Sin cotutor</option>
+					<?php foreach($listaProfesoresProp as $profesor):
+						echo '<option value="'.$profesor["dniProfesor"].'">'.$profesor["nombre"].'</option>';
+					 endforeach; ?>
+				  </select>				
+				  </div>
+				</div>
+				<div class="form-group">        
+				  <div class="col-sm-offset-4 col-sm-10">
+						<input type="submit" class="btn btn-default" value="Presentar" >
+				  </div>
+				</div>
+			</form>
+		</div>
 	  <h2>Lista de propuestas</h2>
 	  <p>Selecciona la opci&oacute;n a realizarSelecciona la opci&oacute;n a realizar, en cada uno de los casos.</p>
 	  <table class="table table-hover">
@@ -25,6 +81,7 @@
 		</thead>
 		<tbody>		  
 		    <?php foreach($listarPropuestas as $propuesta):
+			    if($propuesta["Profesor_dniProfesor"]==$dniProf["dniProfesor"]){
 			    echo '<tr>';
 				echo '<form method="post" action="index.php?controller=users&action=gestionarPropuesta">';
 				echo '<div class="form-group">';
@@ -68,6 +125,7 @@
 				echo '<input type="hidden" class="form-control" name="tutor" value="'.$propuesta["Profesor_dniProfesor"].'">';
 				echo '</form>';
 				echo '</tr>';
+				}
 		    endforeach; ?> 
 		</tbody>
 	  </table>

@@ -24,7 +24,8 @@
       </div>
     </div>
 	<div class="mycenter flash">
-		<?php echo $view->popFlash();?>
+		<?php echo $view->popFlash();
+		$view->setFlash("");?>
 	</div>
   </form>
   

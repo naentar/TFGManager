@@ -8,6 +8,8 @@ class TFGMapper {
   
   public function __construct() {
     $this->db = PDOConnection::getInstance();
+	
+	$this->coordinadorMapper = new CoordinadorMapper();
   }
   
   public function insertar(TFG $Tf){
@@ -151,20 +153,20 @@ class TFGMapper {
     return $valor; 
   }
    
-  public function generarCodigo() {
+  public function generarCodigo($fechaCurso) {
 	$maxcode = $this->db->query("select max(idTFG) as id from tfg");
 	$id=$maxcode->fetch(PDO::FETCH_BOTH);
 		if(is_null($id[0])){
-		  return "EI16/17-001";	 
+		  return 'EI'.$fechaCurso.'-001';	 
 		}else{
 	      list($fecha,$valor) = preg_split('[-]',$id[0]);
 		  $valor = $valor + 1;
 		  if($valor <= 9){
-		    $codigo = $fecha.'-00'.$valor; 
+		    $codigo = 'EI'.$fechaCurso.'-00'.$valor; 
 		  }else if($valor > 9){
-			$codigo = $fecha.'-0'.$valor;	
+			$codigo = 'EI'.$fechaCurso.'-0'.$valor;	
 		  }else if($valor > 99){
-		    $codigo = $fecha.'-'.$valor;
+		    $codigo = 'EI'.$fechaCurso.'-'.$valor;
 		  }	   
 	   return $codigo;  
 	}

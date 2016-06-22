@@ -3,15 +3,68 @@
  <?php
  require_once(__DIR__ . "/../../core/ViewManager.php");
  $view = ViewManager::getInstance();
- $infoCoordinador = $view->getVariable("coordinadorInf");
  $listarTFGs = $view->getVariable("listarTFGs");
  $listaProfesores = $view->getVariable("listaProfesores");
  $listaAlumnos = $view->getVariable("listaAlumnos");
+ $listaProfesoresSol = $view->getVariable("listaProfesoresSol");
  ?>  
 
 
     <!-- Page Content -->
 	<div class="container">
+	  <div class="row">
+	    <br>
+	    <h3>Realizar solicitud de acuerdo mutuo:</h3>
+        <hr>
+		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=mutuoAcuerdo" >
+				<div class="mycenter red">
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
+	            </div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="titulo">T&iacute;tulo del TFG</label>
+				  <div class="col-sm-4">
+					<b><input type="text" class="form-control" name="titulo" placeholder="Introduce t&iacute;tulo"></b>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="empresa">¿Se realiza en empresa?:</label>
+				  <div class="col-sm-4">			
+				  <select class="form-control" name="empresa">
+					<option value="0">No</option>
+					<option value="1">S&iacute;</option>
+				  </select>				
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="alumno">Seleccione alumno:</label>
+				  <div class="col-sm-4">			
+				  <select class="form-control" name="alumno">
+				    <option value="sin">Seleccione alumno</option>
+					<?php foreach($listaAlumnos as $alumno):
+						echo '<option value="'.$alumno["dniAlumno"].'">'.$alumno["nombre"].'</option>';
+					 endforeach; ?>
+				  </select>				
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="cotutor">Seleccione cotutor:</label>
+				  <div class="col-sm-4">			
+				  <select class="form-control" name="cotutor">
+					<option value="NULL">Sin cotutor</option>
+					<?php foreach($listaProfesoresSol as $profesor):
+						echo '<option value="'.$profesor["dniProfesor"].'">'.$profesor["nombre"].'</option>';
+					 endforeach; ?>
+				  </select>				
+				  </div>
+				</div>
+				<div class="form-group">        
+				  <div class="col-sm-offset-4 col-sm-10">
+						<input type="submit" class="btn btn-default" value="Solicitar" >
+				  </div>
+				</div>
+			</form>
+		</div>
 	  <h2>Lista de solicitudes de mutuo acuerdo</h2>
 	  <p>Selecciona la opci&oacute;n a realizar, en cada uno de los casos.</p>
 	  <table class="table table-hover">

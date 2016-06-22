@@ -89,6 +89,11 @@ class CoordinadorMapper {
 	   }
   }
   
+  public function getFechaCurso() {
+    $stmt = $this->db->query("SELECT fechaCurso FROM coordinador");
+	return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  
   public function isValidUser($email, $password) {
     $stmt = $this->db->prepare("SELECT count(email) FROM coordinador where email=? and contrasenhaC=?");
     $stmt->execute(array($email, $password));

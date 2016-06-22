@@ -19,7 +19,7 @@
 	     <div class="row"> 
 				<hr>		
 					<p>
-						<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=SolicitudTFG">Realizar solicitud de TFG sobre la lista de propuestas.</a>
+						<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=SolicitudTFG">Solicitar lista de propuestas.</a>
 					</p> 
 					<p>Esta opci&oacute;n te permite realizar tu solicitud de TFG en base a la lista de propuestas realizada por los profesores.</p>                
 			</div>	
@@ -42,7 +42,7 @@
 		    <div class="row"> 
 				<hr>		
 					<p>
-						<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=confirmarAnteproyeco">Confirmar asignaci&oacute;n oficial de anteproyecto.</a>
+						<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=confirmarAsignacion">Confirmar asignaci&oacute;n oficial.</a>
 					</p> 
 					<p>En caso de querer realizar una asignaci&oacute;n oficial de anteproyecto, rellene el formulario que se encuentra en este bot&oacute;n.</p>                
 			</div>	

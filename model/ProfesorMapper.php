@@ -54,7 +54,7 @@ class ProfesorMapper {
 	$stmt = $this->db->prepare("select numeroDeTFGs from profesor where dniProfesor=?");
 	$valorProfesor = $stmt->execute(array($dni));
 	$final = $stmt->fetch(PDO::FETCH_ASSOC);
-	$final = $total-$final["numeroDeTFGs"];	
+	$final = $total-$final["numeroDeTFGs"];		
 	return $final;
   }
   

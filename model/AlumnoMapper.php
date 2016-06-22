@@ -11,15 +11,6 @@ class AlumnoMapper {
     $this->db = PDOConnection::getInstance();
   }
   
-  public function usernameExists($username) {
-    $stmt = $this->db->prepare("SELECT count(username) FROM users where username=?");
-    $stmt->execute(array($username));
-    
-    if ($stmt->fetchColumn() > 0) {   
-      return true;
-    } 
-  }
-  
   public function insertar(Alumno $Al) {
     $stmt = $this->db->prepare("INSERT INTO `alumno`(`dniAlumno`, `email`, `contrasenhaAl`, `nombre`, `telefono`, `notaMedia`, `direccion`, `provincia`, `localidad`) VALUES (?,?,?,?,?,?,?,?,?)");
     $stmt->execute(array($Al->getDniA(),$Al->getEmailA(),$Al->getPasswordA(),$Al->getNombre(),$Al->getTelefono(),$Al->getNotaMedia(), $Al->getDireccion(),  $Al->getProvincia(), $Al->getLocalidad()));  

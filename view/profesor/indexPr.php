@@ -15,14 +15,6 @@
      <?php 
 		if($estadocurso=="1"){	
 	    ?>		
-        <div class="row">
-		<hr>
-                <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=solicitudesMutuoAcuerdo">Realizar solicitud de TFG de mutuo acuerdo.</a>
-                </p> 
-                <p>En esta opci&oacute;n podr&aacute;s realizar una solicitud de TFG acordado con un alumno.</p>               
-		</div>
-        <!-- /.row -->
 		<hr>
 		<div class="row">
                 <p>
@@ -35,14 +27,6 @@
 		} 
 		if(strval($estadocurso)=="2"){ 
 	    ?>
-		<hr>
-        <div class="row">
-			<p>
-				<a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=presentarPropuestas">Realizar propuesta de TFG</a>
-			</p> 
-			<p>En esta opci&oacute;n podr&aacute;s realizar tus propuestas de TFG, teniendo que cumplir el n&uacute;mero establecido en el correo como m&iacute;nimo.</p>		
-        </div>
-		<!-- /.row -->
 		<hr>
 		<div class="row">
                 <p>

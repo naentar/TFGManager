@@ -34,50 +34,19 @@ class ProfesorController extends BaseController {
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=users&action=index");
 	}	
-  }
-  
-  public function presentarPropuestas() {
-	if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
-		$estado = $this->coordinadorMapper->estadoCursoActual(); 
-		$this->view->setVariable("estadocurso",$estado["estadorCurso"]);
-		$dniProf = $this->profesorMapper->getId($this->username);	
-        $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($dniProf["dniProfesor"]);
-		$this->view->setVariable("numeroPropPor",$numeroDeProp);
-		$listaProfesores = $this->profesorMapper->listarProfesores($this->username);
-		$this->view->setVariable("listaProfesores", $listaProfesores);
-		$numProp = $this->propuestadetfgMapper->numeroDePropuestas($dniProf["dniProfesor"]);
-		$this->view->setVariable("numProp", $numProp);
-		$this->view->render("profesor", "PresentarPropuestas");
-	}else{
-		echo "No est&aacute;s autorizado";
-		echo "<br>Redireccionando...";
-		header("Refresh: 5; index.php?controller=users&action=index");
-	}	
-  }
-  
-  public function solicitudesMutuoAcuerdo(){
-    if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
-		$listaProfesores = $this->profesorMapper->listarProfesores($this->username);
-		$this->view->setVariable("listaProfesores", $listaProfesores);
-		$listaAlumnos = $this->alumnoMapper->listarAlumnos();
-		$this->view->setVariable("listaAlumnos", $listaAlumnos);
-		$this->view->render("profesor", "PrTFG");
-	}else{
-		echo "No est&aacute;s autorizado";
-		echo "<br>Redireccionando...";
-		header("Refresh: 5; index.php?controller=users&action=index");
-	}   
   } 
   
   public function gestionSolicitudes() {
     if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
-       $dniProf = $this->profesorMapper->getId($this->username);	
+	   $listaProfesoresSol = $this->profesorMapper->listarProfesores($this->username);
+	   $this->view->setVariable("listaProfesoresSol", $listaProfesoresSol);
+       $dniProf = $this->profesorMapper->getId($this->username);
 	   $listarTFGs = $this->tfgMapper->listarTFGsMutuoAcuerdo($dniProf["dniProfesor"]);
-       $this->view->setVariable("listarTFGs", $listarTFGs);	   
-	   $listaProfesores = $this->profesorMapper->listarProfesores("");
-       $this->view->setVariable("listaProfesores", $listaProfesores);
+       $this->view->setVariable("listarTFGs", $listarTFGs);	
 	   $listaAlumnos = $this->alumnoMapper->listarAlumnos();
 	   $this->view->setVariable("listaAlumnos", $listaAlumnos);
+	   $listaProfesores = $this->profesorMapper->listarProfesores($this->username);
+	   $this->view->setVariable("listaProfesores", $listaProfesores);
 	   $this->view->render("profesor", "gestionSolicitudes");
 	}else{
 		echo "No est&aacute;s autorizado";
@@ -90,10 +59,17 @@ class ProfesorController extends BaseController {
     if (isset($this->currentUser) && $this->profesorMapper->checkuser($this-> username)) {
 	   $listarPropuestas = $this->propuestadetfgMapper->listarPropuestas();
        $this->view->setVariable("listarPropuestas", $listarPropuestas);
+	   $dniProf = $this->profesorMapper->getId($this->username);
+	   $this->view->setVariable("dniProf", $dniProf);
 	   $listaProfesores = $this->profesorMapper->listarProfesores("");
        $this->view->setVariable("listaProfesores", $listaProfesores);
-	   $estado = $this->coordinadorMapper->estadoCursoActual(); 
-       $this->view->setVariable("estadocurso",$estado["estadorCurso"]);
+	   $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($dniProf["dniProfesor"]);
+	   $this->view->setVariable("numeroPropPor",$numeroDeProp);	
+	   $listaProfesoresProp = $this->profesorMapper->listarProfesores($this->username);
+	   $this->view->setVariable("listaProfesoresProp", $listaProfesoresProp);	   
+	   $listaProfesores = $this->profesorMapper->listarProfesores("");
+	   $numProp = $this->propuestadetfgMapper->numeroDePropuestas($dniProf["dniProfesor"]);
+	   $this->view->setVariable("numProp", $numProp);
 	   $this->view->render("profesor", "gestionPropuestas");
 	}else{
 		echo "No est&aacute;s autorizado";
