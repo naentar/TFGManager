@@ -14,32 +14,75 @@
    <div class="container">	
         <div class="row">
 	    <br>
-	    <h3>Pasos para gestionar TFG's:</h3>
-        <hr>		
-		<form class="form-horizontal" role="form" method="post" action="" >
-		        <div class="mycenter red">
-		           <?php echo $view->popFlash();?>
+		<div class="col-sm-4">
+		<br>
+		<div class="list-group">
+		  <a class="list-group-item active" disabled>
+			<h4 class="list-group-item-heading">Fases del curso:</h4>
+			<p class="list-group-item-text">En esta tabla se muestran las distintas etapas del curso, mostrando en verde las ya realizadas, en azul la actual y en amarillo las restantes.</p>
+		  </a>
+		  <ul class="list-group">
+			  <li class="list-group-item list-group-item-<?php if($estadocurso==0){
+			  echo 'info';}else{ echo 'success';}?>">1.Inicio de curso</li>
+			  <li class="list-group-item list-group-item-<?php if($estadocurso<1){
+			  echo 'warning';}else if($estadocurso==1){ echo 'info';}else{ echo 'success';}?>">2.Propuestas de TFGs de mutuo acuerdo</li>
+			  <li class="list-group-item list-group-item-<?php if($estadocurso<2){
+			  echo 'warning';}else if($estadocurso==2){ echo 'info';}else{ echo 'success';}?>">3.Propuestas de Profesores</li>
+			  <li class="list-group-item list-group-item-<?php if($estadocurso<3){
+			  echo 'warning';}else if($estadocurso==3){ echo 'info';}else{ echo 'success';}?>">4.Solicitudes de Alumnos</li>
+              <li class="list-group-item list-group-item-<?php if($estadocurso<4){
+			  echo 'warning';}else if($estadocurso==4){ echo 'info';}else{ echo 'success';}?>">5.Asignaci&oacute;n provisional</li>
+              <li class="list-group-item list-group-item-<?php if($estadocurso<5){
+			  echo 'warning';}else if($estadocurso==5){ echo 'info';}else{ echo 'success';}?>">6.Asignaci&oacute;n oficial</li>
+              <li class="list-group-item list-group-item-<?php if($estadocurso<6){
+			  echo 'warning';}else if($estadocurso==6){ echo 'info';}?>">7.Cursando TFG</li>			  
+		</ul>
+		</div>
+		</div>
+		<div class="col-sm-8">
+
+	    <h3>Acciones a realizar en esta fase:</h3>
+        <hr>
+			<div class="mycenter red">
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
 	            </div>
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="estado">Estado del curso actual:</label>
-				  <div class="col-sm-4">
-					<b><input type="text" class="form-control" name="estado" value="<?php 
-					if(strval($estadocurso)=="0") echo '1.Inicio de curso';
-					if(strval($estadocurso)=="1") echo '2.Propuestas de TFGs de mutuo acuerdo';
-					if(strval($estadocurso)=="2") echo '3.Propuestas de Profesores';
-					if(strval($estadocurso)=="3") echo '4.Solicitudes de Alumnos';
-					if(strval($estadocurso)=="4") echo '5.Asignaci&oacute;n provisional';
-                    if(strval($estadocurso)=="5") echo '6.Asignaci&oacute;n oficial';
-					if(strval($estadocurso)=="6") echo '7.Cursando TFG';					
-					?>" disabled></b>
-				  </div>
-				</div>				
-			</form>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=actualizarEstadoCurso" >
+				<?php 
+		        if($estadocurso=="0"){	
+	            ?>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="estado">Modificar estado del curso a:</label>
-				  <div class="col-sm-4">			
-				  <b><input type="text" class="form-control" name="estado" value="<?php 
+				  <label class="control-label col-sm-5" for="fecha">Archivo excel para cargar profesores:</label>
+				  <div class="col-sm-4">
+					<b><input name="datosprofesor" type="file"></input></b>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-5" for="fecha">Archivo excel para cargar alumnos:</label>
+				  <div class="col-sm-4">
+					<b><input name="datosalumno" type="file"></input></b>
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-5" for="fecha">Introduzca año del curso</label>
+				  <div class="col-sm-6">
+					<b><input class="form-control" name="fechaCurso" placeholder="aa/aa"></input></b>
+				  </div>
+				</div>
+				<?php 
+				}
+		        if($estadocurso=="0" || $estadocurso=="1" || $estadocurso=="2" || $estadocurso=="3" || $estadocurso=="4"){	
+	            ?>
+				<div class="form-group">
+				  <label class="control-label col-sm-5" for="fecha">Fecha l&iacute;mite a enviar por email:</label>
+				  <div class="col-sm-6">
+					<b><input class="form-control" name="fecha" placeholder="dd/mm/aa"></input></b>
+				  </div>
+				</div>
+				<?php 
+				}	
+				?>		
+				  <b><input type="hidden" class="form-control" name="estado" value="<?php 
 					if(strval($estadocurso)=="0"){
 					echo '2.Propuestas de TFGs de mutuo acuerdo';
 					$curso=1;
@@ -68,52 +111,17 @@
 					echo '1.Inicio de curso';
                     $curso=0;
 					}					
-					?>" disabled></b>			
-				  </div>
-				</div>
-				<?php 
-		        if($estadocurso=="0"){	
-	            ?>
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="fecha">Archivo excel para cargar profesores:</label>
-				  <div class="col-sm-4">
-					<b><input name="datosprofesor" type="file"></input></b>
-				  </div>
-				</div>
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="fecha">Archivo excel para cargar alumnos:</label>
-				  <div class="col-sm-4">
-					<b><input name="datosalumno" type="file"></input></b>
-				  </div>
-				</div>
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="fecha">Introduzca año del curso</label>
-				  <div class="col-sm-4">
-					<b><input class="form-control" name="fechaCurso" placeholder="Ejemplo 17/18"></input></b>
-				  </div>
-				</div>
-				<?php 
-				}
-		        if($estadocurso=="0" || $estadocurso=="1" || $estadocurso=="2" || $estadocurso=="3" || $estadocurso=="4"){	
-	            ?>
-				<div class="form-group">
-				  <label class="control-label col-sm-4" for="fecha">Fecha l&iacute;mite a enviar por email:</label>
-				  <div class="col-sm-4">
-					<b><input class="form-control" name="fecha" placeholder="Fecha para el paso a la siguiente etapa"></input></b>
-				  </div>
-				</div>
-				<?php 
-				}	
-				?>
+					?>"></b>			
 				<input type="hidden" class="form-control" name="nuevoEstadoCurso" value="<?php echo $curso;?>">
 				<div class="form-group">        
-				  <div class="col-sm-offset-4 col-sm-10">
-						<input type="submit" class="btn btn-default" value="Modificar Estado" >
+				  <div class="col-sm-offset-5 col-sm-10">
+						<input type="submit" class="btn btn-default" value="Avanzar de fase" >
 				  </div>
 				</div>
 			</form>
 		</div>
         <!-- /.row -->
+		</div>
         <?php 
 		if($estadocurso=="2"){	
 	    ?>		
@@ -160,6 +168,7 @@
         <?php 
 		}	
 	    ?>
+		<br>
 		<hr>
         <div class="row">		
                 <p>
@@ -175,6 +184,7 @@
                 <p>En esta opci&oacute;n podr&aacute; modificar la contraseña de la cuenta, adem&aacute;s, es recomendable la asignaci&oacute;n de la informaci&oacute;n referente al gmail con el que enviar los correos para
 				el correcto funcionamiento de los mismos.</p>               
 		</div> 
+				
 <!-- /.row -->	  		
     </div>	
 	
