@@ -64,7 +64,7 @@
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-5" for="fecha">Introduzca año del curso</label>
+				  <label class="control-label col-sm-5" for="fechaCurso">Introduzca año del curso</label>
 				  <div class="col-sm-6">
 					<b><input class="form-control" name="fechaCurso" placeholder="aa/aa"></input></b>
 				  </div>
@@ -76,7 +76,7 @@
 				<div class="form-group">
 				  <label class="control-label col-sm-5" for="fecha">Fecha l&iacute;mite a enviar por email:</label>
 				  <div class="col-sm-6">
-					<b><input class="form-control" name="fecha" placeholder="dd/mm/aa"></input></b>
+					<b><input class="form-control" name="fecha" placeholder="dd/mm/aaaa"></input></b>
 				  </div>
 				</div>
 				<?php 

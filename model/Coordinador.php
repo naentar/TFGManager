@@ -59,7 +59,7 @@ class Coordinador {
   }
   
   public function fechaCursoValida($fecha) {  
-  return preg_match("/(\d{2})\/(\d{2})/", $fecha);
+  return preg_match("/([0-9]{2})\/([0-9]{2})/", $fecha);
   }
   
 }

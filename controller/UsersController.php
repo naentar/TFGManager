@@ -112,6 +112,11 @@ class UsersController extends BaseController {
 			}			
 		   $this->view->redirect("coordinador", "index");
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
+		   $this->view->setVariable("estadocurso","1");
+		   $fecha = $_POST["fecha"];
+		   if(preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $fecha)){
+		   $fechaAr = explode('/', $fecha);
+		   if(checkdate($fechaAr[0],$fechaAr[1],$fechaAr[2])){
            $this->coordinadorMapper->modificarEstadoCurso("2");
 		   $this->view->setVariable("estadocurso","2");	
            $listaProfesores = $this->profesorMapper->listarProfesores("");
@@ -130,7 +135,14 @@ class UsersController extends BaseController {
 				   //Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
 				   //if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 				   }		   
-				endforeach; 								
+				endforeach;				
+           }else{
+			$this->view->setFlash(i18n("Fecha incorrecta"));
+		   }		   
+		   }else{
+		   $this->view->setFlash(i18n("El valor de la fecha introducido es incorrecto"));
+		   }
+		   
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
 		   $this->coordinadorMapper->modificarEstadoCurso("3");
 		   $this->view->setVariable("estadocurso","3");  
