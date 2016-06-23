@@ -57,4 +57,9 @@ class Coordinador {
   public function setPasswordGmail($passwordGmail) {
     $this->passwordGmail = $passwordGmail;
   }
+  
+  public function fechaCursoValida($fecha) {  
+  return preg_match("/(\d{2})\/(\d{2})/", $fecha);
+  }
+  
 }

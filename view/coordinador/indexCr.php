@@ -86,6 +86,12 @@
 					<b><input name="datosalumno" type="file"></input></b>
 				  </div>
 				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-4" for="fecha">Introduzca año del curso</label>
+				  <div class="col-sm-4">
+					<b><input class="form-control" name="fechaCurso" placeholder="Ejemplo 17/18"></input></b>
+				  </div>
+				</div>
 				<?php 
 				}
 		        if($estadocurso=="0" || $estadocurso=="1" || $estadocurso=="2" || $estadocurso=="3" || $estadocurso=="4"){	

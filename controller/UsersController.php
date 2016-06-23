@@ -87,26 +87,29 @@ class UsersController extends BaseController {
 		   $this->view->setVariable("estadocurso","0");
 		} else if($_POST["nuevoEstadoCurso"]=="1"){
 		   $this->view->setVariable("estadocurso","0");
-		   if(empty($_POST["datosprofesor"]) || empty($_POST["datosalumno"])){
-		   $this->view->setFlash(i18n("Debes introducir un archivo para cada tipo de usuario"));
+		   if(!empty($_POST["datosprofesor"]) && !empty($_POST["datosalumno"])){
+		      if(file_exists($_POST["datosprofesor"]) && file_exists($_POST["datosalumno"])){
+           $this->coordinadorMapper->cargarDatos($_POST["datosprofesor"],$_POST["datosalumno"]);
 		   }else{
-				if(file_exists($_POST["datosprofesor"]) && file_exists($_POST["datosalumno"])){
-				    $this->coordinadorMapper->modificarEstadoCurso("1");
-				    $this->view->setVariable("estadocurso","1");
-				    $this->coordinadorMapper->cargarDatos($_POST["datosprofesor"],$_POST["datosalumno"]);	
-                    //Enviar mails a profesores
-					$listaProfesores = $this->profesorMapper->listarProfesores("");
-					foreach($listaProfesores as $profesor):	
-					$mail->Subject = "Comienza la fase de solicitudes de TFG de mutuo acuerdo por parte del profesorado";
-		            $mail->Body = "Me gustar&iacute;a informarle de que ha dado comienzo la fase de solicitudes de mutuo acuerdo, donde podr&aacute; gestionar sus propias solicitudes en caso de que realice alg&uacute;n acuerdo con un alumno.
-					Tiene como fecha l&iacute;mite hasta el ".$_POST["fecha"].".";	
-					//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-				    //if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
-				    endforeach;
-				} else{
-				$this->view->setFlash(i18n("Los archivos introducidos no se encuentran en el directorio del servidor"));
-				}			
+		   $this->view->setFlash(i18n("El archivo no se encuentra en el directorio del servidor."));
+		      }
 		   }
+		   $result = $this->coordinadorMapper->setFechaCurso($_POST["fechaCurso"]);
+		   if($result==false){
+		   $this->view->setFlash(i18n("El valor de la fecha introducido es incorrecto"));
+		   }else{
+				$this->coordinadorMapper->modificarEstadoCurso("1");
+				$this->view->setVariable("estadocurso","1");						
+				//Enviar mails a profesores
+				$listaProfesores = $this->profesorMapper->listarProfesores("");
+				foreach($listaProfesores as $profesor):	
+				$mail->Subject = "Comienza la fase de solicitudes de TFG de mutuo acuerdo por parte del profesorado";
+				$mail->Body = "Me gustar&iacute;a informarle de que ha dado comienzo la fase de solicitudes de mutuo acuerdo, donde podr&aacute; gestionar sus propias solicitudes en caso de que realice alg&uacute;n acuerdo con un alumno.
+				Tiene como fecha l&iacute;mite hasta el ".$_POST["fecha"].".";	
+				//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
+				//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+				endforeach;
+			}			
 		   $this->view->redirect("coordinador", "index");
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
            $this->coordinadorMapper->modificarEstadoCurso("2");
@@ -490,10 +493,9 @@ class UsersController extends BaseController {
 					   $this->alumnoMapper->eliminar($alumno);
                        $this->view->redirect("coordinador", "gestionUsuarios");					   
 					} 
-					   $alumno = new Alumno();
 					   $alumno->setEmailA($_POST["email"]);
 					   $alumno->setNombre($_POST["nombre"]);
-					   $alumno->setNotaMedia($_POST["notaMedia"]);
+					   $alumno->setNotaMedia(floatval($_POST["notaMedia"]));
 					   $alumno->setTelefono($_POST["telefono"]);
 					   $alumno->setDireccion($_POST["direccion"]);
 					   $alumno->setLocalidad($_POST["localidad"]);
@@ -562,6 +564,35 @@ class UsersController extends BaseController {
 	   $this->view->render("profesor", "modificarPr");
 	}else{
 		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }
+  
+    public function gestionarProfesorC() {
+     if(isset($this->currentUser)) {
+                    $profesor = new Profesor();
+					$profesor->setDniP(($_POST["dniProfesor"]));
+					if(isset($_POST["eliminar"])){
+					   $this->profesorMapper->eliminar($profesor);
+                       $this->view->redirect("coordinador", "gestionUsuarios");					   
+					} 
+					   $profesor->setEmailP($_POST["email"]);
+					   $profesor->setNombre($_POST["nombre"]);
+					   $profesor->setAreaDeConocimiento($_POST["areaDeConocimiento"]);
+					   $profesor->setDepartamento($_POST["departamento"]);
+					   $profesor->setPasswordP($_POST["contrasenhaPr"]);					   
+					   if(isset($_POST["modificar"])){
+					   $this->profesorMapper->modificarC($profesor);
+					   $this->view->redirect("coordinador", "gestionUsuarios");
+					   }
+					   if(isset($_POST["insertar"])){
+					   $this->profesorMapper->insertar($profesor);
+                       $this->view->redirect("coordinador", "gestionUsuarios");
+                       }					    
+               $this->view->redirect("coordinador", "gestionUsuarios");           
+	}else{
+		echo "Upss! no deberías estar aquí";
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=users&action=index");
 	}	

@@ -18,6 +18,11 @@ class ProfesorMapper {
 	return $stmt->fetch(PDO::FETCH_ASSOC);
   }
   
+  public function eliminar(Profesor $Pr) {
+    $stmt = $this->db->prepare("DELETE FROM profesor WHERE dniProfesor=?");
+    $stmt->execute(array($Pr->getDniP()));  
+  }
+  
   public function getProfesor($dni) {
     $stmt = $this->db->prepare("SELECT * FROM profesor WHERE dniProfesor=?");
     $stmt->execute(array($dni));
@@ -30,6 +35,11 @@ class ProfesorMapper {
 	  if ($stmt->fetchColumn() > 0) {
 		return true;
 	  }
+  }
+
+  public function insertar(Profesor $Pr) {
+    $stmt = $this->db->prepare("INSERT INTO Profesor(email,contrasenhaPr,nombre,areadeconocimiento,dniprofesor,departamento) VALUES (?,?,?,?,?,?)");
+    $stmt->execute(array($Pr->getEmailP(),$Pr->getPasswordP(),$Pr->getNombre(),$Pr->getareaDeConocimiento(),$Pr->getDniP(),$Pr->getDepartamento()));
   }
   
   public function listarProfesores($email) {
@@ -49,6 +59,11 @@ class ProfesorMapper {
             $stmt = $this->db->prepare("UPDATE Profesor SET contrasenhaPr=? WHERE email=?");
             $stmt->execute(array($Pr->getPasswordP(), $Pr->getEmailP()));
        }
+  }
+  
+  public function modificarC(Profesor $Pr) {
+    $stmt = $this->db->prepare("UPDATE Profesor SET email=?,contrasenhaPr=?,nombre=?,areadeconocimiento=?,dniprofesor=?,departamento=? WHERE dniProfesor=?");
+    $stmt->execute(array($Pr->getEmailP(),$Pr->getPasswordP(),$Pr->getNombre(),$Pr->getareaDeConocimiento(),$Pr->getDniP(),$Pr->getDepartamento(),$Pr->getDniP()));  
   }
   
   public function calcularNPropuestasAPresentar($dni){

@@ -5,9 +5,11 @@ require_once(__DIR__."/../core/PDOConnection.php");
 class CoordinadorMapper {
 
   private $db;
+  private $coordinador;
   
   public function __construct() {
     $this->db = PDOConnection::getInstance();
+	$this->coordinador = new Coordinador();
   }
      
   public function estadoCursoActual() {
@@ -41,10 +43,10 @@ class CoordinadorMapper {
 		}
   }
   
-  public function cargarDatos($rutaprof){
+  public function cargarDatos($ruta,$rutaal){
    $connect = mysqli_connect("localhost", "TFGManager", "abc123.", "eseitfgmanager"); 
-   include ("/../PHPExcel/IOFactory.php");    
-   $objPHPExcel = PHPExcel_IOFactory::load($rutaprof);  
+   include ("/../PHPExcel/IOFactory.php");  
+   $objPHPExcel = PHPExcel_IOFactory::load($ruta);  
    foreach ($objPHPExcel->getWorksheetIterator() as $worksheet):  
    $highestRow = $worksheet->getHighestRow();  
    for ($row=2; $row<=$highestRow; $row++)  
@@ -59,8 +61,7 @@ class CoordinadorMapper {
    $stmt->execute(array($dni, $email, "asdasd", $nombre, $area, $dpt, $ntfg)); 		    
    } 
    endforeach; 
-   
-   $objPHPExcel = PHPExcel_IOFactory::load('alumnos.xlsx');   
+   $objPHPExcel = PHPExcel_IOFactory::load($rutaal);   
    foreach ($objPHPExcel->getWorksheetIterator() as $worksheet):  
    $highestRow = $worksheet->getHighestRow();  
    for ($row=2; $row<=$highestRow; $row++)  
@@ -92,6 +93,17 @@ class CoordinadorMapper {
   public function getFechaCurso() {
     $stmt = $this->db->query("SELECT fechaCurso FROM coordinador");
 	return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+  
+  public function setFechaCurso($fecha) {
+    $estado = $this->coordinador->fechaCursoValida($fecha);
+	if($estado==true){
+    $stmt = $this->db->prepare("UPDATE coordinador SET fechaCurso=?");
+	$stmt->execute(array($fecha));
+	return true;
+	}else{
+	return false;
+	}
   }
   
   public function isValidUser($email, $password) {

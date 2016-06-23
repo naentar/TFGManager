@@ -272,7 +272,7 @@
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="departamento">ADepartamento:</label>
+				  <label class="control-label col-sm-4" for="departamento">Departamento:</label>
 				  <div class="col-sm-4">
 					<b><input type="text" class="form-control" name="departamento" placeholder="Introduzca departamento del profesor"></b>
 				  </div>
