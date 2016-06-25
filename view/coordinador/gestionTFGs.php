@@ -80,7 +80,7 @@
 		</thead>
 		<tbody>		  
 		    <?php foreach($listarTFGs as $propuesta):
-			    if(($propuesta["tituloEn"]=="solicitado" && $estadocurso=="4") || ($estadocurso=="6" && $propuesta["tituloEn"]!="NoAsignado")){
+			    if(($propuesta["tituloEn"]=="solicitado" && $estadocurso=="4") || ($estadocurso=="5" && $propuesta["tituloEn"]!="solicitado" && $propuesta["tituloEn"]!="mutuo")){
 			    echo '<tr>';
 				echo '<form method="post" action="index.php?controller=users&action=gestionarTFGs">';
 				echo '<div class="form-group">';

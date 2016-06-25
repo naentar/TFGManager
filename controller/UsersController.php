@@ -503,7 +503,7 @@ class UsersController extends BaseController {
             $pdf->Output('F',$filename);				
 				$mail->Subject = "Comienza la etapa de asignaciones provisionales";
 		        $mail->Body = "Podras realizar la comprobaci&oacute;n de asignaciones de TFG provisional en la lista presente en la p&aacute;gina de inicio de la web.";			   
-				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
+				$listaAlumnos = $this->alumnoMapper->ordenarPorNota();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
 			    endforeach; 			
@@ -555,7 +555,7 @@ class UsersController extends BaseController {
 			}
             $pdf->Output('F',$filename);				
 				$mail->Subject = "Comienza la etapa de asignaciones definitivas";
-		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web en tu p&aacutegina de inicio.";			   
+		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web en tu p&aacutegina de inicio a partir de ".$_POST["fecha"].". Recuerda realizar esta solicitud dos meses antes del plazo de presentaci&oacute;n".;			   
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
