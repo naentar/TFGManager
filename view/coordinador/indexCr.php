@@ -181,7 +181,7 @@
 		<hr>
         <div class="row">		
                 <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=modifyCr">Modificar cuenta</a>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=coordinador&action=modifyCr">Modificar cuenta</a>
                 </p> 
                 <p>En esta opci&oacute;n podr&aacute; modificar la contraseña de la cuenta, adem&aacute;s, es recomendable la asignaci&oacute;n de la informaci&oacute;n referente al gmail con el que enviar los correos para
 				el correcto funcionamiento de los mismos.</p>               

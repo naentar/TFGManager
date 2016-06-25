@@ -55,7 +55,7 @@ class ProfesorController extends BaseController {
        $dniProf = $this->profesorMapper->getId($this->username);
 	   $listarTFGs = $this->tfgMapper->listarTFGsMutuoAcuerdo($dniProf["dniProfesor"]);
        $this->view->setVariable("listarTFGs", $listarTFGs);	
-	   $listaAlumnos = $this->alumnoMapper->listarAlumnos();
+	   $listaAlumnos = $this->alumnoMapper->ordenarPorNota();
 	   $this->view->setVariable("listaAlumnos", $listaAlumnos);
 	   $listaProfesores = $this->profesorMapper->listarProfesores($this->username);
 	   $this->view->setVariable("listaProfesores", $listaProfesores);

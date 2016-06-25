@@ -42,9 +42,9 @@
 		    <div class="row"> 
 				<hr>		
 					<p>
-						<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=confirmarAsignacion">Confirmar asignaci&oacute;n oficial.</a>
+						<a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=confirmarAsignacion">Confirmar asignaci&oacute;n definitiva.</a>
 					</p> 
-					<p>En caso de querer realizar una asignaci&oacute;n oficial de anteproyecto, rellene el formulario que se encuentra en este bot&oacute;n.</p>                
+					<p>En caso de querer realizar una asignaci&oacute;n definitiva de anteproyecto, rellene el formulario que se encuentra en este bot&oacute;n.</p>                
 			</div>	
         <!-- /.row -->
 	<?php
@@ -62,7 +62,7 @@
      <hr>
         <div class="row">
 			    <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=modifyAl">Modificar informaci&oacute;n personal</a>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=alumno&action=modifyAl">Modificar informaci&oacute;n personal</a>
                 </p> 
                 <p>En esta opci&oacute;n podrás comprobar tu informaci&oacute;n personal adem&aacute;s de realizar modificaciones sobre la misma y poder modificar la contraseña.</p>			
         </div>

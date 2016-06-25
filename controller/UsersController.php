@@ -391,7 +391,7 @@ class UsersController extends BaseController {
 		   $mail->Subject = "Comienza la fase de solicitudes de TFG por parte del alumnado";
 		   $mail->Body = "Podr&aacute;s comprobar la lista de propuestas en la p&aacute;gina de inicio. Por favor, env&iacute;a tu solicitud en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina. 
            tienes como fecha límite hasta el".$_POST["fecha"].".";			   
-		   $listaAlumnos = $this->alumnoMapper->listarAlumnos();
+		   $listaAlumnos = $this->alumnoMapper->ordenarPorNota();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
 			    endforeach; 			
@@ -501,7 +501,7 @@ class UsersController extends BaseController {
 			endforeach;
 			}
             $pdf->Output('F',$filename);				
-				$mail->Subject = "Comienza la etapa de asignaciones oficiales";
+				$mail->Subject = "Comienza la etapa de asignaciones provisionales";
 		        $mail->Body = "Podras realizar la comprobaci&oacute;n de asignaciones de TFG provisional en la lista presente en la p&aacute;gina de inicio de la web.";			   
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
@@ -554,7 +554,7 @@ class UsersController extends BaseController {
 			endforeach;
 			}
             $pdf->Output('F',$filename);				
-				$mail->Subject = "Comienza la etapa de asignaciones oficiales";
+				$mail->Subject = "Comienza la etapa de asignaciones definitivas";
 		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web en tu p&aacutegina de inicio.";			   
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
@@ -997,22 +997,6 @@ class UsersController extends BaseController {
 				$gmail = $log["gmailCorreos"];	
 				$passwdgmail = $log["contrasenhaCorreos"];			
 			endforeach;
-			$mail = new PHPMailer;                               
-			$mail->isSMTP();                                      
-			$mail->Host = "smtp.gmail.com";  
-			$mail->SMTPAuth = true;                               
-			$mail->Username = $gmail;                             
-			$mail->Password = $passwdgmail;                          
-			$mail->SMTPSecure = 'ssl';                            
-			$mail->Port = 465;                                    
-			$mail->isHTML(true);
-			$mail->setFrom($gmail);
-		    $mail->Subject = "Documento de asignaci&oacute;n oficial de TFG";
-		    $mail->Body = "Por favor, presenta este documento en secretar&iacute;a con la firma de tu tutor";	
-            $mail->addAttachment('/../asignacionOficial.pdf');
-            $mail->addAddress($aluactual["email"]);			
-			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 			$this->view->redirect("alumno", "index");           
 	}else{
 		echo "Upss! no deberías estar aquí";

@@ -12,7 +12,7 @@
 	<div class="container">
 	    <div class="row">
 	    <br>
-	    <h3>Asignación oficial:</h3>
+	    <h3>Asignación definitiva:</h3>
 		<p>Con el objetivo de formalizar este trámite se requiere cubrir el siguiente formulario, y entregar el pdf generado a partir del mismo en secretaría con el visto bueno del profesor:</p>
         <hr>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=confirmarAsig" >

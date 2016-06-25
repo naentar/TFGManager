@@ -41,7 +41,7 @@
         <hr>
         <div class="row">
                 <p>
-                    <a class="btn btn-default btn-lg" href="index.php?controller=users&action=modifyPr">Modificar contraseña</a>
+                    <a class="btn btn-default btn-lg" href="index.php?controller=profesor&action=modifyPr">Modificar contraseña</a>
                 </p> 
                 <p>En esta opci&oacute;n podr&aacute;s modificar tu contraseña, adem&aacute;s de poder comprobar tu informaci&oacute;n almacenada en el sistema en referencia a tu cuenta.</p>
                 
