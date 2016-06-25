@@ -54,7 +54,7 @@ $usuario = $view->getVariable("currentusername");
     </div>
 	<div class="container">
 	    <div class="row">
-		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=modificarProfesor" >
+		<form class="form-horizontal" role="form" method="post" action="index.php?controller=profesor&action=modificarProfesor" >
 				<div class="form-group">
 				  <label class="control-label col-sm-4 " for="password">Contraseña:</label>
 				  <div class="col-sm-4">          

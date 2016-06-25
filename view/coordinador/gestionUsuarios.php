@@ -167,7 +167,8 @@
 		<br>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=gestionarAlumnoC" >
 				<div class="mycenter red">
-		           <?php echo $view->popFlash();?>
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
 	            </div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="dniAlumno">Dni:</label>
@@ -245,7 +246,8 @@
 		<br>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=gestionarProfesorC" >
 				<div class="mycenter red">
-		           <?php echo $view->popFlash();?>
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
 	            </div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="dniProfesor">Dni:</label>

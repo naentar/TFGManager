@@ -17,8 +17,8 @@ class AlumnoMapper {
   }
   
   public function modificarC(Alumno $Al) {
-    $stmt = $this->db->prepare("UPDATE Alumno SET email=?,contrasenhaAl=?,nombre=?,telefono=?,notaMedia=?,direccion=?,  provincia=?, localidad=? WHERE dniAlumno=?");
-    $stmt->execute(array($Al->getEmailA(),$Al->getPasswordA(),$Al->getNombre(),$Al->getTelefono(),$Al->getNotaMedia(), $Al->getDireccion(),  $Al->getProvincia(), $Al->getLocalidad(),$Al->getDniA()));  
+    $stmt = $this->db->prepare("UPDATE Alumno SET email=?,contrasenhaAl=?,nombre=?,telefono=?,direccion=?,  provincia=?, localidad=?, notaMedia=? WHERE dniAlumno=?");
+    $stmt->execute(array($Al->getEmailA(),$Al->getPasswordA(),$Al->getNombre(),$Al->getTelefono(), $Al->getDireccion(),  $Al->getProvincia(), $Al->getLocalidad(),$Al->getNotaMedia(),$Al->getDniA()));  
   }
   
   public function eliminar(Alumno $Al) {

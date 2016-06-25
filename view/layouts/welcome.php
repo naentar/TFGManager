@@ -36,7 +36,6 @@
                 <address>
                     <abbr title="Phone">Tel:</abbr> +34 988 387 000
                     <br>
-                    <abbr title="Email">Email:</abbr> <a href="mailto:#"> coordinadortfg@esei.uvigo.com</a>
                 </address>
             </div>
         </div>

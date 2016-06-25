@@ -58,7 +58,7 @@ class CoordinadorMapper {
    $dpt = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(4, $row)->getValue()); 
    $ntfg = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(5, $row)->getValue());   
    $stmt = $this->db->prepare("INSERT INTO profesor(dniProfesor, email, contrasenhaPr, nombre, areaDeConocimiento, departamento, numerodetfgs) values (?,?,?,?,?,?,?)");
-   $stmt->execute(array($dni, $email, "asdasd", $nombre, $area, $dpt, $ntfg)); 		    
+   $stmt->execute(array($dni, $email, $dni, $nombre, $area, $dpt, $ntfg)); 		    
    } 
    endforeach; 
    $objPHPExcel = PHPExcel_IOFactory::load($rutaal);   
@@ -75,7 +75,7 @@ class CoordinadorMapper {
    $localidad = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(6, $row)->getValue()); 
    $telefono = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(7, $row)->getValue());   
    $stmt = $this->db->prepare("INSERT INTO alumno(dniAlumno, email, contrasenhaAl, nombre, telefono, notaMedia, direccion, provincia, localidad) values (?,?,?,?,?,?,?,?,?)");
-   $stmt->execute(array($dni, $email, "asdasd", $nombre, $telefono, $nota, $calle, $provincia, $localidad)); 		    
+   $stmt->execute(array($dni, $email, $dni, $nombre, $telefono, $nota, $calle, $provincia, $localidad)); 		    
    } 
    endforeach;	
   }

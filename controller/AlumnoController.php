@@ -51,6 +51,18 @@ class AlumnoController extends BaseController {
 	}	
   }
   
+    public function modifyAl() {
+    if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
+           $alumno= $this->alumnoMapper->consultarUsuario($this->currentUser->getEmailA());
+		   $this->view->setVariable("alumnoInf",$alumno);
+		   $this->view->render("alumno", "modificarAl");
+        }else{
+            echo "No est&aacute;s autorizado";
+            echo "<br>Redireccionando...";
+            header("Refresh: 5; index.php?controller=users&action=index");
+        }	
+  }
+  
   public function SolicitudTFG() {
 	if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
 		$dniAl = $this->alumnoMapper->getId($this->currentUser->getEmailA());

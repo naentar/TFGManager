@@ -34,7 +34,19 @@ class ProfesorController extends BaseController {
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=users&action=index");
 	}	
-  } 
+  }
+
+  public function modifyPr() {
+    if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
+	   $profesor= $this->profesorMapper->consultarUsuario($this->currentUser->getEmailP());
+	   $this->view->setVariable("profesorInf",$profesor);
+	   $this->view->render("profesor", "modificarPr");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }  
   
   public function gestionSolicitudes() {
     if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {

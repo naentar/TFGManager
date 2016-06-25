@@ -48,9 +48,10 @@ $usuario = $view->getVariable("currentusername");
     </div>
 	<div class="container">
 	    <div class="row">
-		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=modificarAlumno" >
+		<form class="form-horizontal" role="form" method="post" action="index.php?controller=alumno&action=modificarAlumno" >
 				<div class="mycenter red">
-		           <?php echo $view->popFlash();?>
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
 	            </div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="telefono">Tel&eacute;fono:</label>

@@ -35,6 +35,18 @@ class CoordinadorController extends BaseController {
         }	
   }
   
+  public function modifyCr() {
+    if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
+	   $coordinador= $this->coordinadorMapper->consultarUsuario($this->currentUser->getEmailC());
+	   $this->view->setVariable("coordinadorInf",$coordinador);
+	   $this->view->render("coordinador", "modificarCr");
+	}else{
+		echo "No est&aacute;s autorizado";
+		echo "<br>Redireccionando...";
+		header("Refresh: 5; index.php?controller=users&action=index");
+	}	
+  }
+  
   public function gestionPropuestas(){
 	if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
 	   $listarPropuestas = $this->propuestadetfgMapper->listarPropuestas();

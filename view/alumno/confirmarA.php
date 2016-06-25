@@ -17,7 +17,8 @@
         <hr>
 		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=confirmarAsig" >
 				<div class="mycenter red">
-		           <?php echo $view->popFlash();?>
+		           <?php echo $view->popFlash();
+				   $view->setFlash("");?>
 	            </div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="tituloEs">T&iacute;tulo del TFG en castellano:</label>

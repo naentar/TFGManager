@@ -59,7 +59,11 @@ class Coordinador {
   }
   
   public function fechaCursoValida($fecha) {  
-  return preg_match("/([0-9]{2})\/([0-9]{2})/", $fecha);
+  list($fechauno,$fechados) = preg_split('[/]',$fecha);
+  $fechauno++;
+  if($fechauno==$fechados){return true;
+  }else{return false;
+  }
   }
   
 }

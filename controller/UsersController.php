@@ -44,35 +44,39 @@ class UsersController extends BaseController {
 		if ($this->coordinadorMapper->isValidUser($login,$pass)) {
 		$_SESSION["currentuser"]=$_POST["email"]; 		
 		$this->view->redirect("coordinador", "index");	
-		}      		
+		}else {
+			$this->view->setFlash("Login incorrecto");
+			}      		
 	  } else if ($this->alumnoMapper->checkUser($login)) {
 		if ($this->alumnoMapper->isValidUser($login, $pass)) {
 			$_SESSION["currentuser"]=$_POST["email"];
 			$this->view->redirect("alumno", "index");
-		   }		  
+		   }else {
+			$this->view->setFlash("Login incorrecto");
+			}
      } else if ($this->profesorMapper->checkUser($login)) {
 		if ($this->profesorMapper->isValidUser($login, $pass)) {
 			$_SESSION["currentuser"]=$_POST["email"];
 			$this->view->redirect("profesor", "index");
-		   }		  
+		   }else {
+			$this->view->setFlash("Login incorrecto");
+			}		  
      } else {	 
 	  $this->view->setFlash("Login incorrecto");
 	 }
 	}
-    $this->view->render("users", "login");        
+    $this->view->render("users", "login");       
   }
   
   public function actualizarEstadoCurso() {
     if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
-	    //https://www.google.com/settings/security/lesssecureapps
 		require_once(__DIR__."/../phpmailer/PHPMailerAutoload.php");
 		$gmaillog = $this->coordinadorMapper->infoGmail();
 		foreach($gmaillog as $log):
 			$gmail = $log["gmailCorreos"];	
             $passwdgmail = $log["contrasenhaCorreos"];			
 	    endforeach;
-		$mail = new PHPMailer;
-		//$mail->SMTPDebug = 3;                               
+		$mail = new PHPMailer;                               
 		$mail->isSMTP();                                      
 		$mail->Host = "smtp.gmail.com";  
 		$mail->SMTPAuth = true;                               
@@ -87,65 +91,127 @@ class UsersController extends BaseController {
 		   $this->view->setVariable("estadocurso","0");
 		} else if($_POST["nuevoEstadoCurso"]=="1"){
 		   $this->view->setVariable("estadocurso","0");
-		   if(!empty($_POST["datosprofesor"]) && !empty($_POST["datosalumno"])){
-		      if(file_exists($_POST["datosprofesor"]) && file_exists($_POST["datosalumno"])){
-           $this->coordinadorMapper->cargarDatos($_POST["datosprofesor"],$_POST["datosalumno"]);
-		   }else{
-		   $this->view->setFlash(i18n("El archivo no se encuentra en el directorio del servidor."));
-		      }
-		   }
+		   $fecha = $_POST["fecha"];
+		   if(preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $fecha)){
+		   $fechaAr = explode('/', $fecha);
+		   if(checkdate($fechaAr[1],$fechaAr[0],$fechaAr[2])){
 		   $result = $this->coordinadorMapper->setFechaCurso($_POST["fechaCurso"]);
 		   if($result==false){
-		   $this->view->setFlash(i18n("El valor de la fecha introducido es incorrecto"));
+		   $this->view->setFlash(i18n("El valor de la fecha del curso introducido es incorrecto"));
 		   }else{
-				$this->coordinadorMapper->modificarEstadoCurso("1");
-				$this->view->setVariable("estadocurso","1");						
-				//Enviar mails a profesores
+		   if(empty($_POST["datosprofesor"]) && empty($_POST["datosalumno"])){
+		        $this->coordinadorMapper->modificarEstadoCurso("1");
+				$this->view->setVariable("estadocurso","1");
 				$listaProfesores = $this->profesorMapper->listarProfesores("");
-				foreach($listaProfesores as $profesor):	
 				$mail->Subject = "Comienza la fase de solicitudes de TFG de mutuo acuerdo por parte del profesorado";
 				$mail->Body = "Me gustar&iacute;a informarle de que ha dado comienzo la fase de solicitudes de mutuo acuerdo, donde podr&aacute; gestionar sus propias solicitudes en caso de que realice alg&uacute;n acuerdo con un alumno.
 				Tiene como fecha l&iacute;mite hasta el ".$_POST["fecha"].".";	
-				//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-				//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+				foreach($listaProfesores as $profesor):	
+				$mail->addAddress($profesor["email"]);				
 				endforeach;
-			}			
+				if($gmail!=NULL || $gmail!=""){
+				if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+				}
+	       }else if(!empty($_POST["datosprofesor"]) && !empty($_POST["datosalumno"])){
+		      if(file_exists($_POST["datosprofesor"]) && file_exists($_POST["datosalumno"])){
+                $this->coordinadorMapper->cargarDatos($_POST["datosprofesor"],$_POST["datosalumno"]);
+				$this->coordinadorMapper->modificarEstadoCurso("1");
+				$this->view->setVariable("estadocurso","1");
+				$listaProfesores = $this->profesorMapper->listarProfesores("");
+				$mail->Subject = "Comienza la fase de solicitudes de TFG de mutuo acuerdo por parte del profesorado";
+				$mail->Body = "Me gustar&iacute;a informarle de que ha dado comienzo la fase de solicitudes de mutuo acuerdo, donde podr&aacute; gestionar sus propias solicitudes en caso de que realice alg&uacute;n acuerdo con un alumno.
+				Tiene como fecha l&iacute;mite hasta el ".$_POST["fecha"].".";	
+				foreach($listaProfesores as $profesor):	
+				$mail->addAddress($profesor["email"]);				
+				endforeach;
+				if($gmail!=NULL || $gmail!=""){
+				if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+				}
+		      }else{
+		        $this->view->setFlash(i18n("El archivo no se encuentra en el directorio del servidor."));
+		      }
+		    }else{
+			  $this->view->setFlash(i18n("No has introducido los tres excel de manera simult&aacute;nea"));
+			}
+			}
+           }else{
+			$this->view->setFlash(i18n("Fecha incorrecta"));
+		   }		   
+		   }else{
+		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   }			
 		   $this->view->redirect("coordinador", "index");
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
 		   $this->view->setVariable("estadocurso","1");
 		   $fecha = $_POST["fecha"];
 		   if(preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $fecha)){
 		   $fechaAr = explode('/', $fecha);
-		   if(checkdate($fechaAr[0],$fechaAr[1],$fechaAr[2])){
+		   if(checkdate($fechaAr[1],$fechaAr[0],$fechaAr[2])){
            $this->coordinadorMapper->modificarEstadoCurso("2");
 		   $this->view->setVariable("estadocurso","2");	
            $listaProfesores = $this->profesorMapper->listarProfesores("");
                 foreach($listaProfesores as $profesor):	
 				   $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($profesor["dniProfesor"]);
 				   if($numeroDeProp<=0){
-				   $mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
-				   $mail->Body = "Me gustar&iacute;a informarle que supera el n&uacute;mero de TFGs que los profesores deben presentar este año, en caso de no estar 
+				   $mailmas = new PHPMailer;                              
+				   $mailmas->isSMTP();                                      
+				   $mailmas->Host = "smtp.gmail.com";  
+				   $mailmas->SMTPAuth = true;                               
+			       $mailmas->Username = $gmail;                             
+				   $mailmas->Password = $passwdgmail;                          
+				   $mailmas->SMTPSecure = 'ssl';                            
+				   $mailmas->Port = 465;                                    
+				   $mailmas->isHTML(true);
+				   $mailmas->setFrom($gmail);	
+				   $mailmas->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
+				   $mailmas->Body = "Me gustar&iacute;a informarle que supera el n&uacute;mero de TFGs que los profesores deben presentar este año, en caso de no estar 
 				   tutorizando y por tanto no tiene que realizar ninguna propuesta.";				   
-				   $mail->addAddress($profesor["email"]);	
+				   $mailmas->addAddress($profesor["email"]);
+                   if($gmail!=NULL){
+				   if(!$mailmas->Send()) echo "Mailer error" .$mailmas->ErrorInfo;
+				   }				   
 				   }else if($numeroDeProp>0){
-				   $mail->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
-				   $mail->Body = "Por favor, realice sus propuestas de TFG en su p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n 
+				   $mailmenos = new PHPMailer;                              
+				   $mailmenos->isSMTP();                                      
+				   $mailmenos->Host = "smtp.gmail.com";  
+				   $mailmenos->SMTPAuth = true;                               
+			       $mailmenos->Username = $gmail;                             
+				   $mailmenos->Password = $passwdgmail;                          
+				   $mailmenos->SMTPSecure = 'ssl';                            
+				   $mailmenos->Port = 465;                                    
+				   $mailmenos->isHTML(true);
+				   $mailmenos->setFrom($gmail);	
+				   $mailmenos->Subject = "Comienza la fase de propuestas de TFG por parte del profesorado";
+				   $mailmenos->Body = "Por favor, realice sus propuestas de TFG en su p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n 
 				   en la p&aacute;gina. El número de propuestas que debes realizar es: ".$numeroDeProp." y tiene de plazo hasta el ".$_POST["fecha"].".";				   
-				   $mail->addAddress($profesor["email"]);
-				   //Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-				   //if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+				   $mailmenos->addAddress($profesor["email"]);
+				   if($gmail!=NULL || $gmail!=""){
+				   if(!$mailmenos->Send()) echo "Mailer error" .$mailmenos->ErrorInfo;
+				   }
 				   }		   
 				endforeach;				
            }else{
-			$this->view->setFlash(i18n("Fecha incorrecta"));
+			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
 		   }		   
 		   }else{
-		   $this->view->setFlash(i18n("El valor de la fecha introducido es incorrecto"));
-		   }
-		   
+		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   }		   
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
+		   $this->view->setVariable("estadocurso","2");
+		   $fecha = $_POST["fecha"];
+		   if(preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $fecha)){
+		   $fechaAr = explode('/', $fecha);
+		   if(checkdate($fechaAr[1],$fechaAr[0],$fechaAr[2])){
 		   $this->coordinadorMapper->modificarEstadoCurso("3");
-		   $this->view->setVariable("estadocurso","3");  
+		   $this->view->setVariable("estadocurso","3"); 		   
+           }else{
+			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+			$this->view->render("coordinador", "indexCr");
+		   }		   
+		   }else{
+		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->render("coordinador", "indexCr");
+		   } 
 		   $listaProfesores = $this->profesorMapper->listarProfesores("");
 		   foreach($listaProfesores as $profesor):
 		   $numeroDeProp = $this->profesorMapper->calcularNPropuestasAPresentar($profesor["dniProfesor"]);
@@ -323,18 +389,31 @@ class UsersController extends BaseController {
 			}
             $pdf->Output('F',$filename);		   
 		   $mail->Subject = "Comienza la fase de solicitudes de TFG por parte del alumnado";
-		   $mail->Body = "Podr&aacte;s comprobar la lista de propuestas en el pdf adjunto o en la p&aacute;gina. Por favor, env&iacute;a tu solicitud en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina. ";	
-           $mail->addAttachment('/../propuestas.pdf');		   
+		   $mail->Body = "Podr&aacute;s comprobar la lista de propuestas en la p&aacute;gina de inicio. Por favor, env&iacute;a tu solicitud en tu p&aacute;gina principal, una vez hayas iniciado sesi&oacute;n en la p&aacute;gina. 
+           tienes como fecha límite hasta el".$_POST["fecha"].".";			   
 		   $listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
 			    endforeach; 			
-			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
-							
+			if($gmail!=NULL || $gmail!=""){
+				   if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+		    }							
 		} else if($_POST["nuevoEstadoCurso"]=="4"){
+		   $this->view->setVariable("estadocurso","3");
+		   $fecha = $_POST["fecha"];
+		   if(preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $fecha)){
+		   $fechaAr = explode('/', $fecha);
+		   if(checkdate($fechaAr[1],$fechaAr[0],$fechaAr[2])){
 		   $this->coordinadorMapper->modificarEstadoCurso("4");
-		   $this->view->setVariable("estadocurso","4");
+		   $this->view->setVariable("estadocurso","4"); 		   
+           }else{
+			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+			$this->view->render("coordinador", "indexCr");
+		   }		   
+		   }else{
+		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->render("coordinador", "indexCr");
+		   } 
 		   //Asignar Solicitudes:
 			$arr = array();
 			$alumnosorden = $this->alumnoMapper->ordenarPorNota();
@@ -423,17 +502,30 @@ class UsersController extends BaseController {
 			}
             $pdf->Output('F',$filename);				
 				$mail->Subject = "Comienza la etapa de asignaciones oficiales";
-		        $mail->Body = "Aqu&iacute; puedes comprobar la lista de asignaciones de TFG provisional.";			   
-		        $mail->addAttachment('/../asignacionesP.pdf');
+		        $mail->Body = "Podras realizar la comprobaci&oacute;n de asignaciones de TFG provisional en la lista presente en la p&aacute;gina de inicio de la web.";			   
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
 			    endforeach; 			
-			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+			if($gmail!=NULL || $gmail!=""){
+				 if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+		    }
         } else if($_POST["nuevoEstadoCurso"]=="5"){
+		   $this->view->setVariable("estadocurso","4");
+		   $fecha = $_POST["fecha"];
+		   if(preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $fecha)){
+		   $fechaAr = explode('/', $fecha);
+		   if(checkdate($fechaAr[1],$fechaAr[0],$fechaAr[2])){
            $this->coordinadorMapper->modificarEstadoCurso("5");
-		   $this->view->setVariable("estadocurso","5"); 
+		   $this->view->setVariable("estadocurso","5");		   
+           }else{
+			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+			$this->view->render("coordinador", "indexCr");
+		   }		   
+		   }else{
+		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->render("coordinador", "indexCr");
+		   }
            //Generar PDF de asignaciones definitivas
 		   $fechaCurso = $this->coordinadorMapper->getFechaCurso();
 		   list($fechap,$fechas) = preg_split('[/]',$fechaCurso["fechaCurso"]);
@@ -463,17 +555,18 @@ class UsersController extends BaseController {
 			}
             $pdf->Output('F',$filename);				
 				$mail->Subject = "Comienza la etapa de asignaciones oficiales";
-		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web, donde debes introducir el título del TFG en tres idiomas y confirmar si se realiza en empresa o no. ";			   
-		        $mail->addAttachment('/../asignacionesD.pdf');
+		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web en tu p&aacutegina de inicio.";			   
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
 			    endforeach; 			
-			//Descomentar para enviar mails (comentado para realizar pruebas sobre la aplicación):
-			//if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;		   
+			if($gmail!=NULL || $gmail!=""){
+				 if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
+		    }		   
 		} else if($_POST["nuevoEstadoCurso"]=="6"){
-           $this->coordinadorMapper->modificarEstadoCurso("6");
-		   $this->view->setVariable("estadocurso","6");
+		   //eliminar base de datos
+           $this->coordinadorMapper->modificarEstadoCurso("0");
+		   $this->view->setVariable("estadocurso","0");
            $this->tfgMapper->declararNoAsignados();		   
 		}		
 		$this->view->render("coordinador", "indexCr");
@@ -484,52 +577,7 @@ class UsersController extends BaseController {
         }	
   }
  
- 
-  public function modifyAl() {
-    if (isset($this->currentUser) && $this->alumnoMapper->checkuser($this->username)) {
-           $alumno= $this->alumnoMapper->consultarUsuario($this->currentUser->getEmailA());
-		   $this->view->setVariable("alumnoInf",$alumno);
-		   $this->view->render("alumno", "modificarAl");
-        }else{
-            echo "No est&aacute;s autorizado";
-            echo "<br>Redireccionando...";
-            header("Refresh: 5; index.php?controller=users&action=index");
-        }	
-  }
-  
-  public function gestionarAlumnoC() {
-     if(isset($this->currentUser)) {
-                    $alumno = new Alumno();
-					$alumno->setDniA(($_POST["dniAlumno"]));
-					if(isset($_POST["eliminar"])){
-					   $this->alumnoMapper->eliminar($alumno);
-                       $this->view->redirect("coordinador", "gestionUsuarios");					   
-					} 
-					   $alumno->setEmailA($_POST["email"]);
-					   $alumno->setNombre($_POST["nombre"]);
-					   $alumno->setNotaMedia(floatval($_POST["notaMedia"]));
-					   $alumno->setTelefono($_POST["telefono"]);
-					   $alumno->setDireccion($_POST["direccion"]);
-					   $alumno->setLocalidad($_POST["localidad"]);
-					   $alumno->setProvincia($_POST["provincia"]);
-					   $alumno->setPasswordA($_POST["contrasenhaAl"]);					   
-					   if(isset($_POST["modificar"])){
-					   $this->alumnoMapper->modificarc($alumno);
-					   $this->view->redirect("coordinador", "gestionUsuarios");
-					   }
-					   if(isset($_POST["insertar"])){
-					   $this->alumnoMapper->insertar($alumno);
-                       $this->view->redirect("coordinador", "gestionUsuarios");
-                       }					    
-               $this->view->redirect("coordinador", "gestionUsuarios");           
-	}else{
-		echo "Upss! no deberías estar aquí";
-		echo "<br>Redireccionando...";
-		header("Refresh: 5; index.php?controller=users&action=index");
-	}	
-  }
-  
-  public function modificarAlumno(){
+    public function modificarAlumno(){
         if(isset($this->currentUser)) {
             if (isset($_POST["password"]) && isset($_POST["sndpassword"])) {
                 $pass = $_POST["password"];
@@ -567,15 +615,35 @@ class UsersController extends BaseController {
             header("Refresh: 5; index.php?controller=users&action=index");
         }
     }
-	
-	
-  public function modifyPr() {
-    if (isset($this->currentUser) && $this->profesorMapper->checkuser($this->username)) {
-	   $profesor= $this->profesorMapper->consultarUsuario($this->currentUser->getEmailP());
-	   $this->view->setVariable("profesorInf",$profesor);
-	   $this->view->render("profesor", "modificarPr");
+  
+  public function gestionarAlumnoC() {
+     if(isset($this->currentUser)) {
+                    $alumno = new Alumno();
+					$alumno->setDniA(($_POST["dniAlumno"]));
+					if(isset($_POST["eliminar"])){
+					   $this->alumnoMapper->eliminar($alumno);
+                       $this->view->redirect("coordinador", "gestionUsuarios");					   
+					} 
+					   $alumno->setEmailA($_POST["email"]);
+					   $alumno->setNombre($_POST["nombre"]);
+					   $num = floatval($_POST["notaMedia"]);
+					   $alumno->setNotaMedia($num);
+					   $alumno->setTelefono($_POST["telefono"]);
+					   $alumno->setDireccion($_POST["direccion"]);
+					   $alumno->setLocalidad($_POST["localidad"]);
+					   $alumno->setProvincia($_POST["provincia"]);
+					   $alumno->setPasswordA($_POST["contrasenhaAl"]);					   
+					   if(isset($_POST["modificar"])){
+					   $this->alumnoMapper->modificarc($alumno);
+					   $this->view->redirect("coordinador", "gestionUsuarios");
+					   }
+					   if(isset($_POST["insertar"])){
+					   $this->alumnoMapper->insertar($alumno);
+                       $this->view->redirect("coordinador", "gestionUsuarios");
+                       }					    
+               $this->view->redirect("coordinador", "gestionUsuarios");           
 	}else{
-		echo "No est&aacute;s autorizado";
+		echo "Upss! no deberías estar aquí";
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=users&action=index");
 	}	
@@ -641,18 +709,6 @@ class UsersController extends BaseController {
 		echo "<br>Redireccionando...";
 		header("Refresh: 5; index.php?controller=users&action=index");
 	}
-  }
-  
-  public function modifyCr() {
-    if (isset($this->currentUser) && $this->coordinadorMapper->checkuser($this->username)) {
-	   $coordinador= $this->coordinadorMapper->consultarUsuario($this->currentUser->getEmailC());
-	   $this->view->setVariable("coordinadorInf",$coordinador);
-	   $this->view->render("coordinador", "modificarCr");
-	}else{
-		echo "No est&aacute;s autorizado";
-		echo "<br>Redireccionando...";
-		header("Refresh: 5; index.php?controller=users&action=index");
-	}	
   }
   
   public function modificarCoordinador(){

@@ -13,7 +13,7 @@
 	    <br>
 	    <h3>Modificar informaci&oacute;n de la cuenta:</h3>
         <hr>
-		<form class="form-horizontal" role="form" method="post" action="index.php?controller=users&action=modificarCoordinador" >
+		<form class="form-horizontal" role="form" method="post" action="index.php?controller=coordinador&action=modificarCoordinador" >
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="gmail">Gmail para correos:</label>
 				  <div class="col-sm-4">

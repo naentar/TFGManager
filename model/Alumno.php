@@ -69,7 +69,7 @@ class Alumno {
   } 
   
   public function getNotaMedia() {
-    return $this->email;
+    return $this->notaMedia;
   }
   
   public function setNotaMedia($notaMedia) {

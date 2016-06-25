@@ -33,15 +33,13 @@
               <li class="list-group-item list-group-item-<?php if($estadocurso<4){
 			  echo 'warning';}else if($estadocurso==4){ echo 'info';}else{ echo 'success';}?>">5.Asignaci&oacute;n provisional</li>
               <li class="list-group-item list-group-item-<?php if($estadocurso<5){
-			  echo 'warning';}else if($estadocurso==5){ echo 'info';}else{ echo 'success';}?>">6.Asignaci&oacute;n oficial</li>
-              <li class="list-group-item list-group-item-<?php if($estadocurso<6){
-			  echo 'warning';}else if($estadocurso==6){ echo 'info';}?>">7.Cursando TFG</li>			  
+			  echo 'warning';}else if($estadocurso==5){ echo 'info';}?>">6.Cursando TFG</li>			  
 		</ul>
 		</div>
 		</div>
 		<div class="col-sm-8">
 
-	    <h3>Acciones a realizar en esta fase:</h3>
+	    <h3>Acciones a realizar para avanzar a la siguiente fase:</h3>
         <hr>
 			<div class="mycenter red">
 		           <?php echo $view->popFlash();
@@ -52,21 +50,27 @@
 		        if($estadocurso=="0"){	
 	            ?>
 				<div class="form-group">
-				  <label class="control-label col-sm-5" for="fecha">Archivo excel para cargar profesores:</label>
+				  <label class="control-label col-sm-5" for="datosprofesor">Archivo excel para cargar profesores:</label>
 				  <div class="col-sm-4">
 					<b><input name="datosprofesor" type="file"></input></b>
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="control-label col-sm-5" for="fecha">Archivo excel para cargar alumnos:</label>
+				  <label class="control-label col-sm-5" for="datosalumno">Archivo excel para cargar alumnos:</label>
 				  <div class="col-sm-4">
 					<b><input name="datosalumno" type="file"></input></b>
 				  </div>
 				</div>
 				<div class="form-group">
+				  <label class="control-label col-sm-5" for="datostfg">Archivo excel para cargar TFG's:</label>
+				  <div class="col-sm-4">
+					<b><input name="datostfg" type="file"></input></b>
+				  </div>
+				</div>
+				<div class="form-group">
 				  <label class="control-label col-sm-5" for="fechaCurso">Introduzca año del curso</label>
 				  <div class="col-sm-6">
-					<b><input class="form-control" name="fechaCurso" placeholder="aa/aa"></input></b>
+					<b><input class="form-control" name="fechaCurso" required="required" pattern="\d{2}/\d{2}" title="Fecha incorrecta, introduzca dos años consecutivos (Por Ej 16/17)" placeholder="aa/aa"></input></b>
 				  </div>
 				</div>
 				<?php 
@@ -74,9 +78,17 @@
 		        if($estadocurso=="0" || $estadocurso=="1" || $estadocurso=="2" || $estadocurso=="3" || $estadocurso=="4"){	
 	            ?>
 				<div class="form-group">
-				  <label class="control-label col-sm-5" for="fecha">Fecha l&iacute;mite a enviar por email:</label>
+				  <label class="control-label col-sm-5" for="fecha">
+				  <?php
+				  if($estadocurso=="0") echo 'Fecha l&iacute;mite que se mostrará en el email:';
+				  if($estadocurso=="1") echo 'Fecha l&iacute;mite que se mostrará en el email:';
+				  if($estadocurso=="2") echo 'Fecha l&iacute;mite que se mostrará en el email:';
+				  if($estadocurso=="3") echo 'Fecha l&iacute;mite que se mostrará en el email:';
+				  if($estadocurso=="4") echo 'Fecha l&iacute;mite que se mostrará en el email:';
+				  ?>
+				  </label>
 				  <div class="col-sm-6">
-					<b><input class="form-control" name="fecha" placeholder="dd/mm/aaaa"></input></b>
+					<b><input class="form-control" name="fecha" required="required" pattern="\d{2}/\d{2}/\d{4}" title="Fecha incorrecta, inserte d&iacute;a, mes y año (Por Ej 01/01/2017)" placeholder="dd/mm/aaaa"></input></b>
 				  </div>
 				</div>
 				<?php 
@@ -84,38 +96,28 @@
 				?>		
 				  <b><input type="hidden" class="form-control" name="estado" value="<?php 
 					if(strval($estadocurso)=="0"){
-					echo '2.Propuestas de TFGs de mutuo acuerdo';
 					$curso=1;
 					}
 					if(strval($estadocurso)=="1"){
-					echo '3.Propuestas de Profesores';
 					$curso=2;
 					}
 					if(strval($estadocurso)=="2"){
-					echo '4.Solicitudes de Alumnos';
 					$curso=3;
 					}
 					if(strval($estadocurso)=="3"){
-					echo '5.Asignaci&oacute;n provisional';
 					$curso=4;
 					}
 					if(strval($estadocurso)=="4"){
-					echo '6.Asignaci&oacute;n oficial';
 					$curso=5;
 					}
                     if(strval($estadocurso)=="5"){
-					echo '7.Cursando TFG';
 					$curso=6;
-					}
-					if(strval($estadocurso)=="6"){
-					echo '1.Inicio de curso';
-                    $curso=0;
 					}					
 					?>"></b>			
 				<input type="hidden" class="form-control" name="nuevoEstadoCurso" value="<?php echo $curso;?>">
 				<div class="form-group">        
 				  <div class="col-sm-offset-5 col-sm-10">
-						<input type="submit" class="btn btn-default" value="Avanzar de fase" >
+						<input type="submit" class="btn btn-default" value="<?php if($estadocurso=="5"){ echo 'Nuevo curso';}else{echo 'Avanzar de fase';} ?>" >
 				  </div>
 				</div>
 			</form>
