@@ -168,6 +168,8 @@
 				echo '<th><input type="submit" class="btn btn-info btn-sm" name="eliminar" value="Eliminar" ></th>';
 				echo '</div>';
 				echo '<input type="hidden" class="form-control" name="idTFG" value="'.$propuesta["idTFG"].'">';
+				echo '<input type="hidden" class="form-control" name="tutorant" value="'.$propuesta["Profesor_dniProfesor"].'">';
+				echo '<input type="hidden" class="form-control" name="cotutorant" value="'.$propuesta["Profesor_dniProfesorCotutor"].'">';
 				echo '</form>';
 				echo '</tr>';
 				}

@@ -53,7 +53,13 @@
 			<div class="row"> 
 				<hr>		
 					<h2>Asignaci&oacute;n almacenada</h2>
-					<p>Tu solicitud de asignaci&oacute;n ya ha sido almacenada, ya puedes comenzar con la realizaci&oacute;n de tu TFG.</p>                
+					<p>Tu solicitud de asignaci&oacute;n ya ha sido almacenada, ya puedes comenzar con la realizaci&oacute;n de tu TFG.</p> 
+                    <p><a href="/TFGManager/asignacionOficial<?php 
+					list($valun,$valdos) = preg_split('[/]',$TFGacep["idTFG"]);
+					echo $valun;
+					echo '_';
+					echo $valdos;
+					?>.pdf">Pulsa aqu&iacute;</a> para comprobar su informe de asignaci&oacute;n definitiva.</p>					
 			</div>
 	<?php 	
 			}

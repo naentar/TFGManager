@@ -564,10 +564,13 @@ class UsersController extends BaseController {
 				 if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 		    }		   
 		} else if($_POST["nuevoEstadoCurso"]=="6"){
-		   //eliminar base de datos
+		   //limpiar base de datos, nuevo curso
            $this->coordinadorMapper->modificarEstadoCurso("0");
 		   $this->view->setVariable("estadocurso","0");
-           $this->tfgMapper->declararNoAsignados();		   
+           $this->tfgMapper->deleteIt();
+           $this->propuestadetfgMapper->deleteIt();
+		   $this->alumnoMapper->deleteIt();
+           $this->profesorMapper->deleteIt();
 		}		
 		$this->view->render("coordinador", "indexCr");
         }else{
@@ -937,7 +940,7 @@ class UsersController extends BaseController {
   public function confirmarAsig() {
     if(isset($this->currentUser)) {
 		$tfg = new TFG();
-		$tfg->setIdTFG(($_POST["idTFG"]));
+		$tfg->setIdTFG($_POST["idTFG"]);
 		$tfg->setTituloEn($_POST["tituloEn"]);
 		$tfg->setTituloEs($_POST["tituloEs"]);
 		$tfg->setTituloGa($_POST["tituloGa"]);
@@ -951,7 +954,8 @@ class UsersController extends BaseController {
 		//Generar pdf a entregar 
 		require_once(__DIR__."/../fpdf/fpdf.php");
 		require_once(__DIR__."/../fpdf/header.php");
-	   $filename="asignacionOficial.pdf";
+		list($valun,$valdos) = preg_split('[/]',$_POST["idTFG"]);
+	    $filename="asignacionOficial".$valun."_".$valdos.".pdf";
 		$pdf = new PDF();
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
@@ -990,13 +994,6 @@ class UsersController extends BaseController {
 			}
 			$pdf->Cell(0,10,utf8_decode('Descripción do proyecto: '.$tfgactual["descripcion"]),1,1);			
 			$pdf->Output('F',$filename);
-			//Enviar mail con asignación
-			require_once(__DIR__."/../phpmailer/PHPMailerAutoload.php");
-			$gmaillog = $this->coordinadorMapper->infoGmail();
-			foreach($gmaillog as $log):
-				$gmail = $log["gmailCorreos"];	
-				$passwdgmail = $log["contrasenhaCorreos"];			
-			endforeach;
 			$this->view->redirect("alumno", "index");           
 	}else{
 		echo "Upss! no deberías estar aquí";
@@ -1066,6 +1063,10 @@ class UsersController extends BaseController {
 		   $tfg->setTituloEs($_POST["tituloEs"]);
 		   $tfg->setTituloGa($_POST["tituloGa"]);
 		   $this->tfgMapper->modificar($tfg);
+		   $this->profesorMapper->actualizarNumeroDeTFGs(0,$_POST["tutor"]);
+		   $this->profesorMapper->actualizarNumeroDeTFGs(1,$_POST["cotutor"]);
+		   $this->profesorMapper->actualizarNumeroDeTFGs(2,$_POST["cotutorant"]);
+		   $this->profesorMapper->actualizarNumeroDeTFGs(3,$_POST["tutorant"]);
 		   $this->view->redirect("coordinador", "gestionTFGs");
 		   }                          
 	}else{

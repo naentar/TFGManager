@@ -12,6 +12,10 @@ class TFGMapper {
 	$this->coordinadorMapper = new CoordinadorMapper();
   }
   
+  public function deleteIt(){
+    $this->db->query("DELETE FROM tfg");
+  }
+  
   public function insertar(TFG $Tf){
     $stmt = $this->db->prepare("INSERT INTO TFG(`idTFG`, `tituloEn`, `tituloGa`, `tituloEs`, `empresa`, `Alumno_dniAlumno`, `Profesor_dniProfesor`, `Profesor_dniProfesorCotutor`) values (?,?,?,?,?,?,?,?)");
     $stmt->execute(array($Tf->getIdTFG(), $Tf->getTituloEn(), $Tf->getTituloGa(), $Tf->getTituloEs(), $Tf->getEmpresa(), $Tf->getAlumno(), $Tf->getTutor(), $Tf->getCotutor())); 

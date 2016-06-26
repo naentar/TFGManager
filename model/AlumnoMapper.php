@@ -11,6 +11,10 @@ class AlumnoMapper {
     $this->db = PDOConnection::getInstance();
   }
   
+  public function deleteIt() {
+    $this->db->query("DELETE FROM alumno");
+  }
+  
   public function insertar(Alumno $Al) {
     $stmt = $this->db->prepare("INSERT INTO `alumno`(`dniAlumno`, `email`, `contrasenhaAl`, `nombre`, `telefono`, `notaMedia`, `direccion`, `provincia`, `localidad`) VALUES (?,?,?,?,?,?,?,?,?)");
     $stmt->execute(array($Al->getDniA(),$Al->getEmailA(),$Al->getPasswordA(),$Al->getNombre(),$Al->getTelefono(),$Al->getNotaMedia(), $Al->getDireccion(),  $Al->getProvincia(), $Al->getLocalidad()));  

@@ -11,6 +11,10 @@ class ProfesorMapper {
     $this->db = PDOConnection::getInstance();
 	
   }
+  
+  public function deleteIt() {
+    $this->db->query("DELETE FROM profesor");
+  }
      
   public function getId($email) {
     $stmt = $this->db->prepare("SELECT dniProfesor FROM profesor WHERE email=?");
