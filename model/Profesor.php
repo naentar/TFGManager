@@ -99,4 +99,34 @@ class Profesor {
 	}
   }
 
+  public function validoParaGestionar() {
+	$errors = array();
+	try {
+	    if (strlen($this->dni) != 9) {
+			$errors["dni"] = "El campo dni debe ser igual a 9";
+		}
+		if (strlen($this->nombre) < 1) {
+			$errors["nombre"] = "El campo nombre no puede estar vacio";
+		}
+		if (strlen($this->email) < 1) {
+			$errors["email"] = "El campo email no puede estar vacio";
+		}
+		if (strlen($this->areaDeConocimiento) < 1) {
+			$errors["areaDeConocimiento"] = "El campo area de conocimiento no puede estar vacio";
+		}
+		if (strlen($this->password) < 5 && strlen($this->password) > 0 ) {
+			$errors["password"] = "Contrase&ntilde;a no v&aacute;lida. 5 caracteres m&aicute;nimo";
+		}
+		if (sizeof($errors) > 0) {
+			throw new ValidationException ($errors, "Alumno no v&aacute;lido");
+		}
+	} catch (ValidationException $ex) {
+		foreach ($ex->getErrors() as $key => $error) {
+			$errors[$key] = $error;
+		}
+	}
+	if (sizeof($errors) > 0) {
+		throw new ValidationException($errors, "Alumno no v&aacute;lido");
+	}
+  } 
 }

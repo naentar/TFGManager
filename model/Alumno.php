@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__."/../core/ValidationException.php");
-require_once(__DIR__ . "/../core/ViewManager.php");
+require_once(__DIR__."/../core/ViewManager.php");
 class Alumno {
 
   private $dni;
@@ -105,7 +105,50 @@ class Alumno {
 
 	try {
 		if (strlen($this->telefono) < 1) {
+			$errors["telefono"] = "El campo telefono no puede estar vacio";
+		}
+		if (strlen($this->password) < 5 && strlen($this->password) > 0 ) {
+			$errors["password"] = "Contrase&ntilde;a no v&aacute;lida. 5 caracteres m&aicute;nimo";
+		}
+		if (strlen($this->direccion) < 1) {
+			$errors["direccion"] = "El campo direccion no puede estar vacio";
+		}
+		if (strlen($this->provincia) < 1) {
+			$errors["provincia"] = "El campo provincia no puede estar vacio";
+		}
+		if (strlen($this->localidad) < 1) {
+			$errors["localidad"] = "El campo localidad no puede estar vacio";
+		}
+		if (sizeof($errors) > 0) {
+			throw new ValidationException ($errors, "Alumno no v&aacute;lido");
+		}
+	} catch (ValidationException $ex) {
+		foreach ($ex->getErrors() as $key => $error) {
+			$errors[$key] = $error;
+		}
+	}
+	if (sizeof($errors) > 0) {
+		throw new ValidationException($errors, "Alumno no v&aacute;lido");
+	}
+  }
+  
+  public function validoParaGestionar() {
+	$errors = array();
+	try {
+	    if (strlen($this->dni) != 9) {
+			$errors["dni"] = "El campo dni debe ser igual a 9";
+		}
+		if (strlen($this->nombre) < 1) {
+			$errors["nombre"] = "El campo nombre no puede estar vacio";
+		}
+		if (strlen($this->email) < 1) {
+			$errors["email"] = "El campo email no puede estar vacio";
+		}
+		if (strlen($this->telefono) < 1) {
 			$errors["telefono"] = "El campo nombre no puede estar vacio";
+		}
+		if (strlen($this->notaMedia) < 1) {
+			$errors["notaMedia"] = "El campo nota media no puede estar vacio";
 		}
 		if (strlen($this->password) < 5 && strlen($this->password) > 0 ) {
 			$errors["password"] = "Contrase&ntilde;a no v&aacute;lida. 5 caracteres m&aicute;nimo";
@@ -130,6 +173,5 @@ class Alumno {
 	if (sizeof($errors) > 0) {
 		throw new ValidationException($errors, "Alumno no v&aacute;lido");
 	}
-  }
-   
+  }   
 }

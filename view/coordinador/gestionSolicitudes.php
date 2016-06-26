@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>		  
 		    <?php foreach($listarTFGs as $propuesta):
-			    if($propuesta["tituloEn"]!="aceptado"){
+			    if($propuesta["tituloEn"]=="mutuo"){
 			    echo '<tr>';
 				echo '<form method="post" action="index.php?controller=users&action=gestionarSolicitud">';
 				echo '<div class="form-group">';

@@ -68,7 +68,7 @@
 				<div class="form-group">
 				  <label class="control-label col-sm-5" for="fechaCurso">Introduzca año del curso</label>
 				  <div class="col-sm-6">
-					<b><input class="form-control" name="fechaCurso" required="required" pattern="\d{2}/\d{2}" title="Fecha incorrecta, introduzca dos años consecutivos (Por Ej 16/17)" placeholder="aa/aa"></input></b>
+					<b><input class="form-control" name="fechaCurso" required="required" pattern="\d{2}/\d{2}" title="Fecha incorrecta, introduzca dos años consecutivos con el primero mayor o igual a 16" placeholder="aa/aa"></input></b>
 				  </div>
 				</div>
 				<?php 

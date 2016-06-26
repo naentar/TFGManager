@@ -22,11 +22,7 @@ class UsersController extends BaseController {
 	$this->propuestadetfgMapper = new PropuestaDeTFGMapper();
 	$this->solicituddetfgMapper = new SolicitudDeTFGMapper();
 	$this->tfgMapper = new TFGMapper();
-
-    // Users controller operates in a "welcome" layout
-    // different to the "default" layout where the internal
-    // menu is displayed
-    //$this->view->setLayout("welcome");     
+    
   }
   public function index()
     {		
@@ -635,13 +631,28 @@ class UsersController extends BaseController {
 					   $alumno->setLocalidad($_POST["localidad"]);
 					   $alumno->setProvincia($_POST["provincia"]);
 					   $alumno->setPasswordA($_POST["contrasenhaAl"]);					   
-					   if(isset($_POST["modificar"])){
-					   $this->alumnoMapper->modificarc($alumno);
+					   if(isset($_POST["modificar"])){					   
+						try {
+							$alumno->validoParaGestionar();
+							$this->alumnoMapper->modificarc($alumno);
+							$this->view->redirect("coordinador", "gestionUsuarios");
+						} catch (ValidationException $ex) {
+							$errors = $ex->getErrors();
+							$this->view->setVariable("errors", $errors);
+							$this->view->setFlash("Datos incorrectos");				
+						}
 					   $this->view->redirect("coordinador", "gestionUsuarios");
 					   }
 					   if(isset($_POST["insertar"])){
-					   $this->alumnoMapper->insertar($alumno);
-                       $this->view->redirect("coordinador", "gestionUsuarios");
+					    try {
+							$alumno->validoParaGestionar();
+							$this->alumnoMapper->insertar($alumno);
+							$this->view->redirect("coordinador", "gestionUsuarios");
+						} catch (ValidationException $ex) {
+							$errors = $ex->getErrors();
+							$this->view->setVariable("errors", $errors);
+							$this->view->setFlash("Datos incorrectos");				
+						}                      
                        }					    
                $this->view->redirect("coordinador", "gestionUsuarios");           
 	}else{
@@ -658,19 +669,33 @@ class UsersController extends BaseController {
 					if(isset($_POST["eliminar"])){
 					   $this->profesorMapper->eliminar($profesor);
                        $this->view->redirect("coordinador", "gestionUsuarios");					   
-					} 
+					}
 					   $profesor->setEmailP($_POST["email"]);
 					   $profesor->setNombre($_POST["nombre"]);
 					   $profesor->setAreaDeConocimiento($_POST["areaDeConocimiento"]);
 					   $profesor->setDepartamento($_POST["departamento"]);
 					   $profesor->setPasswordP($_POST["contrasenhaPr"]);					   
 					   if(isset($_POST["modificar"])){
-					   $this->profesorMapper->modificarC($profesor);
-					   $this->view->redirect("coordinador", "gestionUsuarios");
+					   	try {
+							$profesor->validoParaGestionar();
+							$this->profesorMapper->modificarC($profesor);
+							$this->view->redirect("coordinador", "gestionUsuarios");
+						} catch (ValidationException $ex) {
+							$errors = $ex->getErrors();
+							$this->view->setVariable("errors", $errors);
+							$this->view->setFlash("Datos incorrectos");				
+						}					   
 					   }
 					   if(isset($_POST["insertar"])){
-					   $this->profesorMapper->insertar($profesor);
-                       $this->view->redirect("coordinador", "gestionUsuarios");
+					    try {
+							$profesor->validoParaGestionar();
+							$this->profesorMapper->insertar($profesor);
+							$this->view->redirect("coordinador", "gestionUsuarios");
+						} catch (ValidationException $ex) {
+							$errors = $ex->getErrors();
+							$this->view->setVariable("errors", $errors);
+							$this->view->setFlash("Datos incorrectos");				
+						}                      
                        }					    
                $this->view->redirect("coordinador", "gestionUsuarios");           
 	}else{
@@ -700,8 +725,7 @@ class UsersController extends BaseController {
 				} catch (ValidationException $ex) {
 					$errors = $ex->getErrors();
 					$this->view->setVariable("errors", $errors);
-					$this->view->setFlash("Datos incorrectos");
-					
+					$this->view->setFlash("Datos incorrectos");				
 				}
 			}
 		   $this->view->redirect("profesor", "index");

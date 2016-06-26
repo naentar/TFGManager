@@ -13,6 +13,10 @@
 	 <h2>Lista de usuarios</h2>
 	 <p>A continuaci&oacute;n se muestran las listas correspondientes a profesores y alumnos, con sus correspondientes formularios para insertar nuevos.</p>
 	<hr>
+		<div class="mycenter red">
+		   <?php echo $view->popFlash();
+		   $view->setFlash("");?>
+		</div>
 	<div class="panel-group" id="accordion">
 	    <div class="panel panel-default">
 			<div class="panel-heading">
@@ -273,8 +277,17 @@
 				</div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4" for="departamento">Departamento:</label>
-				  <div class="col-sm-4">
-					<b><input type="text" class="form-control" name="departamento" placeholder="Introduzca departamento del profesor"></b>
+				  <div class="col-sm-4">			
+				  <select class="form-control" name="departamento">
+					<option value="Dereito Privado">Dereito Privado</option>
+                    <option value="Enxeñaría de Sistemas e Automática">Enxeñaría de Sistemas e Automática</option>
+					<option value="Informática e Investigación Operativa">Informática e Investigación Operativa</option>
+					<option value="Informática">Informática</option>
+					<option value="Matemática aplicada II">Matemática aplicada II</option>
+					<option value="Matemáticas">Matemáticas</option>
+					<option value="Organización de Empresas y Marketing">Organización de Empresas y Marketing</option>
+					<option value="Tecnología y Electrónica">Tecnología y Electrónica</option>
+				  </select>				
 				  </div>
 				</div>
 				<div class="form-group">

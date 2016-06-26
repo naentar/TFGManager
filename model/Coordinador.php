@@ -61,7 +61,7 @@ class Coordinador {
   public function fechaCursoValida($fecha) {  
   list($fechauno,$fechados) = preg_split('[/]',$fecha);
   $fechauno++;
-  if($fechauno==$fechados){return true;
+  if($fechauno==$fechados && $fechauno>16){return true;
   }else{return false;
   }
   }

@@ -134,7 +134,7 @@
 				    '</select></th>';
                 echo '</div>';
                 echo '<div class="form-group">';				
-				if(empty($propuesta["Profesor_dniProfesorCotutor"])!=true){
+				if(empty($propuesta["Profesor_dniProfesorCotutor"])!=true && $propuesta["Profesor_dniProfesorCotutor"]!="NULL"){
 				echo '<th><select class="form-control" name="cotutor"';
 				if($estadocurso=="4") echo 'disabled';
 				echo    '>
