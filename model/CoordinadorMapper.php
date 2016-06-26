@@ -6,10 +6,12 @@ class CoordinadorMapper {
 
   private $db;
   private $coordinador;
+  private $profesorMapper;
   
   public function __construct() {
     $this->db = PDOConnection::getInstance();
 	$this->coordinador = new Coordinador();
+	$this->profesorMapper = new ProfesorMapper();
   }
      
   public function estadoCursoActual() {
@@ -43,9 +45,10 @@ class CoordinadorMapper {
 		}
   }
   
-  public function cargarDatos($ruta,$rutaal){
+  public function cargarDatos($ruta,$rutaal,$rutatfg){
    $connect = mysqli_connect("localhost", "TFGManager", "abc123.", "eseitfgmanager"); 
    include ("/../PHPExcel/IOFactory.php");  
+   //Cargar profesor
    $objPHPExcel = PHPExcel_IOFactory::load($ruta);  
    foreach ($objPHPExcel->getWorksheetIterator() as $worksheet):  
    $highestRow = $worksheet->getHighestRow();  
@@ -55,12 +58,14 @@ class CoordinadorMapper {
    $nombre = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(1, $row)->getValue()); 
    $email = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(2, $row)->getValue());  
    $area = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(3, $row)->getValue()); 
-   $dpt = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(4, $row)->getValue()); 
-   $ntfg = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(5, $row)->getValue());   
-   $stmt = $this->db->prepare("INSERT INTO profesor(dniProfesor, email, contrasenhaPr, nombre, areaDeConocimiento, departamento, numerodetfgs) values (?,?,?,?,?,?,?)");
-   $stmt->execute(array($dni, $email, $dni, $nombre, $area, $dpt, $ntfg)); 		    
+   $dpt = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(4, $row)->getValue());    
+   if($dni!=NULL && $dni!=""){ 
+   $stmt = $this->db->prepare("INSERT INTO profesor(dniProfesor, email, contrasenhaPr, nombre, areaDeConocimiento, departamento) values (?,?,?,?,?,?)");
+   $stmt->execute(array($dni, $email, $dni, $nombre, $area, $dpt)); 
+   }   
    } 
    endforeach; 
+   //Cargar alumno
    $objPHPExcel = PHPExcel_IOFactory::load($rutaal);   
    foreach ($objPHPExcel->getWorksheetIterator() as $worksheet):  
    $highestRow = $worksheet->getHighestRow();  
@@ -73,11 +78,38 @@ class CoordinadorMapper {
    $calle = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(4, $row)->getValue()); 
    $provincia = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(5, $row)->getValue());  
    $localidad = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(6, $row)->getValue()); 
-   $telefono = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(7, $row)->getValue());   
+   $telefono = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(7, $row)->getValue()); 
+   if($dni!=NULL && $dni!=""){   
    $stmt = $this->db->prepare("INSERT INTO alumno(dniAlumno, email, contrasenhaAl, nombre, telefono, notaMedia, direccion, provincia, localidad) values (?,?,?,?,?,?,?,?,?)");
-   $stmt->execute(array($dni, $email, $dni, $nombre, $telefono, $nota, $calle, $provincia, $localidad)); 		    
+   $stmt->execute(array($dni, $email, $dni, $nombre, $telefono, $nota, $calle, $provincia, $localidad)); 
+   }   
    } 
+   //Cargar TFGs ya en curso
    endforeach;	
+   $objPHPExcel = PHPExcel_IOFactory::load($rutatfg);   
+   foreach ($objPHPExcel->getWorksheetIterator() as $worksheet):  
+   $highestRow = $worksheet->getHighestRow();  
+   for ($row=2; $row<=$highestRow; $row++)  
+   {   
+   $idTFG = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(0, $row)->getValue());  
+   $tituloEs = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(1, $row)->getValue()); 
+   $tituloGa = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(2, $row)->getValue());  
+   $tituloEn = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(3, $row)->getValue()); 
+   $empresa = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(4, $row)->getValue()); 
+   $dniAlumno = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(5, $row)->getValue());  
+   $dniProfesor = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(6, $row)->getValue()); 
+   $dniProfesorCotutor = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(7, $row)->getValue()); 
+   $descripcion = mysqli_real_escape_string($connect, $worksheet->getCellByColumnAndRow(8, $row)->getValue()); 
+   if($idTFG!=NULL && $idTFG!=""){   
+   $stmt = $this->db->prepare("INSERT INTO TFG(`idTFG`, `tituloEn`, `tituloGa`, `tituloEs`, `empresa`, `Alumno_dniAlumno`, `Profesor_dniProfesor`, `Profesor_dniProfesorCotutor`, `descripcion`) values (?,?,?,?,?,?,?,?,?)");
+   $stmt->execute(array($idTFG, $tituloEn, $tituloGa, $tituloEs, $empresa, $dniAlumno, $dniProfesor, $dniProfesorCotutor, $descripcion)); 
+   $this->profesorMapper->actualizarNumeroDeTFGs(0,$dniProfesor);
+   if($dniProfesorCotutor!=NULL && $dniProfesorCotutor!="NULL" && $dniProfesorCotutor!="NULL"){
+   $this->profesorMapper->actualizarNumeroDeTFGs(1,$dniProfesorCotutor);
+      }  
+    }   
+   } 
+   endforeach;
   }
   
   public function modificar(Coordinador $Cr) {

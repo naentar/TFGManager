@@ -99,7 +99,7 @@ class UsersController extends BaseController {
 		   if($result==false){
 		   $this->view->setFlash(i18n("El valor de la fecha del curso introducido es incorrecto"));
 		   }else{
-		   if(empty($_POST["datosprofesor"]) && empty($_POST["datosalumno"])){
+		   if(empty($_POST["datosprofesor"]) && empty($_POST["datosalumno"]) && empty($_POST["datostfg"])){
 		        $this->coordinadorMapper->modificarEstadoCurso("1");
 				$this->view->setVariable("estadocurso","1");
 				$listaProfesores = $this->profesorMapper->listarProfesores("");
@@ -112,9 +112,9 @@ class UsersController extends BaseController {
 				if($gmail!=NULL || $gmail!=""){
 				if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 				}
-	       }else if(!empty($_POST["datosprofesor"]) && !empty($_POST["datosalumno"])){
-		      if(file_exists($_POST["datosprofesor"]) && file_exists($_POST["datosalumno"])){
-                $this->coordinadorMapper->cargarDatos($_POST["datosprofesor"],$_POST["datosalumno"]);
+	       }else if(!empty($_POST["datosprofesor"]) && !empty($_POST["datosalumno"]) && !empty($_POST["datostfg"])){
+		      if(file_exists($_POST["datosprofesor"]) && file_exists($_POST["datosalumno"]) && file_exists($_POST["datostfg"])){
+                $this->coordinadorMapper->cargarDatos($_POST["datosprofesor"],$_POST["datosalumno"],$_POST["datostfg"]);
 				$this->coordinadorMapper->modificarEstadoCurso("1");
 				$this->view->setVariable("estadocurso","1");
 				$listaProfesores = $this->profesorMapper->listarProfesores("");
@@ -555,7 +555,7 @@ class UsersController extends BaseController {
 			}
             $pdf->Output('F',$filename);				
 				$mail->Subject = "Comienza la etapa de asignaciones definitivas";
-		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web en tu p&aacutegina de inicio a partir de ".$_POST["fecha"].". Recuerda realizar esta solicitud dos meses antes del plazo de presentaci&oacute;n".;			   
+		        $mail->Body = "Podr&aacte;s confirmar que estas cursando el TFG que te ha sido asignado rellenando el formulario que se encuentra en la web en tu p&aacutegina de inicio a partir de ".$_POST["fecha"].". Recuerda realizar esta solicitud dos meses antes del plazo de presentaci&oacute;n";			   
 				$listaAlumnos = $this->alumnoMapper->listarAlumnos();
                 foreach($listaAlumnos as $alumno):
 			        $mail->addAddress($alumno["email"]);						
