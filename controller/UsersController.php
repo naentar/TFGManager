@@ -1,7 +1,6 @@
 <?php
 
 require_once(__DIR__."/../core/ViewManager.php");
-require_once(__DIR__."/../core/I18n.php");
 
 require_once(__DIR__."/../controller/BaseController.php");
 
@@ -97,7 +96,7 @@ class UsersController extends BaseController {
 		   if(checkdate($fechaAr[1],$fechaAr[0],$fechaAr[2])){
 		   $result = $this->coordinadorMapper->setFechaCurso($_POST["fechaCurso"]);
 		   if($result==false){
-		   $this->view->setFlash(i18n("El valor de la fecha del curso introducido es incorrecto"));
+		   $this->view->setFlash("El valor de la fecha del curso introducido es incorrecto");
 		   }else{
 		   if(empty($_POST["datosprofesor"]) && empty($_POST["datosalumno"]) && empty($_POST["datostfg"])){
 		        $this->coordinadorMapper->modificarEstadoCurso("1");
@@ -128,17 +127,17 @@ class UsersController extends BaseController {
 				if(!$mail->Send()) echo "Mailer error" .$mail->ErrorInfo;
 				}
 		      }else{
-		        $this->view->setFlash(i18n("El archivo no se encuentra en el directorio del servidor."));
+		        $this->view->setFlash("El archivo no se encuentra en el directorio del servidor.");
 		      }
 		    }else{
-			  $this->view->setFlash(i18n("No has introducido los tres excel de manera simult&aacute;nea"));
+			  $this->view->setFlash("No has introducido los tres excel de manera simult&aacute;nea");
 			}
 			}
            }else{
-			$this->view->setFlash(i18n("Fecha incorrecta"));
+			$this->view->setFlash("Fecha incorrecta");
 		   }		   
 		   }else{
-		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 		   }			
 		   $this->view->redirect("coordinador", "index");
 		} else if($_POST["nuevoEstadoCurso"]=="2"){
@@ -191,10 +190,10 @@ class UsersController extends BaseController {
 				   }		   
 				endforeach;				
            }else{
-			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+			$this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 		   }		   
 		   }else{
-		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 		   }		   
 		} else if($_POST["nuevoEstadoCurso"]=="3"){
 		   $this->view->setVariable("estadocurso","2");
@@ -205,11 +204,11 @@ class UsersController extends BaseController {
 		   $this->coordinadorMapper->modificarEstadoCurso("3");
 		   $this->view->setVariable("estadocurso","3"); 		   
            }else{
-			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+			$this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 			$this->view->render("coordinador", "indexCr");
 		   }		   
 		   }else{
-		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 		   $this->view->render("coordinador", "indexCr");
 		   } 
 		   $listaProfesores = $this->profesorMapper->listarProfesores("");
@@ -407,11 +406,11 @@ class UsersController extends BaseController {
 		   $this->coordinadorMapper->modificarEstadoCurso("4");
 		   $this->view->setVariable("estadocurso","4"); 		   
            }else{
-			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+			$this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 			$this->view->render("coordinador", "indexCr");
 		   }		   
 		   }else{
-		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 		   $this->view->render("coordinador", "indexCr");
 		   } 
 		   //Asignar Solicitudes:
@@ -519,11 +518,11 @@ class UsersController extends BaseController {
            $this->coordinadorMapper->modificarEstadoCurso("5");
 		   $this->view->setVariable("estadocurso","5");		   
            }else{
-			$this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+			$this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 			$this->view->render("coordinador", "indexCr");
 		   }		   
 		   }else{
-		   $this->view->setFlash(i18n("El valor de la fecha l&iacute;mite introducido es incorrecto"));
+		   $this->view->setFlash("El valor de la fecha l&iacute;mite introducido es incorrecto");
 		   $this->view->render("coordinador", "indexCr");
 		   }
            //Generar PDF de asignaciones definitivas
@@ -589,7 +588,7 @@ class UsersController extends BaseController {
                     $errors = array();
                     $errors["contrasenhaDistintasPro"] = "Las contrase&ntilde;as no coinciden";
                     $this->view->setVariable("errors", $errors);
-                    $this->view->setFlash(i18n("Las contrase&ntilde;as no coinciden"));
+                    $this->view->setFlash("Las contrase&ntilde;as no coinciden");
 					$this->modifyAl();
                 } else {
                     $alumno = new Alumno($this->currentUser->getEmailA());
@@ -605,7 +604,7 @@ class UsersController extends BaseController {
                     } catch (ValidationException $ex) {
                         $errors = $ex->getErrors();
                         $this->view->setVariable("errors", $errors);
-                        $this->view->setFlash(i18n("Datos incorrectos"));
+                        $this->view->setFlash("Datos incorrectos");
 						
                     }
 			    $this->view->redirect("alumno", "index");
@@ -690,7 +689,7 @@ class UsersController extends BaseController {
 				$errors = array();
 				$errors["contrasenhaDistintasPro"] = "Las contrase&ntilde;as no coinciden";
 				$this->view->setVariable("errors", $errors);
-				$this->view->setFlash(i18n("Las contrase&ntilde;as no coinciden"));
+				$this->view->setFlash("Las contrase&ntilde;as no coinciden");
 			} else {
 				$profesor = new Profesor($this->currentUser->getEmailP());
 				$profesor->setPasswordP($pass);
@@ -701,7 +700,7 @@ class UsersController extends BaseController {
 				} catch (ValidationException $ex) {
 					$errors = $ex->getErrors();
 					$this->view->setVariable("errors", $errors);
-					$this->view->setFlash(i18n("Datos incorrectos"));
+					$this->view->setFlash("Datos incorrectos");
 					
 				}
 			}
@@ -723,7 +722,7 @@ class UsersController extends BaseController {
 				$errors = array();
 				$errors["contrasenhaDistintasPro"] = "Las contrase&ntilde;as no coinciden";
 				$this->view->setVariable("errors", $errors);
-				$this->view->setFlash(i18n("Las contrase&ntilde;as no coinciden"));
+				$this->view->setFlash("Las contrase&ntilde;as no coinciden");
 			} else {
 				$coordinador = new Coordinador($this->currentUser->getEmailC());
 				$coordinador->setPasswordC($pass);
@@ -735,7 +734,7 @@ class UsersController extends BaseController {
 				} catch (ValidationException $ex) {
 					$errors = $ex->getErrors();
 					$this->view->setVariable("errors", $errors);
-					$this->view->setFlash(i18n("Datos incorrectos"));
+					$this->view->setFlash("Datos incorrectos");
 					
 				}
 			}
@@ -765,7 +764,7 @@ class UsersController extends BaseController {
                     } catch (ValidationException $ex) {
                         $errors = $ex->getErrors();
                         $this->view->setVariable("errors", $errors);
-                        $this->view->setFlash(i18n("Debes introducir un t&iacute;tulo, junto con una descripci&oacute;n"));						
+                        $this->view->setFlash("Debes introducir un t&iacute;tulo, junto con una descripci&oacute;n");						
                     }               
                $this->view->redirect("profesor", "gestionPropuestas");           
         }else{

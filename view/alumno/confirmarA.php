@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
  <?php
  require_once(__DIR__ . "/../../core/ViewManager.php");
  $view = ViewManager::getInstance();
@@ -21,7 +19,7 @@
 				   $view->setFlash("");?>
 	            </div>
 				<div class="form-group">
-				  <label class="control-label col-sm-4" for="tituloEs">T&iacute;tulo del TFG en castellano:</label>
+				  <label class="control-label col-sm-4" for="tituloEs" >T&iacute;tulo del TFG en castellano:</label>
 				  <div class="col-sm-4">
 					<b><input type="text" class="form-control" name="tituloEs" value="<?php echo $TFG["tituloEs"];?>"></b>
 				  </div>
@@ -60,6 +58,7 @@
 				  </div>
 				</div>
 				<input type="hidden" class="form-control" name="dni" value="<?php echo $TFG["Alumno_dniAlumno"];?>">
+				<input type="hidden" class="form-control" name="tituloEs" value="<?php echo $TFG["tituloEs"];?>">
 			</form>
 		</div>	
 	</div>

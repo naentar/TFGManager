@@ -1,6 +1,4 @@
-<?php
- //file: view/layouts/default.php
- 
+<?php 
  require_once(__DIR__."/../../core/ViewManager.php");
  $view = ViewManager::getInstance();
  $usertype = $view->getVariable("usertype");
@@ -70,11 +68,6 @@
 					  }	
 					}  
 					?>
-					<li>
-					<?php
-							include(__DIR__."/language_select_element.php");
-						?>
-					</li>
 					<?php
 						if (!isset($currentuser)) echo '<li class="menuItem"><a href="index.php?controller=users&action=login">Iniciar sesión</a></li>';
 					?>
